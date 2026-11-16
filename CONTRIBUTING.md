@@ -31,14 +31,16 @@ docker compose up -d
    - `fix(health_billing): prevent rounding discrepancy on multi-tier tariff split`
    - `docs(brandkit): update banner layout specs`
    - `test(health_pharmacy): add unit test for compounded medicine FEFO lot picking`
-4. **Run Compliance & Test Suites**:
+4. **Mandatory Pre-Commit Testing (Zero Commit Without Passing E2E)**:
+   Contributors and agents **MUST** run and pass both the end-to-end clinical workflow suite and the store compliance audit before creating any git commit:
    ```bash
-   # Run Odoo Apps Store Compliance Validator
-   python scripts/validate_apps_store.py
-
-   # Run automated unit tests
+   # 1. Run End-to-End (E2E) & Unit Test Suite
    python tests/run_all_tests.py
+
+   # 2. Run Odoo Apps Store Compliance Validator
+   python scripts/validate_apps_store.py
    ```
+   *Commits containing broken clinical flows or failing test suites will be rejected automatically.*
 5. **Submit a Pull Request**:
    - Reference any related GitHub issue numbers.
    - Include test results and visual screenshots for UI changes.

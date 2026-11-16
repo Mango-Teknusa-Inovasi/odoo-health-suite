@@ -175,12 +175,56 @@ When generating module icons, SVG assets, and promotional covers:
 
 ---
 
-## 6. Pre-Commit Verification Checklist
+## 6. Mandatory End-to-End (E2E) Testing Protocol (ZERO COMMIT WITHOUT PASSING E2E)
 
-Before reporting completion on any development step, agents must ensure:
-- [ ] Code passes Python AST syntax check without errors.
+> [!CAUTION]
+> **STRICT PRE-COMMIT GATE:** AI agents and developers are **STRICTLY FORBIDDEN** from executing `git commit` on any code changes until the full End-to-End (E2E) test suite passes with zero failures and zero errors. In healthcare ERP systems, broken model relations or invalid state machines directly jeopardize patient care workflows and financial balances.
+
+### Core E2E Clinical Flows Required:
+1. **Outpatient Patient Journey E2E Flow:**
+   - Patient Admission & Registration (`health.patient` with auto-generating MRN sequence)
+   - Polyclinic Queue Allocation (`health.appointment` queue ticket)
+   - Doctor Consultation & Vital Signs (`health.vital.sign` with automated BMI compute)
+   - SOAP Clinical Notes & Primary/Secondary ICD-10 Diagnosis Tagging (`health.emr.soap`)
+   - Electronic Prescribing with active ingredient compounding (`health.prescription`)
+   - Pharmacist Clinical Review & FEFO Batch Lot Stock Picking (`stock.picking`, `stock.lot`)
+   - Centralized Patient Billing Settlement with Doctor Fee split (`health.billing`)
+   - Automated Customer Invoice & Payment Reconciliation (`account.move`).
+
+2. **Inpatient & Emergency Care E2E Flow:**
+   - 24/7 Emergency Triage (`health.emergency` ATS/ESI Red/Yellow/Green/Black)
+   - Fast-Track Inpatient Admission & Bed Allocation (`health.inpatient.stay`)
+   - Real-time Bed Matrix & Bed Occupancy Rate (BOR) metric update
+   - Inter-Ward Bed Transfer (mutation) with automated pro-rated tariff calculations
+   - Collaborative CPPT (Integrated Patient Progress Notes) entries
+   - Electronic Medical Discharge Summary generation.
+
+3. **National Regulatory Interoperability E2E Flow:**
+   - Clinical Encounter completion triggering FHIR payload construction
+   - Asynchronous Outbox Queue persistence (`health.integration.log`)
+   - Mock SatuSehat FHIR gateway response handling (HTTP 201 Created & IHS linking)
+   - Mock BPJS PCare & VClaim 2.0 SEP generation validation.
+
+### Mandatory Pre-Commit Execution Command:
+Before running any `git commit`, the agent **MUST** run:
+```bash
+# 1. Execute full E2E and unit test suite (Must exit with code 0)
+python tests/run_all_tests.py
+
+# 2. Execute Odoo Apps Store 5.0 compliance audit (Must pass 88/88 checks)
+python scripts/validate_apps_store.py
+```
+If either command reports a failure, the agent must fix the issue immediately before committing.
+
+---
+
+## 7. Pre-Commit Verification Checklist
+
+Before reporting completion or creating any commit, agents must verify:
+- [ ] **E2E Clinical Tests:** `python tests/run_all_tests.py` passes with zero failures and zero errors.
+- [ ] **Store Compliance:** `python scripts/validate_apps_store.py` passes with 100% compliance.
+- [ ] Code passes Python AST syntax checks without errors.
 - [ ] Security access file (`ir.model.access.csv`) contains all models declared in `models/`.
-- [ ] No raw unescaped SQL queries exist in codebase.
+- [ ] No raw unescaped SQL queries exist in codebase (all use safe parameter tuples).
 - [ ] Manifest `__manifest__.py` complies with `PUBLISHING.md` standards.
 - [ ] Module icon exists at `static/description/icon.png`.
-- [ ] Automated test suite in `tests/test_*.py` executes and passes cleanly.

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ICD-10 List View -->
+    <record id="view_health_diagnosis_list" model="ir.ui.view">
+        <field name="name">health.diagnosis.list</field>
+        <field name="model">health.diagnosis</field>
+        <field name="arch" type="xml">
+            <list string="Katalog Diagnosa ICD-10">
+                <field name="code" decoration-bf="1"/>
+                <field name="name"/>
+                <field name="category" widget="badge"/>
+                <field name="is_contagious" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ICD-10 Form View -->
+    <record id="view_health_diagnosis_form" model="ir.ui.view">
+        <field name="name">health.diagnosis.form</field>
+        <field name="model">health.diagnosis</field>
+        <field name="arch" type="xml">
+            <form string="Diagnosa ICD-10">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="code" string="Kode ICD-10"/>
+                        <h1>
+                            <field name="code" placeholder="J06.9" required="1"/>
+                        </h1>
+                        <label for="name" string="Nama Diagnosa / Penyakit"/>
+                        <h2>
+                            <field name="name" placeholder="Acute upper respiratory infection, unspecified" required="1"/>
+                        </h2>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="category" placeholder="cth. Penyakit Infeksi Saluran Napas"/>
+                            <field name="is_contagious"/>
+                        </group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Deskripsi Klinis">
+                        <field name="description" nolabel="1" placeholder="Catatan klinis tambahan..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ICD-10 Search View -->
+    <record id="view_health_diagnosis_search" model="ir.ui.view">
+        <field name="name">health.diagnosis.search</field>
+        <field name="model">health.diagnosis</field>
+        <field name="arch" type="xml">
+            <search string="Cari ICD-10">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="category"/>
+                <separator/>
+                <filter string="Penyakit Menular" name="filter_contagious" domain="[('is_contagious', '=', True)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- ICD-10 Action Window -->
+    <record id="action_health_diagnosis" model="ir.actions.act_window">
+        <field name="name">Katalog Diagnosa (ICD-10)</field>
+        <field name="res_model">health.diagnosis</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_health_diagnosis_search"/>
+    </record>
+
+    <!-- ICD-9 CM List View -->
+    <record id="view_health_procedure_list" model="ir.ui.view">
+        <field name="name">health.procedure.list</field>
+        <field name="model">health.procedure</field>
+        <field name="arch" type="xml">
+            <list string="Katalog Tindakan Medis (ICD-9 CM)">
+                <field name="code" decoration-bf="1"/>
+                <field name="name"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ICD-9 CM Form View -->
+    <record id="view_health_procedure_form" model="ir.ui.view">
+        <field name="name">health.procedure.form</field>
+        <field name="model">health.procedure</field>
+        <field name="arch" type="xml">
+            <form string="Tindakan Medis (ICD-9 CM)">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="code" string="Kode ICD-9 CM"/>
+                        <h1>
+                            <field name="code" placeholder="89.07" required="1"/>
+                        </h1>
+                        <label for="name" string="Nama Tindakan Medis"/>
+                        <h2>
+                            <field name="name" placeholder="General physical examination" required="1"/>
+                        </h2>
+                    </div>
+                    <group>
+                        <field name="description"/>
+                        <field name="active" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ICD-9 CM Action Window -->
+    <record id="action_health_procedure" model="ir.actions.act_window">
+        <field name="name">Katalog Prosedur (ICD-9 CM)</field>
+        <field name="res_model">health.procedure</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

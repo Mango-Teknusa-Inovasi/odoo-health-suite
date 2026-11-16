@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_health_satusehat_config_list" model="ir.ui.view">
+        <field name="name">health.satusehat.config.list</field>
+        <field name="model">health.satusehat.config</field>
+        <field name="arch" type="xml">
+            <list string="Konfigurasi SatuSehat">
+                <field name="name"/>
+                <field name="environment" widget="badge"/>
+                <field name="organization_id"/>
+                <field name="client_id"/>
+                <field name="base_url"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_health_satusehat_config_form" model="ir.ui.view">
+        <field name="name">health.satusehat.config.form</field>
+        <field name="model">health.satusehat.config</field>
+        <field name="arch" type="xml">
+            <form string="Konfigurasi Kemenkes SatuSehat">
+                <header>
+                    <button name="action_test_connection" string="Uji Koneksi &amp; Dapatkan Token" type="object" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Nama Konfigurasi"/>
+                        <h1>
+                            <field name="name" required="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Kredensial Resmi Kemenkes">
+                            <field name="environment"/>
+                            <field name="organization_id"/>
+                            <field name="client_id"/>
+                            <field name="client_secret" password="True"/>
+                        </group>
+                        <group string="Endpoint Gateway">
+                            <field name="auth_url"/>
+                            <field name="base_url"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Sesi Autentikasi">
+                        <field name="access_token" readonly="1" placeholder="Token akan muncul otomatis setelah tombol Uji Koneksi ditekan..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_health_satusehat_config" model="ir.actions.act_window">
+        <field name="name">Konfigurasi SatuSehat</field>
+        <field name="res_model">health.satusehat.config</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

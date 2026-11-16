@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Department List View -->
+    <record id="view_health_department_list" model="ir.ui.view">
+        <field name="name">health.department.list</field>
+        <field name="model">health.department</field>
+        <field name="arch" type="xml">
+            <list string="Poliklinik &amp; Unit Layanan">
+                <field name="sequence" widget="handle"/>
+                <field name="code" decoration-bf="1"/>
+                <field name="name"/>
+                <field name="service_type" widget="badge"/>
+                <field name="default_registration_fee"/>
+                <field name="bpjs_poli_code" optional="show"/>
+                <field name="satusehat_location_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Department Form View -->
+    <record id="view_health_department_form" model="ir.ui.view">
+        <field name="name">health.department.form</field>
+        <field name="model">health.department</field>
+        <field name="arch" type="xml">
+            <form string="Poliklinik / Departemen">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Nama Poliklinik / Unit"/>
+                        <h1>
+                            <field name="name" placeholder="cth. Poli Umum / Poli Gigi" required="1"/>
+                        </h1>
+                        <h3>
+                            <span class="text-muted">Kode: </span>
+                            <field name="code" placeholder="POL01" class="text-primary"/>
+                        </h3>
+                    </div>
+                    <group>
+                        <group string="Klasifikasi Layanan">
+                            <field name="service_type"/>
+                            <field name="default_registration_fee"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Mapping Regulasi">
+                            <field name="bpjs_poli_code" placeholder="Kode Poli BPJS"/>
+                            <field name="satusehat_location_id" placeholder="UUID Location SatuSehat"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Department Action Window -->
+    <record id="action_health_department" model="ir.actions.act_window">
+        <field name="name">Poliklinik &amp; Departemen</field>
+        <field name="res_model">health.department</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Common Outpatient & Clinical ICD-9 CM Procedures -->
+        <record id="icd9_89_03" model="health.procedure">
+            <field name="code">89.03</field>
+            <field name="name">Interview and evaluation, described as comprehensive (Konsultasi Dokter Spesialis)</field>
+            <field name="description">Comprehensive clinical interview and diagnostic examination</field>
+        </record>
+        <record id="icd9_89_07" model="health.procedure">
+            <field name="code">89.07</field>
+            <field name="name">General physical examination (Pemeriksaan Fisik Dokter Umum)</field>
+            <field name="description">Routine physical consultation and clinical examination</field>
+        </record>
+        <record id="icd9_96_59" model="health.procedure">
+            <field name="code">96.59</field>
+            <field name="name">Other irrigation of wound (Pembersihan / Debridement Luka Sederhana)</field>
+            <field name="description">Cleansing and dressing of superficial wounds</field>
+        </record>
+        <record id="icd9_86_59" model="health.procedure">
+            <field name="code">86.59</field>
+            <field name="name">Closure of skin and subcutaneous tissue (Penjahitan Luka / Hecting)</field>
+            <field name="description">Suture of minor laceration and wound closure</field>
+        </record>
+        <record id="icd9_99_21" model="health.procedure">
+            <field name="code">99.21</field>
+            <field name="name">Injection of antibiotic (Injeksi Antibiotik)</field>
+            <field name="description">Intramuscular or intravenous administration of antibiotic medication</field>
+        </record>
+        <record id="icd9_99_29" model="health.procedure">
+            <field name="code">99.29</field>
+            <field name="name">Injection of other therapeutic substance (Injeksi Terapi / Analgetik / Vitamin)</field>
+            <field name="description">Therapeutic injection (analgesic, antiemetic, etc.)</field>
+        </record>
+        <record id="icd9_23_09" model="health.procedure">
+            <field name="code">23.09</field>
+            <field name="name">Extraction of other tooth (Pencabutan Gigi Permanen)</field>
+            <field name="description">Dental simple tooth extraction</field>
+        </record>
+        <record id="icd9_23_2" model="health.procedure">
+            <field name="code">23.2</field>
+            <field name="name">Restoration of tooth by filling (Penambalan Gigi / Tumpatan)</field>
+            <field name="description">Dental composite / GIC restoration</field>
+        </record>
+        <record id="icd9_93_94" model="health.procedure">
+            <field name="code">93.94</field>
+            <field name="name">Respiratory medication administered by nebulizer (Inhalasi / Nebulisasi)</field>
+            <field name="description">Aerosol / bronchodilator inhalation therapy</field>
+        </record>
+        <record id="icd9_89_52" model="health.procedure">
+            <field name="code">89.52</field>
+            <field name="name">Electrocardiogram (Perekaman EKG 12 Lead)</field>
+            <field name="description">12-lead diagnostic electrocardiogram recording</field>
+        </record>
+    </data>
+</odoo>

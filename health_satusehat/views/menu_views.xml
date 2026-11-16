@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- SatuSehat & BPJS Regulatory Menu -->
+    <menuitem id="menu_health_integration_root"
+              name="Integrasi Regulasi"
+              parent="health_base.menu_health_root"
+              sequence="50"/>
+
+    <menuitem id="menu_health_integration_outbox"
+              name="Outbox SatuSehat"
+              parent="menu_health_integration_root"
+              action="action_health_integration_log"
+              sequence="10"/>
+
+    <menuitem id="menu_health_satusehat_config"
+              name="Konfigurasi SatuSehat"
+              parent="menu_health_integration_root"
+              action="action_health_satusehat_config"
+              sequence="20"/>
+</odoo>

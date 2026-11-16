@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="specialty_umum" model="health.specialty">
+            <field name="code">SPS01</field>
+            <field name="name">Dokter Umum</field>
+            <field name="description">Pelayanan Medis Kedokteran Umum / Primary Care</field>
+        </record>
+        <record id="specialty_gigi" model="health.specialty">
+            <field name="code">SPS02</field>
+            <field name="name">Dokter Gigi</field>
+            <field name="description">Pelayanan Medis Gigi dan Mulut</field>
+        </record>
+        <record id="specialty_anak" model="health.specialty">
+            <field name="code">SPS03</field>
+            <field name="name">Spesialis Anak (Sp.A)</field>
+            <field name="description">Pediatri dan Tumbuh Kembang Anak</field>
+        </record>
+        <record id="specialty_interna" model="health.specialty">
+            <field name="code">SPS04</field>
+            <field name="name">Spesialis Penyakit Dalam (Sp.PD)</field>
+            <field name="description">Penyakit Dalam / Internist</field>
+        </record>
+        <record id="specialty_obgyn" model="health.specialty">
+            <field name="code">SPS05</field>
+            <field name="name">Spesialis Obstetri &amp; Ginekologi (Sp.OG)</field>
+            <field name="description">Kandungan dan Kebidanan</field>
+        </record>
+        <record id="specialty_bedah" model="health.specialty">
+            <field name="code">SPS06</field>
+            <field name="name">Spesialis Bedah Umum (Sp.B)</field>
+            <field name="description">Bedah Umum / General Surgery</field>
+        </record>
+        <record id="specialty_mata" model="health.specialty">
+            <field name="code">SPS07</field>
+            <field name="name">Spesialis Mata (Sp.M)</field>
+            <field name="description">Oftalmologi / Kesehatan Mata</field>
+        </record>
+        <record id="specialty_tht" model="health.specialty">
+            <field name="code">SPS08</field>
+            <field name="name">Spesialis THT-KL (Sp.THT-KL)</field>
+            <field name="description">Telinga Hidung Tenggorok Bedah Kepala Leher</field>
+        </record>
+        <record id="specialty_jantung" model="health.specialty">
+            <field name="code">SPS09</field>
+            <field name="name">Spesialis Jantung &amp; Pembuluh Darah (Sp.JP)</field>
+            <field name="description">Kardiologi dan Vaskular</field>
+        </record>
+        <record id="specialty_saraf" model="health.specialty">
+            <field name="code">SPS10</field>
+            <field name="name">Spesialis Neurologi / Saraf (Sp.N)</field>
+            <field name="description">Neurologi dan Gangguan Saraf</field>
+        </record>
+    </data>
+</odoo>

@@ -10,7 +10,12 @@
     'price': 0.0,
     'currency': 'EUR',
     'depends': ['health_base'],
-    'data': [],
+    'data': [
+        'security/ir.model.access.csv',
+        'views/satusehat_config_views.xml',
+        'views/health_integration_log_views.xml',
+        'views/menu_views.xml',
+    ],
     'images': ['static/description/banner.png'],
     'installable': True,
     'application': True,

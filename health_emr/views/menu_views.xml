@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Rekam Medis Elektronik Menu Section -->
+    <menuitem id="menu_health_emr_root"
+              name="Pelayanan Klinis"
+              parent="health_base.menu_health_root"
+              sequence="15"/>
+
+    <menuitem id="menu_health_emr_soap"
+              name="Pemeriksaan SOAP"
+              parent="menu_health_emr_root"
+              action="action_health_emr_soap"
+              sequence="10"/>
+
+    <menuitem id="menu_health_vital_sign"
+              name="Tanda-Tanda Vital (TTV)"
+              parent="menu_health_emr_root"
+              action="action_health_vital_sign"
+              sequence="20"/>
+</odoo>

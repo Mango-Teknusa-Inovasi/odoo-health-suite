@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_health_integration_log_list" model="ir.ui.view">
+        <field name="name">health.integration.log.list</field>
+        <field name="model">health.integration.log</field>
+        <field name="arch" type="xml">
+            <list string="Antrean Outbox Integrasi">
+                <field name="create_date" string="Waktu"/>
+                <field name="service" widget="badge"/>
+                <field name="resource_type"/>
+                <field name="http_method"/>
+                <field name="response_code" widget="badge"
+                       decoration-success="response_code in (200, 201)"
+                       decoration-danger="response_code not in (200, 201, 0)"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state == 'pending'"
+                       decoration-success="state == 'success'"
+                       decoration-danger="state == 'failed'"/>
+                <field name="retry_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_health_integration_log_form" model="ir.ui.view">
+        <field name="name">health.integration.log.form</field>
+        <field name="model">health.integration.log</field>
+        <field name="arch" type="xml">
+            <form string="Log Transaksi Outbox">
+                <header>
+                    <button name="action_dispatch_now" string="Kirim Ulang Sekarang" type="object" class="oe_highlight" invisible="state == 'success'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,pending,success,failed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Target Gateway">
+                            <field name="service"/>
+                            <field name="resource_type"/>
+                            <field name="http_method"/>
+                            <field name="endpoint_url"/>
+                        </group>
+                        <group string="Status Respon">
+                            <field name="response_code"/>
+                            <field name="retry_count"/>
+                            <field name="error_message" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Payload JSON Permintaan" name="request_payload">
+                            <field name="request_payload" nolabel="1" widget="ace" options="{'mode': 'json'}"/>
+                        </page>
+                        <page string="Respon JSON dari Server" name="response_body">
+                            <field name="response_body" nolabel="1" widget="ace" options="{'mode': 'json'}"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_health_integration_log" model="ir.actions.act_window">
+        <field name="name">Outbox Antrean SatuSehat &amp; BPJS</field>
+        <field name="res_model">health.integration.log</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

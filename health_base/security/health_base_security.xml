@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Main Healthcare Security Category -->
+        <record id="module_category_health" model="ir.module.category">
+            <field name="name">Healthcare Management</field>
+            <field name="description">Access rights for Mangotek Health Suite HIS &amp; EMR</field>
+            <field name="sequence">25</field>
+        </record>
+
+        <!-- Receptionist / Front Desk User -->
+        <record id="group_health_user" model="res.groups">
+            <field name="name">Front Desk / Receptionist</field>
+            <field name="category_id" ref="module_category_health"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <!-- Nurse / Paramedic -->
+        <record id="group_health_nurse" model="res.groups">
+            <field name="name">Nurse / Paramedic</field>
+            <field name="category_id" ref="module_category_health"/>
+            <field name="implied_ids" eval="[(4, ref('group_health_user'))]"/>
+        </record>
+
+        <!-- Physician / Doctor -->
+        <record id="group_health_physician" model="res.groups">
+            <field name="name">Doctor / Physician</field>
+            <field name="category_id" ref="module_category_health"/>
+            <field name="implied_ids" eval="[(4, ref('group_health_nurse'))]"/>
+        </record>
+
+        <!-- Healthcare Administrator / Manager -->
+        <record id="group_health_manager" model="res.groups">
+            <field name="name">Healthcare Administrator</field>
+            <field name="category_id" ref="module_category_health"/>
+            <field name="implied_ids" eval="[(4, ref('group_health_physician'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+
+        <!-- Multi-Company Record Rules -->
+        <record id="health_patient_comp_rule" model="ir.rule">
+            <field name="name">Health Patient multi-company</field>
+            <field name="model_id" ref="model_health_patient"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="health_department_comp_rule" model="ir.rule">
+            <field name="name">Health Department multi-company</field>
+            <field name="model_id" ref="model_health_department"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Patient List View -->
+    <record id="view_health_patient_list" model="ir.ui.view">
+        <field name="name">health.patient.list</field>
+        <field name="model">health.patient</field>
+        <field name="arch" type="xml">
+            <list string="Patient Master Registry" sample="1">
+                <field name="medical_record_no" decoration-bf="1"/>
+                <field name="name" string="Nama Pasien"/>
+                <field name="nik"/>
+                <field name="gender" widget="badge" decoration-info="gender == 'male'" decoration-danger="gender == 'female'"/>
+                <field name="birth_date"/>
+                <field name="age_display"/>
+                <field name="blood_type"/>
+                <field name="phone"/>
+                <field name="bpjs_card_no" optional="show"/>
+                <field name="ihs_number" optional="hide"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Patient Form View -->
+    <record id="view_health_patient_form" model="ir.ui.view">
+        <field name="name">health.patient.form</field>
+        <field name="model">health.patient</field>
+        <field name="arch" type="xml">
+            <form string="Patient Record">
+                <sheet>
+                    <div class="oe_button_box" name="button_box"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    
+                    <div class="oe_title">
+                        <label for="name" string="Nama Lengkap Pasien"/>
+                        <h1>
+                            <field name="name" placeholder="cth. Budi Santoso" required="1"/>
+                        </h1>
+                        <h3>
+                            <span class="text-muted">No. Rekam Medis: </span>
+                            <field name="medical_record_no" readonly="1" class="text-primary"/>
+                        </h3>
+                    </div>
+
+                    <group>
+                        <group string="Identitas Kependudukan (Dukcapil)">
+                            <field name="nik" placeholder="16 digit NIK KTP"/>
+                            <field name="gender" widget="radio" options="{'horizontal': true}"/>
+                            <field name="birth_place"/>
+                            <field name="birth_date"/>
+                            <field name="age_display" readonly="1"/>
+                            <field name="mother_name"/>
+                        </group>
+                        <group string="Kontak &amp; Penjaminan">
+                            <field name="phone" widget="phone"/>
+                            <field name="mobile" widget="phone"/>
+                            <field name="email" widget="email"/>
+                            <field name="bpjs_card_no" placeholder="13 digit No Kartu BPJS"/>
+                            <field name="ihs_number" placeholder="UUID Kemenkes SatuSehat"/>
+                            <field name="active" invisible="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Profil Medis &amp; Klinis" name="medical_profile">
+                            <group>
+                                <group string="Golongan Darah">
+                                    <field name="blood_type"/>
+                                    <field name="rhesus"/>
+                                </group>
+                                <group string="Pekerjaan &amp; Status">
+                                    <field name="occupation"/>
+                                    <field name="marital_status"/>
+                                    <field name="religion"/>
+                                </group>
+                            </group>
+                            <group string="Peringatan Alergi Pasien (Critical)">
+                                <field name="allergy_notes" nolabel="1" placeholder="cth. Alergi Amoxicillin, Paracetamol (gatal &amp; ruam), Alergi Seafood..."/>
+                            </group>
+                            <group string="Riwayat Penyakit Kronis">
+                                <field name="chronic_disease_notes" nolabel="1" placeholder="cth. Riwayat Hipertensi sejak 2021, Diabetes Mellitus Tipe 2..."/>
+                            </group>
+                        </page>
+
+                        <page string="Alamat &amp; Kontak Darurat" name="address_emergency">
+                            <group>
+                                <group string="Alamat Domisili">
+                                    <field name="street" placeholder="Nama Jalan, RT/RW"/>
+                                    <field name="street2" placeholder="Kelurahan / Desa"/>
+                                    <field name="city" placeholder="Kota / Kabupaten"/>
+                                    <field name="state_id" placeholder="Provinsi"/>
+                                    <field name="zip" placeholder="Kode Pos"/>
+                                </group>
+                                <group string="Kontak Darurat (Emergency Contact)">
+                                    <field name="emergency_contact_name"/>
+                                    <field name="emergency_contact_relation"/>
+                                    <field name="emergency_contact_phone" widget="phone"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Patient Search View -->
+    <record id="view_health_patient_search" model="ir.ui.view">
+        <field name="name">health.patient.search</field>
+        <field name="model">health.patient</field>
+        <field name="arch" type="xml">
+            <search string="Search Patients">
+                <field name="name" string="Nama / No RM / NIK / BPJS"
+                       filter_domain="['|', '|', '|', ('name', 'ilike', self), ('medical_record_no', 'ilike', self), ('nik', 'ilike', self), ('bpjs_card_no', 'ilike', self)]"/>
+                <field name="medical_record_no"/>
+                <field name="nik"/>
+                <field name="mother_name"/>
+                <field name="phone"/>
+                <separator/>
+                <filter string="Laki-Laki" name="filter_male" domain="[('gender', '=', 'male')]"/>
+                <filter string="Perempuan" name="filter_female" domain="[('gender', '=', 'female')]"/>
+                <separator/>
+                <filter string="Peserta BPJS" name="filter_bpjs" domain="[('bpjs_card_no', '!=', False)]"/>
+                <filter string="Terdaftar SatuSehat" name="filter_satusehat" domain="[('ihs_number', '!=', False)]"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Jenis Kelamin" name="group_gender" context="{'group_by': 'gender'}"/>
+                    <filter string="Golongan Darah" name="group_blood" context="{'group_by': 'blood_type'}"/>
+                    <filter string="Agama" name="group_religion" context="{'group_by': 'religion'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Patient Action Window -->
+    <record id="action_health_patient" model="ir.actions.act_window">
+        <field name="name">Master Pasien</field>
+        <field name="res_model">health.patient</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_health_patient_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Daftarkan pasien baru di fasilitas kesehatan Anda!
+            </p>
+            <p>
+                Nomor Rekam Medis (No RM) akan otomatis di-generate secara berurutan dan unik.
+            </p>
+        </field>
+    </record>
+</odoo>

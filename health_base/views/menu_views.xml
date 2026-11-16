@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Top-Level App Menu -->
+    <menuitem id="menu_health_root"
+              name="Healthcare"
+              web_icon="health_base,static/description/icon.png"
+              sequence="20"/>
+
+    <!-- 1. Pasien & Registrasi Menu -->
+    <menuitem id="menu_health_patient_root"
+              name="Pasien"
+              parent="menu_health_root"
+              sequence="10"/>
+
+    <menuitem id="menu_health_patient"
+              name="Master Pasien"
+              parent="menu_health_patient_root"
+              action="action_health_patient"
+              sequence="10"/>
+
+    <!-- 2. Tenaga Medis Menu -->
+    <menuitem id="menu_health_staff_root"
+              name="Tenaga Medis"
+              parent="menu_health_root"
+              sequence="20"/>
+
+    <menuitem id="menu_health_physician"
+              name="Dokter &amp; Praktisi"
+              parent="menu_health_staff_root"
+              action="action_health_physician"
+              sequence="10"/>
+
+    <!-- 3. Fasilitas & Poliklinik Menu -->
+    <menuitem id="menu_health_facility_root"
+              name="Fasilitas"
+              parent="menu_health_root"
+              sequence="30"/>
+
+    <menuitem id="menu_health_department"
+              name="Poliklinik &amp; Unit"
+              parent="menu_health_facility_root"
+              action="action_health_department"
+              sequence="10"/>
+
+    <!-- 4. Standar Medis (ICD-10 & ICD-9 CM) Menu -->
+    <menuitem id="menu_health_standards_root"
+              name="Katalog Medis"
+              parent="menu_health_root"
+              sequence="40"/>
+
+    <menuitem id="menu_health_diagnosis"
+              name="Diagnosa (ICD-10)"
+              parent="menu_health_standards_root"
+              action="action_health_diagnosis"
+              sequence="10"/>
+
+    <menuitem id="menu_health_procedure"
+              name="Tindakan (ICD-9 CM)"
+              parent="menu_health_standards_root"
+              action="action_health_procedure"
+              sequence="20"/>
+</odoo>

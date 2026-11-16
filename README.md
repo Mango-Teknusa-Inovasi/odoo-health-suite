@@ -54,22 +54,20 @@ flowchart LR
     P1 --> P2 --> P3 --> P4
 ```
 
-### [Phase 1] Core Foundation, Solo Practice (TPMD) & Regulatory Baseline
-- [ ] **`health_base`**:
+### [Phase 1] Core Foundation, Solo Practice (TPMD) & Regulatory Baseline ✅
+- [x] **`health_base`**:
   - Master Patient Registry (`health.patient` with auto-generating MRN sequence & NIK validation).
   - Healthcare Practitioners (`health.physician` & `health.nurse` with SIP/STR & SatuSehat IHS mapping).
   - Departments & Polyclinics (`health.department`).
   - Standard Datasets: ICD-10 Diagnosis (`health.diagnosis`) & ICD-9 CM Procedure (`health.procedure`) seeds.
-- [ ] **`health_emr` (Universal Clinical SOAP)**:
+- [x] **`health_emr` (Universal Clinical SOAP)**:
   - Vital Signs Charting (`health.vital.sign`): BP, HR, RR, Temp, SpO2, and automated BMI compute.
   - Universal Clinical SOAP (`health.emr.soap`): Subjective, Objective, Assessment (ICD-10), and Plan.
   - Automated Medical Certificates: Sick leave, health clearance, and medical referral letters.
-- [ ] **`health_api_base`**:
-  - RESTful API endpoints (`/api/v1/health/...`) for headless clinician workspace & tablet charting.
-- [ ] **`health_satusehat_base`**:
+- [x] **`health_satusehat` (Kemenkes SatuSehat FHIR Gateway)**:
   - OAuth2 Client connector for Kemenkes SatuSehat Gateway (Sandbox & Production).
   - NIK & STR to SatuSehat IHS ID resolution service.
-  - Asynchronous outbox pipeline for FHIR `Encounter` and `Condition` resources.
+  - Asynchronous outbox pipeline for FHIR `Encounter` and `Condition` resources (`health.integration.log`).
 
 ---
 

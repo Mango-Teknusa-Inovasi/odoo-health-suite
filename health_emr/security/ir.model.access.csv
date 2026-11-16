@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_health_vital_sign_nurse,health.vital.sign.nurse,model_health_vital_sign,health_base.group_health_nurse,1,1,1,0
+access_health_vital_sign_doc,health.vital.sign.doc,model_health_vital_sign,health_base.group_health_physician,1,1,1,0
+access_health_vital_sign_mgr,health.vital.sign.mgr,model_health_vital_sign,health_base.group_health_manager,1,1,1,1
+access_health_emr_soap_nurse,health.emr.soap.nurse,model_health_emr_soap,health_base.group_health_nurse,1,0,0,0
+access_health_emr_soap_doc,health.emr.soap.doc,model_health_emr_soap,health_base.group_health_physician,1,1,1,0
+access_health_emr_soap_mgr,health.emr.soap.mgr,model_health_emr_soap,health_base.group_health_manager,1,1,1,1
+access_health_emr_diag_line_nurse,health.emr.diagnosis.line.nurse,model_health_emr_diagnosis_line,health_base.group_health_nurse,1,0,0,0
+access_health_emr_diag_line_doc,health.emr.diagnosis.line.doc,model_health_emr_diagnosis_line,health_base.group_health_physician,1,1,1,0
+access_health_emr_diag_line_mgr,health.emr.diagnosis.line.mgr,model_health_emr_diagnosis_line,health_base.group_health_manager,1,1,1,1

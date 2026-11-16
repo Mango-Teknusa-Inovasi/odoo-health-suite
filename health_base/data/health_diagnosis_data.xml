@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Common Indonesian Primary Healthcare ICD-10 Diagnoses -->
+        <record id="icd10_j06_9" model="health.diagnosis">
+            <field name="code">J06.9</field>
+            <field name="name">Acute upper respiratory infection, unspecified (ISPA)</field>
+            <field name="category">Penyakit Saluran Napas Atas</field>
+            <field name="is_contagious">True</field>
+        </record>
+        <record id="icd10_i10" model="health.diagnosis">
+            <field name="code">I10</field>
+            <field name="name">Essential (primary) hypertension (Hipertensi)</field>
+            <field name="category">Penyakit Kardiovaskular</field>
+            <field name="is_contagious">False</field>
+        </record>
+        <record id="icd10_e11_9" model="health.diagnosis">
+            <field name="code">E11.9</field>
+            <field name="name">Type 2 diabetes mellitus without complications (DM Tipe 2)</field>
+            <field name="category">Penyakit Endokrin &amp; Metabolik</field>
+            <field name="is_contagious">False</field>
+        </record>
+        <record id="icd10_k29_7" model="health.diagnosis">
+            <field name="code">K29.7</field>
+            <field name="name">Gastritis, unspecified (Gastritis / Sakit Maag)</field>
+            <field name="category">Penyakit Sistem Pencernaan</field>
+            <field name="is_contagious">False</field>
+        </record>
+        <record id="icd10_k30" model="health.diagnosis">
+            <field name="code">K30</field>
+            <field name="name">Functional dyspepsia (Dispepsia)</field>
+            <field name="category">Penyakit Sistem Pencernaan</field>
+            <field name="is_contagious">False</field>
+        </record>
+        <record id="icd10_a09" model="health.diagnosis">
+            <field name="code">A09</field>
+            <field name="name">Infectious gastroenteritis and colitis, unspecified (Diare Akut)</field>
+            <field name="category">Penyakit Infeksi Saluran Cerna</field>
+            <field name="is_contagious">True</field>
+        </record>
+        <record id="icd10_r50_9" model="health.diagnosis">
+            <field name="code">R50.9</field>
+            <field name="name">Fever, unspecified (Febris / Demam)</field>
+            <field name="category">Gejala Klinis Umum</field>
+            <field name="is_contagious">False</field>
+        </record>
+        <record id="icd10_a01_0" model="health.diagnosis">
+            <field name="code">A01.0</field>
+            <field name="name">Typhoid fever (Demam Tifoid)</field>
+            <field name="category">Penyakit Infeksi Bakteri</field>
+            <field name="is_contagious">True</field>
+        </record>
+        <record id="icd10_j02_9" model="health.diagnosis">
+            <field name="code">J02.9</field>
+            <field name="name">Acute pharyngitis, unspecified (Faringitis Akut)</field>
+            <field name="category">Penyakit Saluran Napas Atas</field>
+            <field name="is_contagious">True</field>
+        </record>
+        <record id="icd10_j45_9" model="health.diagnosis">
+            <field name="code">J45.9</field>
+            <field name="name">Asthma, unspecified (Asma Bronkial)</field>
+            <field name="category">Penyakit Saluran Napas Kronis</field>
+            <field name="is_contagious">False</field>
+        </record>
+        <record id="icd10_k02_9" model="health.diagnosis">
+            <field name="code">K02.9</field>
+            <field name="name">Dental caries, unspecified (Karies Gigi / Gigi Berlubang)</field>
+            <field name="category">Penyakit Gigi dan Mulut</field>
+            <field name="is_contagious">False</field>
+        </record>
+        <record id="icd10_k04_0" model="health.diagnosis">
+            <field name="code">K04.0</field>
+            <field name="name">Pulpitis (Radang Pulpa Gigi)</field>
+            <field name="category">Penyakit Gigi dan Mulut</field>
+            <field name="is_contagious">False</field>
+        </record>
+        <record id="icd10_m79_1" model="health.diagnosis">
+            <field name="code">M79.1</field>
+            <field name="name">Myalgia (Nyeri Otot / Pegal-Pegal)</field>
+            <field name="category">Penyakit Muskuloskeletal</field>
+            <field name="is_contagious">False</field>
+        </record>
+        <record id="icd10_b35_9" model="health.diagnosis">
+            <field name="code">B35.9</field>
+            <field name="name">Dermatophytosis, unspecified (Penyakit Jamur Kulit)</field>
+            <field name="category">Penyakit Infeksi Kulit</field>
+            <field name="is_contagious">True</field>
+        </record>
+        <record id="icd10_z00_0" model="health.diagnosis">
+            <field name="code">Z00.0</field>
+            <field name="name">General medical examination (Pemeriksaan Kesehatan Umum / MCU)</field>
+            <field name="category">Status Kontak Pelayanan Kesehatan</field>
+            <field name="is_contagious">False</field>
+        </record>
+    </data>
+</odoo>

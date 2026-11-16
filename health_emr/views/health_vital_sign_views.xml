@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vital Sign List View -->
+    <record id="view_health_vital_sign_list" model="ir.ui.view">
+        <field name="name">health.vital.sign.list</field>
+        <field name="model">health.vital.sign</field>
+        <field name="arch" type="xml">
+            <list string="Tanda-Tanda Vital (TTV)" sample="1">
+                <field name="record_date"/>
+                <field name="patient_id"/>
+                <field name="blood_pressure" decoration-bf="1"/>
+                <field name="pulse" string="Nadi (bpm)"/>
+                <field name="temperature" string="Suhu (°C)"/>
+                <field name="respiratory_rate" string="RR (x/mnt)"/>
+                <field name="spo2" string="SpO2 (%)"/>
+                <field name="bmi" string="BMI" widget="badge"
+                       decoration-success="bmi_classification == 'normal'"
+                       decoration-warning="bmi_classification == 'overweight'"
+                       decoration-danger="bmi_classification == 'obese'"/>
+                <field name="consciousness" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vital Sign Form View -->
+    <record id="view_health_vital_sign_form" model="ir.ui.view">
+        <field name="name">health.vital.sign.form</field>
+        <field name="model">health.vital.sign</field>
+        <field name="arch" type="xml">
+            <form string="Pemeriksaan TTV">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="patient_id" string="Pasien"/>
+                        <h1>
+                            <field name="patient_id" placeholder="Pilih pasien..." required="1"/>
+                        </h1>
+                        <h3>
+                            <field name="record_date" readonly="1"/>
+                        </h3>
+                    </div>
+
+                    <group>
+                        <group string="Tekanan Darah &amp; Kardiovaskular">
+                            <label for="systolic" string="Tekanan Darah (TD)"/>
+                            <div class="o_row">
+                                <field name="systolic" class="oe_inline"/>
+                                <span> / </span>
+                                <field name="diastolic" class="oe_inline"/>
+                                <span> mmHg</span>
+                            </div>
+                            <field name="pulse"/>
+                            <field name="blood_pressure" invisible="1"/>
+                        </group>
+                        <group string="Respirasi &amp; Oksigenasi">
+                            <field name="respiratory_rate"/>
+                            <field name="spo2"/>
+                            <field name="temperature"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="Antropometri &amp; Status Gizi">
+                            <field name="weight"/>
+                            <field name="height"/>
+                            <field name="bmi" readonly="1"/>
+                            <field name="bmi_classification" readonly="1" widget="badge"/>
+                        </group>
+                        <group string="Tingkat Kesadaran (GCS)">
+                            <field name="consciousness"/>
+                            <field name="gcs_eye"/>
+                            <field name="gcs_verbal"/>
+                            <field name="gcs_motor"/>
+                            <field name="gcs_total" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group string="Catatan Khusus">
+                        <field name="clinical_notes" nolabel="1" placeholder="cth. Pasien tampak lemas, akral hangat, CRT &lt; 2 detik..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vital Sign Action Window -->
+    <record id="action_health_vital_sign" model="ir.actions.act_window">
+        <field name="name">Tanda-Tanda Vital (TTV)</field>
+        <field name="res_model">health.vital.sign</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

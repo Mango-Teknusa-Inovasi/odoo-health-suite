@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_health_satusehat_config_user,health.satusehat.config.user,model_health_satusehat_config,health_base.group_health_user,1,0,0,0
+access_health_satusehat_config_mgr,health.satusehat.config.mgr,model_health_satusehat_config,health_base.group_health_manager,1,1,1,1
+access_health_integration_log_user,health.integration.log.user,model_health_integration_log,health_base.group_health_user,1,0,0,0
+access_health_integration_log_mgr,health.integration.log.mgr,model_health_integration_log,health_base.group_health_manager,1,1,1,1

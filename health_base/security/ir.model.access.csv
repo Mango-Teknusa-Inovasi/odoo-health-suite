@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_health_specialty_user,health.specialty.user,model_health_specialty,group_health_user,1,0,0,0
+access_health_specialty_mgr,health.specialty.mgr,model_health_specialty,group_health_manager,1,1,1,1
+access_health_department_user,health.department.user,model_health_department,group_health_user,1,0,0,0
+access_health_department_mgr,health.department.mgr,model_health_department,group_health_manager,1,1,1,1
+access_health_diagnosis_user,health.diagnosis.user,model_health_diagnosis,group_health_user,1,0,0,0
+access_health_diagnosis_doc,health.diagnosis.doc,model_health_diagnosis,group_health_physician,1,1,1,0
+access_health_diagnosis_mgr,health.diagnosis.mgr,model_health_diagnosis,group_health_manager,1,1,1,1
+access_health_procedure_user,health.procedure.user,model_health_procedure,group_health_user,1,0,0,0
+access_health_procedure_doc,health.procedure.doc,model_health_procedure,group_health_physician,1,1,1,0
+access_health_procedure_mgr,health.procedure.mgr,model_health_procedure,group_health_manager,1,1,1,1
+access_health_physician_user,health.physician.user,model_health_physician,group_health_user,1,0,0,0
+access_health_physician_mgr,health.physician.mgr,model_health_physician,group_health_manager,1,1,1,1
+access_health_patient_user,health.patient.user,model_health_patient,group_health_user,1,1,1,0
+access_health_patient_mgr,health.patient.mgr,model_health_patient,group_health_manager,1,1,1,1
