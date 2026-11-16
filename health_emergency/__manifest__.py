@@ -4,7 +4,7 @@
     'version': '18.0.1.0.0',
     'category': 'Health/Medical',
     'summary': 'Australasian/ESI triage categories, ABCD protocols, Mr. X fast-track and emergency transfers',
-    'author': 'Mangotek Healthcare Cloud',
+    'author': 'Mango Teknusa Inovasi',
     'website': 'https://github.com/Mango-Teknusa-Inovasi',
     'license': 'LGPL-3',
     'price': 0.0,

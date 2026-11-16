@@ -1,190 +1,200 @@
-# Mangotek Health Suite
+<div align="center">
 
-<p align="center">
-  <img src="assets/banner_master.png" alt="Mangotek Health Suite Hero" width="100%" />
-</p>
+![Mangotek Health Suite Banner](assets/banner_master.png)
 
-<p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-LGPL--3.0-blue.svg" alt="License: LGPL-3.0" /></a>
-  <a href="#"><img src="https://img.shields.io/badge/Odoo-18.0%20%7C%2019.0%20%7C%2020.0-985184.svg" alt="Odoo Versions" /></a>
-  <a href="#"><img src="https://img.shields.io/badge/Kemenkes-SatuSehat%20FHIR-1AD3BB.svg" alt="SatuSehat FHIR" /></a>
-  <a href="#"><img src="https://img.shields.io/badge/BPJS-PCare%20%7C%20VClaim-088BF5.svg" alt="BPJS Ready" /></a>
-  <a href="#"><img src="https://img.shields.io/badge/Status-Active%20Development-FBB945.svg" alt="Build Status" /></a>
-</p>
+# MangoTek Health Suite
 
----
+[![License: LGPL-3](https://img.shields.io/badge/License-LGPL--3-blue.svg)](LICENSE)
+[![Price: 100% Free](https://img.shields.io/badge/Price-100%25%20Free-brightgreen.svg)](#)
+[![Odoo Version](https://img.shields.io/badge/Odoo-18.0%20%7C%2019.0%20%7C%2020.0-purple.svg)](https://www.odoo.com/)
+[![CI / Unit Tests](https://github.com/Mango-Teknusa-Inovasi/odoo-health-suite/actions/workflows/ci.yml/badge.svg)](https://github.com/Mango-Teknusa-Inovasi/odoo-health-suite/actions/workflows/ci.yml)
+[![Kemenkes SatuSehat](https://img.shields.io/badge/Kemenkes-SatuSehat%20FHIR%20Ready-teal.svg)](#)
+[![BPJS PCare](https://img.shields.io/badge/BPJS-PCare%20FKTP%20Ready-green.svg)](#)
+[![Vendor Guide Score](https://img.shields.io/badge/Odoo%20Apps%20Store-5%2F5%20Score%20Ready-brightgreen.svg)](#)
+[![Maintained by](https://img.shields.io/badge/Maintained%20by-Mango--Teknusa--Inovasi-orange.svg)](https://github.com/Mango-Teknusa-Inovasi)
 
-## 🏥 Overview
+**Enterprise Hospital Information System (SIMRS), Electronic Medical Records (EMR / RME), SatuSehat FHIR, BPJS Bridge, LIS & PACS for Odoo 18.0, 19.0 & 20.0.**
 
-**Mangotek Health Suite** is an enterprise-grade, modular Hospital Information System (HIS / SIMRS) and Electronic Medical Records (EMR) ecosystem engineered natively for **Odoo 18.0**. 
+[Overview](#-overview) • [Core Modules](#-core-modules) • [Clinical Architecture](#-clinical-architecture--data-flow) • [Roadmap](#-multi-phase-engineering-roadmap) • [Installation](#-getting-started) • [Repository Layout](#-repository-layout) • [License](#-license)
 
-From **Solo Practitioner Clinics (TPMD)** and **Multi-Specialty Polyclinics** to **Full-Scale General Hospitals (Class C & D)**, Mangotek Health Suite streamlines clinical documentation, inpatient bed management, pharmaceutical logistics, and medical billing into a unified, secure platform.
-
----
-
-## ✨ Key Features & Architecture
-
-* **Multi-Tier Modular Deployment**: Activate only what your facility needs:
-  - **Tier 1 (Solo Practice / GP)**: Fast registration, universal SOAP clinical notes, vital signs, SatuSehat baseline.
-  - **Tier 2 (Clinics)**: Polyclinic queuing display, dental odontogram, maternal health (KIA), e-prescribing, cashier billing.
-  - **Tier 3 (Hospitals)**: Inpatient wards & bed matrix (BOR tracking), 24/7 ER triage (ATS/ESI), operating theaters, LIS & PACS imaging.
-* **Direct Financial Integration**: Natively connects with the [`odoo-finance`](../odoo-finance) ecosystem:
-  - Dynamic QRIS cashier checkout via `account_qris_qbiz`.
-  - Automated e-Stamp & digital medical document signatures via `account_stamp_signature`.
-  - Automated doctor fee PPh 21 withholding tax via `l10n_id_coretax_taxation`.
-  - Automated customer invoice posting & payment reconciliation via `account.move`.
-* **National Compliance Built-in**:
-  - **Kemenkes SatuSehat**: Asynchronous outbox pipeline for HL7 FHIR `Encounter`, `Condition`, `Observation`, `DiagnosticReport`, and `MedicationRequest`.
-  - **BPJS Kesehatan**: Automated eligibility and claims bridging for PCare (FKTP) and VClaim 2.0 / Mobile JKN Online Queue (FKRTL).
-* **API-First & Headless Clinician Workspace**: Ultra-responsive REST endpoints (`/api/v1/health/...`) powering single-page clinical dashboards and tablet-friendly charting.
+</div>
 
 ---
 
-## 🗺️ Implementation Roadmap & Phased Execution
+## 🌟 Overview
 
-Mangotek Health Suite is architected in four strategic, modular phases. Facilities can deploy iteratively based on their tier:
+Operating a modern medical facility—from solo medical practices (TPMD) and primary healthcare centers (FKTP/Klinik Pratama) to Class C/D General Hospitals—requires strict adherence to Indonesian clinical governance, national health data bridging mandates, and high-stakes patient safety protocols.
+
+**MangoTek Health Suite** delivers an enterprise-grade, modular, and open-source Hospital Information System (SIMRS) designed natively for Odoo. Built to fulfill **Permenkes No. 24/2022** regarding Mandatory Electronic Medical Records (RME), national interoperability with **Kemenkes SatuSehat (HL7 FHIR)**, and statutory **BPJS Kesehatan (PCare & VClaim)** bridging.
+
+> [!NOTE]
+> **100% Free & Open Source:** This entire healthcare suite is published under the **GNU Lesser General Public License v3.0 (LGPL-3.0)**. It is free to use, deploy, and customize on both **Odoo Community** and **Odoo Enterprise** without licensing fees, seat restrictions, or proprietary lock-ins.
+
+---
+
+## 🧩 Core Modules
+
+| Module Icon | Module Directory | Display Name | Statutory & Clinical Scope |
+|:---:|:---|:---|:---|
+| <img src="assets/icons/health_base_100.png" width="48" height="48" alt="Base Icon"/> | [`health_base`](health_base) | **Healthcare Base Master** | • Master Patient Registry (`health.patient`) with automated sequential MRN & 16-Digit NIK validation<br>• Practitioner credentials (`health.physician`, `health.nurse`) with SIP/STR & SatuSehat IHS mapping<br>• Polyclinics, inpatient departments (`health.department`), and seed catalogs for ICD-10 & ICD-9 CM |
+| <img src="assets/icons/health_emr_100.png" width="48" height="48" alt="EMR Icon"/> | [`health_emr`](health_emr) | **Clinical EMR Core** | • Universal SOAP clinical documentation (Subjective, Objective, Assessment, Plan)<br>• Tanda-Tanda Vital (TTV) tracking: BP, HR, RR, Temp, SpO2, and automated Body Mass Index (BMI)<br>• Automated digital medical certificates: Sick leave, health clearance, and clinical referrals |
+| <img src="assets/icons/health_appointment_100.png" width="48" height="48" alt="Queue Icon"/> | [`health_appointment`](health_appointment) | **Clinic Queuing Engine** | • Polyclinic scheduling & doctor practice rosters (`health.physician.schedule`) with quota limits<br>• Sequential dynamic queue ticketing (by Polyclinic, by Doctor, or Global)<br>• Fullscreen TV digital queue screen (`/health/queue/display`) with Web Audio Indonesian speech calling |
+| <img src="assets/icons/health_pharmacy_100.png" width="48" height="48" alt="Pharmacy Icon"/> | [`health_pharmacy`](health_pharmacy) | **Pharmacy & Dispensary** | • e-Prescribing with Permenkes 73/2016 3-layer audit (Administrative, Pharmaceutical, Clinical)<br>• Compounded medicine decomposition (Puyer / Kapsul / Salep) with Tuslah & Embalase fees<br>• Odoo WMS integration (`stock.picking`, `stock.lot` with FEFO expiration tracking) & dual-color label printing |
+| <img src="assets/icons/health_billing_100.png" width="48" height="48" alt="Billing Icon"/> | [`health_billing`](health_billing) | **Hospital Billing Ledger** | • Centralized Patient Billing Ledger consolidating registration, procedures, lab, and medications<br>• 5-component medical tariff split: Doctor Fee, Nurse Fee, Hospital Overhead, Consumables (BHP), Equipment<br>• Doctor Remuneration Ledger with Indonesian PPh 21 withholding deduction & 1-click POS invoice posting |
+| <img src="assets/icons/health_inpatient_100.png" width="48" height="48" alt="Inpatient Icon"/> | [`health_inpatient`](health_inpatient) | **Ward & Bed Management** | • Facility hierarchy: Buildings -> Wards / Pavilions (`health.ward`) -> Rooms & Beds (`health.bed`)<br>• Real-time visual Bed Matrix kanban dashboard with Bed Occupancy Rate (BOR %) analytics<br>• Bed sanitation sterilization workflow (`cleaning` -> `available`) & inter-ward mutation transfers<br>• Multi-profession CPPT notes (DPJP, Nurse, Pharmacist, Dietitian) with 24h verification SLA & KRS discharge summary |
+| <img src="assets/icons/health_emergency_100.png" width="48" height="48" alt="Emergency Icon"/> | [`health_emergency`](health_emergency) | **Emergency Room Triage** | • Australasian Triage Scale (ATS) / ESI color-coded triage: 🔴 Red, 🟡 Yellow, 🟢 Green, ⚫ Black<br>• Rapid ABCD clinical evaluation (Airway, Breathing, Circulation, Disability GCS 3-15, Exposure)<br>• Fast-track anonymous 'Mr./Mrs. X' generator for unidentified trauma patients<br>• 1-click direct handover into Inpatient ICU / ward beds bypassing administrative bottlenecks |
+| <img src="assets/icons/health_laboratory_100.png" width="48" height="48" alt="Lab Icon"/> | [`health_laboratory`](health_laboratory) | **Diagnostic Lab LIS** | • Lab test panels (Darah Lengkap CBC, Glukosa, Fungsi Ginjal, Profil Lipid) with LOINC coding<br>• Stratified reference ranges by patient age & gender with automated Panic Value (Nilai Kritis) alerting<br>• KARS/STARKES telephone read-back call logging & flexible specimen phlebotomy tracking<br>• 2-layer specialist validation: Lab Analyst entry -> Clinical Pathologist (Sp.PK) QR digital signature |
+| <img src="assets/icons/health_radiology_100.png" width="48" height="48" alt="Radiology Icon"/> | [`health_radiology`](health_radiology) | **Medical Imaging PACS** | • Radiology catalog across modalities: X-Ray (CR/DR), USG, CT-Scan, MRI, Mammografi, Fluoroskopi<br>• Hybrid DICOM PACS bridge: Study Instance UID, Accession Number, and direct web viewer launch button<br>• Radiographer technical data (kVp, mAs, projection, contrast) & key image findings attachment<br>• Radiologist (Sp.Rad) structured expertise reporting (Findings, Impression, Suggestions) with QR signature |
+| <img src="assets/icons/health_satusehat_100.png" width="48" height="48" alt="SatuSehat Icon"/> | [`health_satusehat`](health_satusehat) | **Kemenkes SatuSehat FHIR** | • OAuth2 Client connector for official Kemenkes SatuSehat Gateway (Sandbox & Production)<br>• Automated patient NIK & doctor STR resolution to SatuSehat IHS Numbers<br>• Asynchronous Outbox queue for HL7 FHIR `Encounter` and `Condition` resources with auto-retry cron |
+| <img src="assets/icons/health_bpjs_100.png" width="48" height="48" alt="BPJS Icon"/> | [`health_bpjs`](health_bpjs) | **BPJS Healthcare Bridge** | • BPJS PCare FKTP Web Service connector for participant verification and diagnosis transmission<br>• Secure HMAC-SHA256 timestamped authentication header engine<br>• Outpatient encounter bridging with dual-mode real-time dispatch and outbox fallback queue |
+
+---
+
+## 🏥 Clinical Architecture & Data Flow
+
+```mermaid
+flowchart TD
+    PATIENT["Patient Admission<br/>(Poli / Rawat Inap / IGD)"] --> REG["health_base<br/>Auto MRN &amp; NIK Verification"]
+    
+    REG --> OPD["health_appointment<br/>Roster &amp; Dynamic Queue"]
+    REG --> ER["health_emergency<br/>ATS/ESI Triage (🔴/🟡/🟢/⚫)"]
+    REG --> IPD["health_inpatient<br/>Bed Allocation &amp; Real-Time BOR"]
+    
+    ER -- "Fast-Track Handover" --> IPD
+    
+    OPD --> EMR["health_emr<br/>Universal SOAP &amp; Vital Signs"]
+    IPD --> CPPT["health_inpatient<br/>Multi-Profession CPPT (24h SLA)"]
+    
+    EMR --> LAB["health_laboratory<br/>LIS Panels &amp; Panic Value Alert"]
+    EMR --> RAD["health_radiology<br/>Imaging &amp; DICOM PACS Bridge"]
+    EMR --> RX["health_pharmacy<br/>Permenkes 73/2016 e-Prescribing"]
+    
+    CPPT --> LAB
+    CPPT --> RAD
+    CPPT --> RX
+    
+    RX --> WMS["Odoo Stock WMS<br/>FEFO Batch Lot Tracking"]
+    
+    EMR --> BILL["health_billing<br/>5-Component Tariff Split &amp; Remuneration"]
+    LAB --> BILL
+    RAD --> BILL
+    RX --> BILL
+    IPD --> BILL
+    
+    BILL --> ACC["Odoo Accounting<br/>account.move + Dynamic QRIS"]
+    
+    EMR -.-> SATUSEHAT["health_satusehat<br/>Kemenkes FHIR Gateway"]
+    OPD -.-> BPJS["health_bpjs<br/>BPJS PCare FKTP Web Service"]
+```
+
+---
+
+## 🚀 Multi-Phase Engineering Roadmap
 
 ```mermaid
 flowchart LR
-    P1["Phase 1: Foundation & Solo Practice<br/>(Core Registry, SOAP, SatuSehat Base)"]
-    P2["Phase 2: Clinic Suite & Outpatient<br/>(Queuing, Pharmacy, Billing, PCare)"]
-    P3["Phase 3: Inpatient & General Hospital<br/>(Wards, Bed Tracking, ER/IGD, Surgery)"]
-    P4["Phase 4: Diagnostics & Advanced Integrations<br/>(LIS, PACS/DICOM, VClaim, Full FHIR)"]
-
-    P1 --> P2 --> P3 --> P4
+    P1["Phase 1: Foundation ✅<br/>(Base, EMR, SatuSehat)"] --> P2["Phase 2: Outpatient ✅<br/>(Queue, Pharmacy, Billing, PCare)"]
+    P2 --> P3["Phase 3: Hospital Ops ✅<br/>(Inpatient, Bed Matrix, ER Triage)"]
+    P3 --> P4["Phase 4: Diagnostics ✅<br/>(Lab LIS, Radiology PACS)"]
+    P4 --> P5["Phase 5: Advanced Hospital<br/>(Surgery OK/VK, VClaim, INA-CBG)"]
 ```
 
 ### [Phase 1] Core Foundation, Solo Practice (TPMD) & Regulatory Baseline ✅
-- [x] **`health_base`**:
-  - Master Patient Registry (`health.patient` with auto-generating MRN sequence & NIK validation).
-  - Healthcare Practitioners (`health.physician` & `health.nurse` with SIP/STR & SatuSehat IHS mapping).
-  - Departments & Polyclinics (`health.department`).
-  - Standard Datasets: ICD-10 Diagnosis (`health.diagnosis`) & ICD-9 CM Procedure (`health.procedure`) seeds.
-- [x] **`health_emr` (Universal Clinical SOAP)**:
-  - Vital Signs Charting (`health.vital.sign`): BP, HR, RR, Temp, SpO2, and automated BMI compute.
-  - Universal Clinical SOAP (`health.emr.soap`): Subjective, Objective, Assessment (ICD-10), and Plan.
-  - Automated Medical Certificates: Sick leave, health clearance, and medical referral letters.
-- [x] **`health_satusehat` (Kemenkes SatuSehat FHIR Gateway)**:
-  - OAuth2 Client connector for Kemenkes SatuSehat Gateway (Sandbox & Production).
-  - NIK & STR to SatuSehat IHS ID resolution service.
-  - Asynchronous outbox pipeline for FHIR `Encounter` and `Condition` resources (`health.integration.log`).
-
----
+- [x] **`health_base`**: Master Patient Registry with auto-generating MRN sequence, practitioners (SIP/STR), departments, and ICD-10 / ICD-9 CM seeds.
+- [x] **`health_emr`**: Vital signs charting (auto BMI), universal clinical SOAP, and automated medical certificates (Sick leave, referral).
+- [x] **`health_satusehat`**: OAuth2 SatuSehat Gateway connector, IHS resolution service, and asynchronous outbox for FHIR `Encounter` and `Condition`.
 
 ### [Phase 2] Outpatient Clinics, Pharmacy & Financial Engine ✅
-- [x] **`health_appointment`**:
-  - Outpatient front-desk admission workflow for new and returning patients.
-  - Daily clinic scheduling per physician with quota limits.
-  - Sequential dynamic queue tickets (per Poli, Dokter, or Global) and Fullscreen TV digital queue display with Web Audio calling (`/health/queue/display`).
-- [x] **`health_pharmacy`**:
-  - Digital e-prescribing with Permenkes 73/2016 3-layer clinical review & Solo Practice fast-track mode.
-  - Compounded medicines (Puyer / Kapsul / Salep) auto-decomposition into constituent active ingredients + Tuslah & Embalase fees.
-  - Integration with Odoo WMS (`stock.picking`, `stock.lot` with FEFO expiration date tracking).
-  - Automated dual-color prescription label printing (White for oral internal use, Blue for topical external use).
-- [x] **`health_billing`**:
-  - Centralized Patient Billing Ledger aggregating registration, consultations, procedures, and drugs.
-  - Multi-tariff split model: Doctor Fee, Nurse Fee, Hospital Overhead, Consumables (BHP), Equipment.
-  - Physician Remuneration Ledger (`health.physician.fee`) with automatic PPh 21 withholding deduction.
-  - One-Click POS-Style settlement generating & reconciling customer invoices (`account.move`) with Dynamic QRIS receipt.
-- [x] **`health_bpjs` (PCare Bridging FKTP)**:
-  - BPJS PCare Web Service integration for primary care participant verification and outpatient encounter transmission.
-  - Dual-mode: Real-time API dispatch with asynchronous outbox fallback (`health.integration.log`) and auto-retry cron.
+- [x] **`health_appointment`**: Doctor roster scheduling with quota limits, dynamic queue tickets, and fullscreen TV queue display with speech synthesis.
+- [x] **`health_pharmacy`**: e-Prescribing with Permenkes 73/2016 3-layer review, active ingredient compounding decomposition, stock picking FEFO, and dual-color labels.
+- [x] **`health_billing`**: 5-component medical tariff split, Doctor Remuneration Ledger with Indonesian PPh 21 withholding deduction, and 1-click POS invoice settlement.
+- [x] **`health_bpjs`**: BPJS PCare FKTP Web Service integration with HMAC-SHA256 signature and auto-retry cron queue.
+
+### [Phase 3] Full-Scale Hospital Operations (Inpatient, Bed & ER) ✅
+- [x] **`health_inpatient`**: Facility hierarchy (`health.ward`, `health.bed`), Real-time Bed Matrix dashboard with BOR analytics, bed sanitation lifecycle (`cleaning` -> `available`), inter-ward transfers with pro-rated tariffs, multi-profession CPPT notes with 24h DPJP verification, and KRS electronic discharge summary.
+- [x] **`health_emergency`**: Australasian Triage Scale (ATS) / ESI triage (Red, Yellow, Green, Black), ABCD protocol assessment, fast-track anonymous 'Mr./Mrs. X' generator, and 1-click emergency inpatient handover.
+
+### [Phase 4] Diagnostic Support, Clinical Investigations (LIS & PACS) ✅
+- [x] **`health_laboratory`**: Test panels (CBC, Glucose, Renal, Lipid) with LOINC mapping, age/gender stratified reference ranges, automated Panic Value detection with emergency red alert banner, KARS telephone readback log, and Sp.PK specialist verification.
+- [x] **`health_radiology`**: Modality catalog (X-Ray, USG, CT, MRI, Mammografi), hybrid DICOM PACS bridge with Study UID / Accession Number, direct PACS web viewer launcher button, radiographer exposure metrics, and Sp.Rad structured expertise reporting.
+
+### [Phase 5] Advanced Hospital Operations & National Insurance Claims (Roadmap)
+- [ ] **`health_surgery`**: Surgical theater booking schedule, WHO Surgical Safety Checklist (Sign In, Time Out, Sign Out), and recovery scoring (Aldrete / Bromage).
+- [ ] **`health_bpjs_vclaim`**: Automated SEP (Surat Eligibilitas Peserta) generation for Outpatient/Inpatient via VClaim 2.0, SPRI bridging, and Mobile JKN synchronization.
+- [ ] **`health_inacbg`**: Tariff grouping data mapping (ICD-10 + ICD-9 CM) and official national E-Klaim / INA-CBG grouper application bridge.
 
 ---
 
-### [Phase 3] Full-Scale Hospital Operations (Inpatient, Bed & ER) ⚡
-- [x] **`health_inpatient`**:
-  - Facility hierarchy: Buildings -> Wards / Pavilions (`health.ward`) -> Rooms & Beds (`health.bed`).
-  - Room classifications (VVIP, VIP, Class 1, 2, 3, Isolation, ICU/ICCU/NICU).
-  - Inpatient Stay Lifecycle (`health.inpatient.stay`): Bed reservation, admission, bed transfers, and pro-rated billing.
-  - Real-time visual Bed Matrix dashboard with Bed Occupancy Rate (BOR) analytics.
-  - Collaborative CPPT (Integrated Patient Progress Notes) for DPJP Doctors, Nurses, Pharmacists, and Dietitians with 24h verification SLA.
-  - Electronic discharge summaries (Resume Medis KRS) with ICD-10 & ICD-9 CM coding.
-- [x] **`health_emergency` (24/7 ER / IGD)**:
-  - Emergency Triage classification (Red, Yellow, Green, Black) based on Australasian Triage Scale (ATS) / ESI criteria.
-  - ABCD protocol clinical evaluation (Airway, Breathing, Circulation, Disability GCS, Exposure).
-  - Fast-track anonymous 'Mr./Mrs. X' generator for trauma/comatose patients.
-  - One-click seamless handover from ER stabilization directly into inpatient bed allocation.
-- [ ] **`health_surgery` (Operating Room / OK & Delivery Room / VK)**:
-  - Surgical booking schedule and theater calendar.
-  - WHO Surgical Safety Checklist (Sign In, Time Out, Sign Out).
-  - Pre-operative, intra-operative, and post-anesthesia recovery scoring (Aldrete / Bromage).
-- [ ] **`health_hospital_pharmacy`**:
-  - Multi-depot pharmacy management (Central Depot, Inpatient Depot, Outpatient Depot, ER Depot).
-  - Automated stock replenishments and patient medication returns.
+## 📂 Repository Layout
 
----
-
-### [Phase 4] Diagnostic Support, Advanced Bridging & Hospital Analytics 🔬
-- [x] **`health_laboratory` (Diagnostic Lab LIS)**:
-  - Electronic lab order entry with age- and gender-specific reference boundaries.
-  - Critical laboratory value (Panic Value) detection, red alert banner, and KARS/STARKES telephone readback logging.
-  - Flexible specimen & phlebotomy tracking (2-step courier barcode vs 1-step direct mode).
-  - Two-layer validation: Laboratory Analyst technical entry -> Clinical Pathologist (Sp.PK) clinical verification & QR code digital signature.
-- [x] **`health_radiology` (Medical Imaging & PACS)**:
-  - Radiology examination catalog across modalities: X-Ray, USG, CT-Scan, MRI, Mammografi, Fluoroskopi.
-  - Hybrid DICOM PACS integration with Study Instance UID, Accession Number, and direct web viewer launch button (OHIF/Orthanc).
-  - Radiographer exposure data (kVp, mAs, projection, contrast) & key image attachment.
-  - Radiologist (Sp.Rad) structured expertise reporting (Findings, Impression, Recommendations) & QR code digital signature.
-- [ ] **`health_bpjs_vclaim`**:
-  - Automated SEP (Surat Eligibilitas Peserta) generation for Outpatient and Inpatient via VClaim 2.0.
-  - SPRI (Surat Perintah Rawat Inap) and Outpatient Control Letter bridging.
-  - Mobile JKN Online Queue synchronization.
-- [ ] **`health_inacbg`**:
-  - Medical claims tariff grouping data mapping (ICD-10 + ICD-9 CM).
-  - Bridge to official national E-Klaim / INA-CBG grouper application.
-- [ ] **`health_satusehat_full`**:
-  - Comprehensive FHIR suite: `Observation`, `DiagnosticReport`, `MedicationRequest`, `MedicationDispense`, `AllergyIntolerance`, `Procedure`, and `EpisodeOfCare`.
-
----
-
-## 🧩 Core Modular Packages
-
-| Module Icon | Module Directory | Display Name | Target Facility Tier | Clinical / Operational Scope |
-|:---:|:---|:---|:---:|:---|
-| <img src="assets/icons/health_base_100.png" width="48" height="48" alt="Base Icon"/> | [`health_base`](health_base) | **Healthcare Base Master** | All Tiers (Solo, Clinic, Hospital) | • Master Patient Registry with auto-generating MRN (`ir.sequence`) & NIK validation<br>• Practitioner Directory (SIP/STR & SatuSehat IHS mapping)<br>• Official ICD-10 (14,000+ codes) & ICD-9 CM Procedure Seeds |
-| <img src="assets/icons/health_emr_100.png" width="48" height="48" alt="EMR Icon"/> | [`health_emr`](health_emr) | **Clinical EMR Core** | All Tiers (Solo, Clinic, Hospital) | • Universal Clinical SOAP Notes with primary/secondary ICD-10 diagnostic tagging<br>• Multi-metric Vital Signs (BP, HR, RR, Temp, SpO2, and automated BMI compute)<br>• Automated Medical Certificates: Sick leaves, health clearance & referral letters |
-| <img src="assets/icons/health_appointment_100.png" width="48" height="48" alt="Queue Icon"/> | [`health_appointment`](health_appointment) | **Clinic Queuing Engine** | Clinics & Hospitals | • Outpatient admissions & daily physician consultation rosters<br>• Sequential queue ticket dispatch per polyclinic counter<br>• Waiting room TV digital queue display engine with live status feed |
-| <img src="assets/icons/health_pharmacy_100.png" width="48" height="48" alt="Pharmacy Icon"/> | [`health_pharmacy`](health_pharmacy) | **Pharmacy & Dispensary** | Clinics & Hospitals | • Digital e-Prescribing with pharmacist administrative & clinical review<br>• Compounded medicine (puyer/capsules) auto-decomposition into active ingredients<br>• Native Odoo WMS integration (`stock.picking`, `stock.lot` with FEFO expiration tracking)<br>• Automated prescription label printing (White for oral, Blue for topical) |
-| <img src="assets/icons/health_billing_100.png" width="48" height="48" alt="Billing Icon"/> | [`health_billing`](health_billing) | **Hospital Billing Ledger** | Clinics & Hospitals | • Centralized billing aggregator across registrations, consultations, procedures, and drugs<br>• Multi-component tariff decomposition (Doctor Fee, Nurse Fee, Hospital, BHP, KSO)<br>• Seamless sync with [`odoo-finance`](../odoo-finance): Dynamic QRIS, e-Stamp, PPh 21, and `account.move` |
-| <img src="assets/icons/health_inpatient_100.png" width="48" height="48" alt="Inpatient Icon"/> | [`health_inpatient`](health_inpatient) | **Ward & Bed Management** | Inpatient Clinics & Hospitals | • Facility hierarchy: Buildings -> Wards / Pavilions -> Rooms -> Beds (VVIP, VIP, Class 1-3, ICU)<br>• Real-time visual Bed Matrix & Bed Occupancy Rate (BOR) analytics<br>• Inter-ward bed transfers with automated pro-rated tariff adjustments<br>• Collaborative CPPT progress notes & electronic discharge summaries |
-| <img src="assets/icons/health_emergency_100.png" width="48" height="48" alt="ER Icon"/> | [`health_emergency`](health_emergency) | **Emergency Room Triage** | Hospitals | • 24/7 Emergency Department (IGD) triage (Red, Yellow, Green, Black) per ATS / ESI<br>• Emergency fast-track admission bypassing upfront registration queues<br>• Immediate resuscitation tracking & ward transfer handoffs |
-| <img src="assets/icons/health_laboratory_100.png" width="48" height="48" alt="Lab Icon"/> | [`health_laboratory`](health_laboratory) | **Diagnostic Lab LIS** | Diagnostic Clinics & Hospitals | • Electronic lab test order entry from outpatient, inpatient, or ER<br>• Standard reference intervals mapped to patient age and gender<br>• Laboratory Information System (LIS) bridging for hematology & chemistry analyzers<br>• Critical value emergency alert broadcasts |
-| <img src="assets/icons/health_radiology_100.png" width="48" height="48" alt="Radiology Icon"/> | [`health_radiology`](health_radiology) | **Medical Imaging PACS** | Diagnostic Clinics & Hospitals | • Imaging examination orders (X-Ray, Ultrasound, CT Scan, MRI)<br>• Structured radiologist expertise reports with normal finding templates<br>• PACS connector with embedded web-based DICOM medical image viewer |
-| <img src="assets/icons/health_satusehat_100.png" width="48" height="48" alt="SatuSehat Icon"/> | [`health_satusehat`](health_satusehat) | **Kemenkes SatuSehat FHIR** | All Tiers | • National health cloud OAuth2 connector (Sandbox & Production)<br>• Automated patient & practitioner SatuSehat IHS ID resolution<br>• Resilient asynchronous outbox queue for FHIR `Encounter`, `Condition`, `Observation`, and `MedicationRequest` |
-| <img src="assets/icons/health_bpjs_100.png" width="48" height="48" alt="BPJS Icon"/> | [`health_bpjs`](health_bpjs) | **BPJS Healthcare Bridge** | Clinics & Hospitals | • BPJS PCare Web Service integration for primary care facilities (FKTP)<br>• BPJS VClaim 2.0 SEP generation, SPRI & Online Referral for hospitals (FKRTL)<br>• Mobile JKN Online Queue check-in synchronization |
-
----
-
-## 🚀 Quickstart via Docker
-
-To run Mangotek Health Suite locally with the provided Docker container setup:
-
-```bash
-# 1. Clone into your Odoo workspace
-cd c:\Users\Lenovo\Documents\odoo
-
-# 2. Start Odoo 18 & PostgreSQL containers
-docker compose up -d
-
-# 3. Access Odoo Web Client in browser
-# URL: http://localhost:8069
+```text
+odoo-health-suite/
+├── assets/
+│   ├── banner_master.png            # High-resolution 1200x630 repo hero banner
+│   ├── banner_master.svg            # Vector source banner
+│   └── icons/                       # SVG and PNG renders (50px, 100px, 512px, 1024px)
+├── health_base/                     # Master patient registry, medical staff & catalogs
+├── health_emr/                      # Universal clinical SOAP notes & vital signs
+├── health_appointment/              # Polyclinic queue tickets & TV digital screen
+├── health_pharmacy/                 # e-Prescription, compounding & FEFO dispensary
+├── health_billing/                  # 5-component tariff split & doctor remuneration ledger
+├── health_inpatient/                # Ward & bed matrix, BOR analytics, CPPT & discharge summary
+├── health_emergency/                # 24/7 ER triage (ATS/ESI), ABCD assessment & Mr. X fast-track
+├── health_laboratory/               # Diagnostic LIS, age/gender normal ranges & panic values
+├── health_radiology/                # Medical imaging, hybrid DICOM PACS bridge & Sp.Rad expertise
+├── health_satusehat/                # Kemenkes SatuSehat HL7 FHIR gateway connector
+├── health_bpjs/                     # BPJS PCare FKTP web service bridge
+├── tests/                           # Master automated unit & E2E clinical test suites
+├── scripts/                         # Apps Store compliance validator (88/88 checks)
+├── AGENTS.md                        # Multi-version branching & zero-conflict protocol
+├── CONTRIBUTING.md                   # Development standards & guidelines
+└── README.md                        # Master documentation
 ```
 
 ---
 
-## 📚 Documentation & Governance
+## 🚀 Getting Started
 
-- 🗺️ **[ROADMAP.md](ROADMAP.md)**: Master 4-phase project roadmap and implementation checklist.
-- 🎨 **[BRANDKIT.md](BRANDKIT.md)**: Visual identity, color tokens, iconography standards, and banner specifications.
-- 🤖 **[AGENTS.md](AGENTS.md)**: Mandatory rules for AI coding agents (anti-slop, comment hygiene, security standards).
-- 🏪 **[PUBLISHING.md](PUBLISHING.md)**: Odoo Apps Store submission standards to achieve a 5.0 / 5.0 quality rating.
-- 🔒 **[SECURITY.md](SECURITY.md)**: Protected Health Information (PHI) security, RBAC, and vulnerability disclosure policy.
-- 🤝 **[CONTRIBUTING.md](CONTRIBUTING.md)**: Contribution guidelines and code conventions.
-- 📜 **[LICENSE](LICENSE)**: GNU Lesser General Public License version 3 (LGPL-3.0).
+### Prerequisites
+* **Odoo:** Version `18.0`, `19.0`, or `20.0` (Community or Enterprise)
+* **Python:** `3.10` or higher
+* **Database:** PostgreSQL `14+`
+* **Dependencies:** `base`, `mail`, `stock`, `account`
+
+### Installation
+
+1. **Clone this repository** into your custom addons directory:
+   ```bash
+   git clone https://github.com/Mango-Teknusa-Inovasi/odoo-health-suite.git
+   ```
+
+2. **Add to your Odoo configuration file (`odoo.conf`)**:
+   ```ini
+   addons_path = /usr/lib/python3/dist-packages/odoo/addons,/mnt/custom-addons/odoo-health-suite
+   ```
+
+3. **Update Odoo apps database**:
+   ```bash
+   python3 odoo-bin -c /etc/odoo/odoo.conf -d your_database -u health_base --stop-after-init
+   ```
+
+4. **Activate in Odoo Web Client**:
+   * Open **Settings** > Activate **Developer Mode**.
+   * Navigate to the **Apps** menu.
+   * Click **Update Apps List** in the top navigation bar.
+   * Search for `Healthcare Base Master`, `Ward & Bed Management`, `Diagnostic Lab LIS`, etc., and click **Activate**.
 
 ---
 
-## ⚖️ License & Community
+## 👥 Authors & Maintainers
 
-Mangotek Health Suite is open-source software licensed under the **[LGPL-3.0](LICENSE)**. Maintained by Mangotek Healthcare Cloud and contributors.
+* **Mango Teknusa Inovasi** ([@Mango-Teknusa-Inovasi](https://github.com/Mango-Teknusa-Inovasi))
+* **Maintainer:** `ardianryan` ([@ardianryan](https://github.com/ardianryan))
+* **Support & Desk:** `ardianr94@gmail.com` • `billing@ppti.me`
+
+---
+
+## 📄 License
+
+This software suite is published under the **GNU Lesser General Public License v3.0 (LGPL-3.0)**.  
+See the full text in [LICENSE](LICENSE).
