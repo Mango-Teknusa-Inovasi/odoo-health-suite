@@ -63,7 +63,32 @@ flowchart LR
 
 ---
 
-## 3. Anti-Slop Code & Hygiene Standards
+## 3. Multi-Version Branching Governance (Odoo 18.0, 19.0, & 20.0)
+
+> [!IMPORTANT]
+> **MULTI-VERSION BRANCH MANDATE:** Mangotek Health Suite officially supports and maintains three dedicated Odoo major version tracks. All AI agents, contributors, and automated pipelines **MUST** provide and synchronize code across the corresponding Git branches:
+> - **Branch `18.0`**: Targeted for Odoo 18.0 LTS (Community & Enterprise). Manifest version `'18.0.x.y.z'`.
+> - **Branch `19.0`**: Targeted for Odoo 19.0. Manifest version `'19.0.x.y.z'`.
+> - **Branch `20.0`**: Targeted for Odoo 20.0. Manifest version `'20.0.x.y.z'`.
+> - **Branch `main`**: Default development and production baseline, synchronized with the active stable LTS branch.
+
+### Version Synchronization Rules:
+1. **Branch-Specific Semantic Versioning**:
+   - On branch `18.0`, all `__manifest__.py` files MUST start with `18.0.` (e.g., `'18.0.1.0.0'`).
+   - On branch `19.0`, all `__manifest__.py` files MUST start with `19.0.` (e.g., `'19.0.1.0.0'`).
+   - On branch `20.0`, all `__manifest__.py` files MUST start with `20.0.` (e.g., `'20.0.1.0.0'`).
+2. **Forward & Cross-Branch Porting**:
+   - Any approved feature, security fix, or regulatory patch committed to `main` must be merged/propagated to `18.0`, `19.0`, and `20.0`.
+   - Never leave downstream branches out of sync.
+3. **API & View Syntax Compatibility**:
+   - **Odoo 18 / 19 / 20 Views**: Tabular views **MUST** use `<list>` instead of the deprecated `<tree>`.
+   - **Kanban Templates**: All kanban views **MUST** use `<t t-name="card">` templates (replacing deprecated `kanban-box`).
+   - **Scheduled Actions (`ir.cron`)**: In Odoo 18+, do not declare deprecated attributes like `numbercall`.
+   - **Python Environment**: Fully compatible with Python 3.10, 3.11, and 3.12+.
+
+---
+
+## 4. Anti-Slop Code & Hygiene Standards
 
 We enforce strict filters across code comments, UI design, and copywriting:
 
@@ -97,7 +122,7 @@ We enforce strict filters across code comments, UI design, and copywriting:
 
 ---
 
-## 3. Healthcare Security & Regulatory Privacy Guidelines (`security-audit`)
+## 5. Healthcare Security & Regulatory Privacy Guidelines (`security-audit`)
 
 All clinical and financial models must adhere strictly to patient privacy mandates (Indonesian Health Law PMK 24/2022 & General Data Protection principles):
 
@@ -143,7 +168,7 @@ All clinical and financial models must adhere strictly to patient privacy mandat
 
 ---
 
-## 4. Brand & Asset Creation Guidelines for Agents
+## 6. Brand & Asset Creation Guidelines for Agents
 
 When generating module icons, SVG assets, and promotional covers:
 1. **Follow `BRANDKIT.md`**: Strictly apply the official palette (Hospital Amethyst `#985184`, Emerald Mint `#1AD3BB`, Clinical Cyan `#088BF5`, Pharmacy Coral `#F86126`, Sunflower Gold `#FBB945`).
@@ -153,7 +178,7 @@ When generating module icons, SVG assets, and promotional covers:
 
 ---
 
-## 5. Odoo 18 Technical Coding Standards
+## 7. Odoo 18, 19, & 20 Technical Coding Standards
 
 ### Models & ORM
 - Use Python 3.12+ type annotations where applicable.
@@ -170,12 +195,12 @@ When generating module icons, SVG assets, and promotional covers:
 
 ### Views & Actions
 - Every action window must have explicit `view_mode` (`list,form,kanban`).
-- In Odoo 18, use `<list>` instead of `<tree>` for tabular views.
+- In Odoo 18/19/20, use `<list>` instead of `<tree>` for tabular views.
 - Provide responsive mobile search views with sensible default filters and group-bys.
 
 ---
 
-## 6. Strict Multi-App Interoperability & Zero-Conflict Protocol (MANDATORY)
+## 8. Strict Multi-App Interoperability & Zero-Conflict Protocol (MANDATORY)
 
 > [!IMPORTANT]
 > **COEXISTENCE GUARANTEE:** Mangotek Health Suite is designed to operate in diverse Odoo deployments alongside standard Enterprise/Community apps, localization packages, and third-party marketplace addons (including `odoo-finance`). Agents and developers **MUST** guarantee that no module in this suite causes naming, schema, view, or behavior conflicts with other apps.
@@ -239,7 +264,7 @@ When generating module icons, SVG assets, and promotional covers:
 
 ---
 
-## 7. Mandatory End-to-End (E2E) Testing Protocol (ZERO COMMIT WITHOUT PASSING E2E)
+## 9. Mandatory End-to-End (E2E) Testing Protocol (ZERO COMMIT WITHOUT PASSING E2E)
 
 > [!CAUTION]
 > **STRICT PRE-COMMIT GATE:** AI agents and developers are **STRICTLY FORBIDDEN** from executing `git commit` on any code changes until the full End-to-End (E2E) test suite passes with zero failures and zero errors. In healthcare ERP systems, broken model relations or invalid state machines directly jeopardize patient care workflows and financial balances.
@@ -282,9 +307,10 @@ If either command reports a failure, the agent must fix the issue immediately be
 
 ---
 
-## 8. Pre-Commit Verification Checklist
+## 10. Pre-Commit Verification Checklist
 
 Before reporting completion or creating any commit, agents must verify:
+- [ ] **Multi-Version Branch Synchronization:** Commits are tested and provided across `18.0`, `19.0`, and `20.0` branches.
 - [ ] **Zero-Conflict Audit:** All models begin with `health.`, all inherited fields start with `health_`, XML IDs are module-prefixed, and constraints are namespaced.
 - [ ] **E2E Clinical Tests:** `python tests/run_all_tests.py` passes with zero failures and zero errors.
 - [ ] **Store Compliance:** `python scripts/validate_apps_store.py` passes with 100% compliance.
