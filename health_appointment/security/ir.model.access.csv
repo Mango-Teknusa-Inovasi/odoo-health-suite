@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_health_schedule_user,health.physician.schedule.user,model_health_physician_schedule,health_base.group_health_user,1,0,0,0
+access_health_schedule_manager,health.physician.schedule.manager,model_health_physician_schedule,health_base.group_health_manager,1,1,1,1
+access_health_appointment_user,health.appointment.user,model_health_appointment,health_base.group_health_user,1,1,1,0
+access_health_appointment_manager,health.appointment.manager,model_health_appointment,health_base.group_health_manager,1,1,1,1

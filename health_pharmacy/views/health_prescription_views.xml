@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Prescription List View -->
+    <record id="view_health_prescription_list" model="ir.ui.view">
+        <field name="name">health.prescription.list</field>
+        <field name="model">health.prescription</field>
+        <field name="arch" type="xml">
+            <list string="Daftar Resep Elektronik" decoration-info="state == 'draft'" decoration-warning="state == 'reviewed'" decoration-primary="state == 'dispensed'" decoration-success="state == 'delivered'" decoration-muted="state == 'cancelled'" sample="1">
+                <field name="name" decoration-bf="1"/>
+                <field name="date"/>
+                <field name="patient_id"/>
+                <field name="medical_record_no"/>
+                <field name="physician_id"/>
+                <field name="appointment_id" optional="show"/>
+                <field name="amount_total" sum="Total Biaya"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state == 'reviewed'" decoration-primary="state == 'dispensed'" decoration-success="state == 'delivered'" decoration-muted="state == 'cancelled'"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Prescription Form View -->
+    <record id="view_health_prescription_form" model="ir.ui.view">
+        <field name="name">health.prescription.form</field>
+        <field name="model">health.prescription</field>
+        <field name="arch" type="xml">
+            <form string="Resep Elektronik &amp; Telaah Farmasi">
+                <header>
+                    <button name="action_verify_review" string="Telaah Farmasi Lolos" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_dispense" string="Siapkan &amp; Alokasikan Stok (FEFO)" type="object" class="btn-primary" invisible="state != 'reviewed'"/>
+                    <button name="action_deliver" string="Serahkan ke Pasien" type="object" class="btn-success" invisible="state != 'dispensed'"/>
+                    <button name="action_cancel" string="Batalkan Resep" type="object" invisible="state in ['delivered', 'cancelled']"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,reviewed,dispensed,delivered"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Nomor Resep Dokter"/>
+                        <h1>
+                            <field name="name" readonly="1" class="text-primary"/>
+                        </h1>
+                        <h3>
+                            <span class="text-muted">Pasien: </span>
+                            <field name="patient_id" readonly="state != 'draft'"/>
+                        </h3>
+                    </div>
+
+                    <group>
+                        <group string="Data Pasien &amp; Dokter">
+                            <field name="medical_record_no"/>
+                            <field name="physician_id" readonly="state != 'draft'"/>
+                            <field name="appointment_id" readonly="state != 'draft'"/>
+                            <field name="date" readonly="state != 'draft'"/>
+                        </group>
+                        <group string="Telaah Farmasi (Permenkes 73/2016)">
+                            <field name="pharmacist_id" readonly="1"/>
+                            <field name="review_administrative" widget="boolean_toggle" readonly="state != 'draft'"/>
+                            <field name="review_pharmaceutical" widget="boolean_toggle" readonly="state != 'draft'"/>
+                            <field name="review_clinical" widget="boolean_toggle" readonly="state != 'draft'"/>
+                            <field name="picking_id" readonly="1" invisible="not picking_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Obat Jadi (Non-Racikan)" name="standard_medicines">
+                            <field name="line_ids" readonly="state in ['delivered', 'cancelled']">
+                                <list editable="bottom">
+                                    <field name="product_id" domain="[('health_is_medicine', '=', True)]"/>
+                                    <field name="dosage_form"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="dosage_instruction"/>
+                                    <field name="route"/>
+                                    <field name="days_supply"/>
+                                    <field name="special_notes"/>
+                                    <field name="lot_id" optional="show"/>
+                                    <field name="price_unit"/>
+                                    <field name="subtotal" sum="Total"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Obat Racikan (Puyer / Kapsul / Salep)" name="compounded_medicines">
+                            <field name="compound_ids" readonly="state in ['delivered', 'cancelled']">
+                                <list string="Daftar Racikan">
+                                    <field name="name"/>
+                                    <field name="compound_type"/>
+                                    <field name="quantity"/>
+                                    <field name="dosage_instruction"/>
+                                    <field name="route"/>
+                                    <field name="embalage_fee"/>
+                                    <field name="tuslah_fee"/>
+                                    <field name="subtotal_ingredients"/>
+                                    <field name="total_price" sum="Total Racikan"/>
+                                </list>
+                                <form string="Detail Racikan &amp; Dekomposisi Bahan Aktif">
+                                    <sheet>
+                                        <group>
+                                            <group string="Identitas Racikan">
+                                                <field name="name"/>
+                                                <field name="compound_type"/>
+                                                <field name="quantity"/>
+                                                <field name="dosage_instruction"/>
+                                                <field name="route"/>
+                                            </group>
+                                            <group string="Biaya Pelayanan Farmasi">
+                                                <field name="embalage_fee"/>
+                                                <field name="tuslah_fee"/>
+                                                <field name="subtotal_ingredients"/>
+                                                <field name="total_price" class="text-primary fw-bold"/>
+                                            </group>
+                                        </group>
+                                        <separator string="Komposisi Bahan Aktif yang Digerus / Diambil"/>
+                                        <field name="ingredient_ids">
+                                            <list editable="bottom">
+                                                <field name="product_id" domain="[('health_is_medicine', '=', True)]"/>
+                                                <field name="dosage_per_unit"/>
+                                                <field name="total_quantity"/>
+                                                <field name="uom_id"/>
+                                                <field name="lot_id" optional="show"/>
+                                                <field name="price_unit"/>
+                                                <field name="subtotal" sum="Subtotal"/>
+                                            </list>
+                                        </field>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+
+                        <page string="Catatan Konseling Farmasis" name="pharmacist_notes_tab">
+                            <field name="pharmacist_notes" placeholder="Catatan informasi obat, alergi yang perlu dimonitor, atau edukasi kepatuhan minum obat..."/>
+                        </page>
+                    </notebook>
+
+                    <group class="oe_subtotal_footer oe_right">
+                        <field name="amount_total" class="oe_subtotal_footer_separator text-primary fw-bold fs-4"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Prescription Search View -->
+    <record id="view_health_prescription_search" model="ir.ui.view">
+        <field name="name">health.prescription.search</field>
+        <field name="model">health.prescription</field>
+        <field name="arch" type="xml">
+            <search string="Cari Resep Elektronik">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="medical_record_no"/>
+                <field name="physician_id"/>
+                <field name="appointment_id"/>
+                <separator/>
+                <filter string="Perlu Telaah" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Siap Disiapkan" name="reviewed" domain="[('state', '=', 'reviewed')]"/>
+                <filter string="Siap Diserahkan" name="dispensed" domain="[('state', '=', 'dispensed')]"/>
+                <filter string="Selesai Diserahkan" name="delivered" domain="[('state', '=', 'delivered')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Dokter" name="group_physician" context="{'group_by': 'physician_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Tanggal" name="group_date" context="{'group_by': 'date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Prescription Action -->
+    <record id="action_health_prescription" model="ir.actions.act_window">
+        <field name="name">Resep &amp; Dispensary Farmasi</field>
+        <field name="res_model">health.prescription</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_draft': 1, 'search_default_reviewed': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Buat resep obat elektronik, lakukan telaah klinis 3-layer, dan cetak etiket obat otomatis.
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="queue_display_tv_template" name="Polyclinic Queue TV Display">
+        &lt;!DOCTYPE html&gt;
+        <html lang="id">
+            <head>
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                <title>Layar Antrean Poliklinik - <t t-esc="company.name"/></title>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
+                <style>
+                    body {
+                        background-color: #0b0f19;
+                        color: #f8fafc;
+                        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                        height: 100vh;
+                        overflow: hidden;
+                        display: flex;
+                        flex-direction: column;
+                    }
+                    .tv-header {
+                        background: linear-gradient(90deg, #1e1b4b 0%, #312e81 100%);
+                        padding: 1rem 2rem;
+                        border-bottom: 3px solid #6366f1;
+                    }
+                    .calling-card {
+                        background: #1e293b;
+                        border: 2px solid #38bdf8;
+                        border-radius: 16px;
+                        box-shadow: 0 0 25px rgba(56, 189, 248, 0.25);
+                        padding: 1.5rem;
+                        transition: all 0.3s ease;
+                    }
+                    .queue-hero-num {
+                        font-size: 4rem;
+                        font-weight: 800;
+                        color: #38bdf8;
+                        letter-spacing: 2px;
+                        line-height: 1;
+                    }
+                    .waiting-card {
+                        background: #1e293b;
+                        border: 1px solid #334155;
+                        border-radius: 12px;
+                        padding: 0.75rem 1rem;
+                    }
+                    .ticker {
+                        background: #0f172a;
+                        border-top: 1px solid #1e293b;
+                        padding: 0.75rem 2rem;
+                        font-size: 1.1rem;
+                        color: #94a3b8;
+                    }
+                </style>
+            </head>
+            <body>
+                <header class="tv-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="mb-0 fw-bold text-white"><t t-esc="company.name"/></h2>
+                        <span class="text-info">Sistem Antrean Poliklinik Rawat Jalan</span>
+                    </div>
+                    <div class="text-end">
+                        <h3 id="clock" class="mb-0 fw-bold text-warning">--:--:--</h3>
+                        <span class="text-secondary"><t t-esc="today"/></span>
+                    </div>
+                </header>
+
+                <main class="container-fluid flex-grow-1 p-4">
+                    <div class="row h-100 g-4">
+                        <!-- Calling Section -->
+                        <div class="col-lg-8 d-flex flex-column">
+                            <h4 class="text-uppercase tracking-wider text-info mb-3">⚡ Sedang Dilayani di Ruang Periksa</h4>
+                            <div class="row g-3 flex-grow-1" id="calling-container">
+                                <t t-foreach="calling_appointments" t-as="app">
+                                    <div class="col-md-6">
+                                        <div class="calling-card h-100 d-flex flex-column justify-content-between">
+                                            <div>
+                                                <span class="badge bg-primary px-3 py-2 fs-6 mb-2"><t t-esc="app.department_id.name"/></span>
+                                                <div class="queue-hero-num my-2"><t t-esc="app.queue_number"/></div>
+                                                <h4 class="text-white fw-bold"><t t-esc="app.patient_id.name"/></h4>
+                                            </div>
+                                            <div class="border-top border-secondary pt-2 mt-2 text-secondary">
+                                                <span>Dokter: </span><strong class="text-light"><t t-esc="app.physician_id.name"/></strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                                <t t-if="not calling_appointments">
+                                    <div class="col-12 text-center py-5">
+                                        <h3 class="text-muted">Belum ada pasien yang sedang dipanggil.</h3>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- Waiting Section -->
+                        <div class="col-lg-4 d-flex flex-column">
+                            <h4 class="text-uppercase tracking-wider text-warning mb-3">🕒 Antrean Berikutnya</h4>
+                            <div class="d-flex flex-column gap-2 overflow-auto" id="waiting-container">
+                                <t t-foreach="waiting_appointments" t-as="wait">
+                                    <div class="waiting-card d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h4 class="mb-0 fw-bold text-warning"><t t-esc="wait.queue_number"/></h4>
+                                            <small class="text-secondary"><t t-esc="wait.department_id.name"/></small>
+                                        </div>
+                                        <span class="badge bg-secondary">Menunggu</span>
+                                    </div>
+                                </t>
+                                <t t-if="not waiting_appointments">
+                                    <div class="text-center py-4 text-muted">
+                                        Tidak ada antrean menunggu saat ini.
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+
+                <footer class="ticker d-flex justify-content-between align-items-center">
+                    <div>📢 <em>Harap memperhatikan layar dan mendengarkan panggilan nomor antrean. Siapkan kartu identitas &amp; BPJS Anda.</em></div>
+                    <small class="text-muted">Mangotek Health Suite • Polyclinic Display</small>
+                </footer>
+
+                <script>
+                    function updateClock() {
+                        const now = new Date();
+                        document.getElementById('clock').innerText = now.toLocaleTimeString('id-ID');
+                    }
+                    setInterval(updateClock, 1000);
+                    updateClock();
+
+                    // Web Audio Speech Calling
+                    let lastCalledId = null;
+                    function speakCall(queueNum, deptName) {
+                        if ('speechSynthesis' in window) {
+                            const text = `Nomor antrean ${queueNum}, silakan menuju ${deptName}`;
+                            const utterance = new SpeechSynthesisUtterance(text);
+                            utterance.lang = 'id-ID';
+                            utterance.rate = 0.9;
+                            window.speechSynthesis.speak(utterance);
+                        }
+                    }
+
+                    // Auto refresh polling every 6 seconds
+                    setInterval(function() {
+                        fetch('/health/queue/api/live', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({params: {}})
+                        }).then(r => r.json()).then(data => {
+                            if (data.result &amp;&amp; data.result.calling &amp;&amp; data.result.calling.length > 0) {
+                                const latest = data.result.calling[0];
+                                if (latest.id !== lastCalledId) {
+                                    lastCalledId = latest.id;
+                                    speakCall(latest.queue_number, latest.department_name);
+                                }
+                            }
+                        }).catch(e => console.log('Poll err', e));
+                    }, 6000);
+                </script>
+            </body>
+        </html>
+    </template>
+</odoo>

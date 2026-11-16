@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_health_bpjs_root"
+              name="BPJS Bridging"
+              parent="health_base.menu_health_root"
+              sequence="60"/>
+
+    <menuitem id="menu_health_bpjs_kunjungan_list"
+              name="Kunjungan BPJS PCare"
+              parent="menu_health_bpjs_root"
+              action="action_health_bpjs_kunjungan"
+              sequence="10"/>
+
+    <menuitem id="menu_health_bpjs_config_item"
+              name="Konfigurasi BPJS PCare"
+              parent="health_base.menu_health_config"
+              action="action_health_bpjs_config"
+              sequence="80"/>
+</odoo>

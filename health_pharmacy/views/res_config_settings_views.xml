@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_health_pharmacy" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.health.pharmacy</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="75"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Healthcare Pharmacy" string="Healthcare Pharmacy" name="health_pharmacy">
+                    <block title="Konfigurasi Pelayanan Farmasi" id="health_pharmacy_config_block">
+                        <setting string="Fast-Track Solo Practice (Bypass Telaah)" help="Aktifkan jika faskes praktik mandiri (TPMD) tanpa staf apoteker terpisah">
+                            <field name="health_pharmacy_fast_track_review"/>
+                        </setting>
+                        <setting string="Default Biaya Racikan" help="Tarif standar jasa tuslah peracikan dan wadah embalase puyer/kapsul">
+                            <div class="row mt-1">
+                                <label for="health_pharmacy_default_tuslah" class="col-lg-4 o_light_label" string="Tuslah Jasa Racik (Rp)"/>
+                                <field name="health_pharmacy_default_tuslah" class="col-lg-8"/>
+                            </div>
+                            <div class="row mt-1">
+                                <label for="health_pharmacy_default_embalage" class="col-lg-4 o_light_label" string="Embalase Wadah (Rp)"/>
+                                <field name="health_pharmacy_default_embalage" class="col-lg-8"/>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_health_pharmacy_config_settings" model="ir.actions.act_window">
+        <field name="name">Pengaturan Farmasi</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'health_pharmacy'}</field>
+    </record>
+</odoo>

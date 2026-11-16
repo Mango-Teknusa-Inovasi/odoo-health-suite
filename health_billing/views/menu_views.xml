@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_health_billing_root"
+              name="Kasir &amp; Billing"
+              parent="health_base.menu_health_root"
+              sequence="40"/>
+
+    <menuitem id="menu_health_billing_list"
+              name="Kasir &amp; Tagihan Pasien"
+              parent="menu_health_billing_root"
+              action="action_health_billing"
+              sequence="10"/>
+
+    <menuitem id="menu_health_physician_fee_list"
+              name="Remunerasi Jasa Dokter"
+              parent="menu_health_billing_root"
+              action="action_health_physician_fee"
+              sequence="20"/>
+
+    <menuitem id="menu_health_tariff_template_list"
+              name="Master Tarif Layanan"
+              parent="health_base.menu_health_config"
+              action="action_health_tariff_template"
+              sequence="70"/>
+</odoo>

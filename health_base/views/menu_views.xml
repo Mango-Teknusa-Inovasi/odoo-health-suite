@@ -59,4 +59,10 @@
               parent="menu_health_standards_root"
               action="action_health_procedure"
               sequence="20"/>
+
+    <!-- 5. Konfigurasi Menu -->
+    <menuitem id="menu_health_config"
+              name="Konfigurasi"
+              parent="menu_health_root"
+              sequence="90"/>
 </odoo>

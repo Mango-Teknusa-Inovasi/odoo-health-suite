@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- URL Action for TV Screen -->
+    <record id="action_health_queue_display_url" model="ir.actions.act_url">
+        <field name="name">Layar TV Antrean Poliklinik</field>
+        <field name="url">/health/queue/display</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu Rawat Jalan & Antrean -->
+    <menuitem id="menu_health_appointment_root"
+              name="Rawat Jalan &amp; Antrean"
+              parent="health_base.menu_health_root"
+              sequence="20"/>
+
+    <menuitem id="menu_health_appointment_list"
+              name="Antrean Rawat Jalan"
+              parent="menu_health_appointment_root"
+              action="action_health_appointment"
+              sequence="10"/>
+
+    <menuitem id="menu_health_physician_schedule"
+              name="Jadwal Praktik Dokter"
+              parent="menu_health_appointment_root"
+              action="action_health_physician_schedule"
+              sequence="20"/>
+
+    <menuitem id="menu_health_queue_display"
+              name="Buka Layar TV Antrean (Fullscreen)"
+              parent="menu_health_appointment_root"
+              action="action_health_queue_display_url"
+              sequence="30"/>
+
+    <menuitem id="menu_health_appointment_settings"
+              name="Pengaturan Antrean"
+              parent="health_base.menu_health_config"
+              action="action_health_appointment_config_settings"
+              sequence="50"/>
+</odoo>

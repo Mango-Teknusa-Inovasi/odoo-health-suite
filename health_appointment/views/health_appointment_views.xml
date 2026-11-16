@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Appointment List View -->
+    <record id="view_health_appointment_list" model="ir.ui.view">
+        <field name="name">health.appointment.list</field>
+        <field name="model">health.appointment</field>
+        <field name="arch" type="xml">
+            <list string="Antrean Rawat Jalan" decoration-info="state == 'draft'" decoration-warning="state == 'waiting'" decoration-primary="state == 'in_consultation'" decoration-success="state == 'done'" decoration-muted="state == 'cancelled'" sample="1">
+                <field name="queue_number" decoration-bf="1"/>
+                <field name="name"/>
+                <field name="appointment_date"/>
+                <field name="patient_id"/>
+                <field name="medical_record_no"/>
+                <field name="department_id"/>
+                <field name="physician_id"/>
+                <field name="patient_type" widget="badge" decoration-info="patient_type == 'general'" decoration-success="patient_type == 'bpjs'" decoration-warning="patient_type == 'insurance'"/>
+                <field name="state" widget="badge" decoration-warning="state == 'waiting'" decoration-primary="state == 'in_consultation'" decoration-success="state == 'done'" decoration-muted="state == 'cancelled'"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Appointment Form View -->
+    <record id="view_health_appointment_form" model="ir.ui.view">
+        <field name="name">health.appointment.form</field>
+        <field name="model">health.appointment</field>
+        <field name="arch" type="xml">
+            <form string="Pendaftaran Rawat Jalan &amp; Antrean">
+                <header>
+                    <button name="action_confirm" string="Konfirmasi &amp; Ambil Antrean" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_call_patient" string="Panggil Pasien Masuk" type="object" class="btn-primary" invisible="state != 'waiting'"/>
+                    <button name="action_open_soap" string="Buka SOAP EMR" type="object" class="oe_highlight" invisible="state not in ['in_consultation', 'done']"/>
+                    <button name="action_done" string="Selesai Pelayanan" type="object" class="btn-success" invisible="state != 'in_consultation'"/>
+                    <button name="action_cancel" string="Batalkan Antrean" type="object" invisible="state in ['done', 'cancelled']"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,waiting,in_consultation,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="queue_number" string="Nomor Antrean" invisible="not queue_number"/>
+                        <h1>
+                            <field name="queue_number" readonly="1" class="text-primary" invisible="not queue_number"/>
+                        </h1>
+                        <h3>
+                            <span class="text-muted">No. Registrasi: </span>
+                            <field name="name" readonly="1"/>
+                        </h3>
+                    </div>
+
+                    <group>
+                        <group string="Identitas Pasien">
+                            <field name="patient_id" placeholder="Cari nama pasien, No RM, atau NIK..."/>
+                            <field name="medical_record_no"/>
+                            <field name="nik"/>
+                            <field name="patient_type"/>
+                            <field name="bpjs_card_no" invisible="patient_type != 'bpjs'" required="patient_type == 'bpjs'"/>
+                        </group>
+                        <group string="Tujuan Poliklinik &amp; Dokter">
+                            <field name="department_id"/>
+                            <field name="physician_id"/>
+                            <field name="schedule_id" domain="[('physician_id', '=', physician_id), ('department_id', '=', department_id)]"/>
+                            <field name="appointment_date"/>
+                            <field name="chief_complaint" placeholder="cth. Pusing berputar, batuk 3 hari..."/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Tautan Layanan Klinis" name="service_links">
+                            <group>
+                                <field name="soap_id" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Appointment Kanban View (Odoo 18 card format) -->
+    <record id="view_health_appointment_kanban" model="ir.ui.view">
+        <field name="name">health.appointment.kanban</field>
+        <field name="model">health.appointment</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" sample="1">
+                <field name="name"/>
+                <field name="queue_number"/>
+                <field name="patient_id"/>
+                <field name="physician_id"/>
+                <field name="department_id"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex flex-column justify-content-between p-2">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="badge rounded-pill text-bg-primary fs-6"><field name="queue_number"/></span>
+                                <span class="small text-muted"><field name="name"/></span>
+                            </div>
+                            <div>
+                                <strong class="fs-6 text-dark"><field name="patient_id"/></strong>
+                                <div class="text-secondary small"><field name="department_id"/> • <field name="physician_id"/></div>
+                            </div>
+                            <div class="mt-2 pt-2 border-top d-flex justify-content-between align-items-center">
+                                <field name="patient_type" widget="badge"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Appointment Search View -->
+    <record id="view_health_appointment_search" model="ir.ui.view">
+        <field name="name">health.appointment.search</field>
+        <field name="model">health.appointment</field>
+        <field name="arch" type="xml">
+            <search string="Cari Antrean Rawat Jalan">
+                <field name="name"/>
+                <field name="queue_number"/>
+                <field name="patient_id"/>
+                <field name="medical_record_no"/>
+                <field name="nik"/>
+                <field name="physician_id"/>
+                <field name="department_id"/>
+                <separator/>
+                <filter string="Hari Ini" name="today" domain="[('appointment_date', '=', context_today())]"/>
+                <filter string="Menunggu Antrean" name="waiting" domain="[('state', '=', 'waiting')]"/>
+                <filter string="Sedang Diperiksa" name="in_consultation" domain="[('state', '=', 'in_consultation')]"/>
+                <filter string="Selesai Hari Ini" name="done_today" domain="[('state', '=', 'done'), ('appointment_date', '=', context_today())]"/>
+                <separator/>
+                <filter string="Pasien BPJS" name="bpjs" domain="[('patient_type', '=', 'bpjs')]"/>
+                <filter string="Pasien Umum" name="general" domain="[('patient_type', '=', 'general')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Poliklinik" name="group_department" context="{'group_by': 'department_id'}"/>
+                    <filter string="Dokter" name="group_physician" context="{'group_by': 'physician_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Jenis Penjamin" name="group_patient_type" context="{'group_by': 'patient_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Appointment Action -->
+    <record id="action_health_appointment" model="ir.actions.act_window">
+        <field name="name">Antrean Rawat Jalan</field>
+        <field name="res_model">health.appointment</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="context">{'search_default_today': 1, 'search_default_waiting': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Daftarkan pasien rawat jalan dan terbitkan nomor antrean poliklinik harian.
+            </p>
+        </field>
+    </record>
+</odoo>

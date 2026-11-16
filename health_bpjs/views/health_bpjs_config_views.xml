@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_health_bpjs_config_list" model="ir.ui.view">
+        <field name="name">health.bpjs.config.list</field>
+        <field name="model">health.bpjs.config</field>
+        <field name="arch" type="xml">
+            <list string="Konfigurasi BPJS PCare">
+                <field name="name"/>
+                <field name="environment" widget="badge"/>
+                <field name="cons_id"/>
+                <field name="pcare_username"/>
+                <field name="base_url"/>
+                <field name="active" widget="boolean_toggle"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_health_bpjs_config_form" model="ir.ui.view">
+        <field name="name">health.bpjs.config.form</field>
+        <field name="model">health.bpjs.config</field>
+        <field name="arch" type="xml">
+            <form string="Konfigurasi BPJS PCare Gateway">
+                <header>
+                    <button name="action_test_connection" string="Uji Koneksi BPJS PCare" type="object" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Nama Konfigurasi"/>
+                        <h1>
+                            <field name="name" required="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Kredensial API BPJS">
+                            <field name="environment"/>
+                            <field name="cons_id"/>
+                            <field name="secret_key" password="True"/>
+                            <field name="user_key" password="True"/>
+                        </group>
+                        <group string="Autentikasi Aplikasi PCare FKTP">
+                            <field name="pcare_username"/>
+                            <field name="pcare_password" password="True"/>
+                            <field name="kd_aplikasi"/>
+                            <field name="base_url"/>
+                            <field name="active"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_health_bpjs_config" model="ir.actions.act_window">
+        <field name="name">Konfigurasi BPJS PCare</field>
+        <field name="res_model">health.bpjs.config</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

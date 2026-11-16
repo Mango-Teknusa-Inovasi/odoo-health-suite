@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_template_form_health_pharmacy" model="ir.ui.view">
+        <field name="name">product.template.form.health.pharmacy</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_information']" position="after">
+                <page string="Spesifikasi Farmasi" name="health_pharmacy_spec">
+                    <group>
+                        <group string="Klasifikasi Obat">
+                            <field name="health_is_medicine" widget="boolean_toggle"/>
+                            <field name="health_dosage_form" invisible="not health_is_medicine"/>
+                        </group>
+                        <group string="Dosis &amp; Signa Default" invisible="not health_is_medicine">
+                            <field name="health_composition"/>
+                            <field name="health_standard_signa"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

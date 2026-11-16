@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_health_tariff_user,health.tariff.template.user,model_health_tariff_template,health_base.group_health_user,1,0,0,0
+access_health_tariff_manager,health.tariff.template.manager,model_health_tariff_template,health_base.group_health_manager,1,1,1,1
+access_health_physician_fee_user,health.physician.fee.user,model_health_physician_fee,health_base.group_health_user,1,0,0,0
+access_health_physician_fee_manager,health.physician.fee.manager,model_health_physician_fee,health_base.group_health_manager,1,1,1,1
+access_health_billing_user,health.billing.user,model_health_billing,health_base.group_health_user,1,1,1,0
+access_health_billing_manager,health.billing.manager,model_health_billing,health_base.group_health_manager,1,1,1,1
+access_health_billing_line_user,health.billing.line.user,model_health_billing_line,health_base.group_health_user,1,1,1,1
+access_health_billing_line_manager,health.billing.line.manager,model_health_billing_line,health_base.group_health_manager,1,1,1,1

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_health_bpjs_config_user,health.bpjs.config.user,model_health_bpjs_config,health_base.group_health_user,1,0,0,0
+access_health_bpjs_config_manager,health.bpjs.config.manager,model_health_bpjs_config,health_base.group_health_manager,1,1,1,1
+access_health_bpjs_kunjungan_user,health.bpjs.kunjungan.user,model_health_bpjs_kunjungan,health_base.group_health_user,1,1,1,0
+access_health_bpjs_kunjungan_manager,health.bpjs.kunjungan.manager,model_health_bpjs_kunjungan,health_base.group_health_manager,1,1,1,1

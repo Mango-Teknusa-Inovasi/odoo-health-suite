@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_health_bpjs_kunjungan_list" model="ir.ui.view">
+        <field name="name">health.bpjs.kunjungan.list</field>
+        <field name="model">health.bpjs.kunjungan</field>
+        <field name="arch" type="xml">
+            <list string="Bridging Kunjungan BPJS PCare" decoration-info="state == 'draft'" decoration-warning="state == 'pending'" decoration-success="state == 'sent'" decoration-danger="state == 'failed'" sample="1">
+                <field name="name" decoration-bf="1"/>
+                <field name="tgl_kunjungan"/>
+                <field name="appointment_id"/>
+                <field name="patient_id"/>
+                <field name="no_kartu"/>
+                <field name="kd_poli"/>
+                <field name="diagnosis_id"/>
+                <field name="status_pulang"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state == 'pending'" decoration-success="state == 'sent'" decoration-danger="state == 'failed'"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_health_bpjs_kunjungan_form" model="ir.ui.view">
+        <field name="name">health.bpjs.kunjungan.form</field>
+        <field name="model">health.bpjs.kunjungan</field>
+        <field name="arch" type="xml">
+            <form string="Bridging Kunjungan BPJS PCare">
+                <header>
+                    <button name="action_send_to_pcare" string="Kirim ke BPJS PCare" type="object" class="oe_highlight" invisible="state == 'sent'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,pending,sent"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Nomor Kunjungan BPJS"/>
+                        <h1>
+                            <field name="name" readonly="1" class="text-primary"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Identitas Kunjungan &amp; Peserta">
+                            <field name="appointment_id" readonly="state == 'sent'"/>
+                            <field name="patient_id" readonly="1"/>
+                            <field name="no_kartu" readonly="state == 'sent'"/>
+                            <field name="tgl_kunjungan" readonly="state == 'sent'"/>
+                            <field name="kd_poli" readonly="state == 'sent'"/>
+                            <field name="keluhan" readonly="state == 'sent'"/>
+                        </group>
+                        <group string="Pemeriksaan Fisik &amp; Diagnosis">
+                            <field name="kd_kesadaran" readonly="state == 'sent'"/>
+                            <field name="sistole" readonly="state == 'sent'"/>
+                            <field name="diastole" readonly="state == 'sent'"/>
+                            <field name="berat_badan" readonly="state == 'sent'"/>
+                            <field name="tinggi_badan" readonly="state == 'sent'"/>
+                            <field name="heart_rate" readonly="state == 'sent'"/>
+                            <field name="resp_rate" readonly="state == 'sent'"/>
+                            <field name="diagnosis_id" readonly="state == 'sent'"/>
+                            <field name="status_pulang" readonly="state == 'sent'"/>
+                            <field name="log_id" readonly="1" invisible="not log_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_health_bpjs_kunjungan" model="ir.actions.act_window">
+        <field name="name">Bridging Kunjungan PCare</field>
+        <field name="res_model">health.bpjs.kunjungan</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Jembatan pengiriman data kunjungan pasien BPJS Kesehatan FKTP ke PCare Web Service.
+            </p>
+        </field>
+    </record>
+</odoo>

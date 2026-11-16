@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_health_physician_fee_list" model="ir.ui.view">
+        <field name="name">health.physician.fee.list</field>
+        <field name="model">health.physician.fee</field>
+        <field name="arch" type="xml">
+            <list string="Buku Besar Remunerasi Dokter" decoration-info="state == 'draft'" decoration-warning="state == 'approved'" decoration-success="state == 'paid'" decoration-muted="state == 'cancelled'" sample="1">
+                <field name="name" decoration-bf="1"/>
+                <field name="date"/>
+                <field name="physician_id"/>
+                <field name="service_name"/>
+                <field name="patient_id"/>
+                <field name="gross_amount" sum="Total Bruto"/>
+                <field name="pph21_rate"/>
+                <field name="pph21_amount" sum="Total Potongan PPh 21"/>
+                <field name="net_amount" sum="Total Hak Bersih" class="text-success fw-bold"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state == 'approved'" decoration-success="state == 'paid'" decoration-muted="state == 'cancelled'"/>
+                <field name="vendor_bill_id" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_health_physician_fee_form" model="ir.ui.view">
+        <field name="name">health.physician.fee.form</field>
+        <field name="model">health.physician.fee</field>
+        <field name="arch" type="xml">
+            <form string="Remunerasi Dokter &amp; PPh 21">
+                <header>
+                    <button name="action_approve" string="Setujui untuk Payout" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_generate_vendor_bill" string="Buat Faktur Hutang (Vendor Bill)" type="object" class="btn-primary" invisible="state != 'approved'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved,paid"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Nomor Remunerasi"/>
+                        <h1>
+                            <field name="name" readonly="1" class="text-primary"/>
+                        </h1>
+                        <h3>
+                            <field name="physician_id" readonly="state != 'draft'"/>
+                        </h3>
+                    </div>
+                    <group>
+                        <group string="Uraian Layanan Medis">
+                            <field name="service_name" readonly="state != 'draft'"/>
+                            <field name="patient_id" readonly="state != 'draft'"/>
+                            <field name="appointment_id" readonly="state != 'draft'"/>
+                            <field name="billing_id" readonly="state != 'draft'"/>
+                            <field name="date" readonly="state != 'draft'"/>
+                        </group>
+                        <group string="Kalkulasi Hak &amp; Pajak PPh 21">
+                            <field name="gross_amount" readonly="state != 'draft'"/>
+                            <field name="pph21_rate" readonly="state != 'draft'"/>
+                            <field name="pph21_amount" readonly="1" class="text-danger"/>
+                            <field name="net_amount" readonly="1" class="text-success fw-bold fs-4"/>
+                            <field name="vendor_bill_id" readonly="1" invisible="not vendor_bill_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_health_physician_fee" model="ir.actions.act_window">
+        <field name="name">Buku Remunerasi Dokter</field>
+        <field name="res_model">health.physician.fee</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_draft': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Buku pembantu remunerasi jasa medis dokter dengan kalkulasi otomatis potongan PPh 21 dan generate Vendor Bill Odoo.
+            </p>
+        </field>
+    </record>
+</odoo>

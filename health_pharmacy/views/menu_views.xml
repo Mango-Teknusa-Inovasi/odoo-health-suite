@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Product Template Medicine Action -->
+    <record id="action_health_medicine_catalog" model="ir.actions.act_window">
+        <field name="name">Katalog Obat &amp; Alkes</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('health_is_medicine', '=', True)]</field>
+        <field name="context">{'default_health_is_medicine': True}</field>
+    </record>
+
+    <!-- Menus -->
+    <menuitem id="menu_health_pharmacy_root"
+              name="Farmasi &amp; Apotek"
+              parent="health_base.menu_health_root"
+              sequence="30"/>
+
+    <menuitem id="menu_health_prescription_list"
+              name="Resep &amp; Telaah Farmasi"
+              parent="menu_health_pharmacy_root"
+              action="action_health_prescription"
+              sequence="10"/>
+
+    <menuitem id="menu_health_medicine_catalog"
+              name="Katalog Obat &amp; Alkes"
+              parent="menu_health_pharmacy_root"
+              action="action_health_medicine_catalog"
+              sequence="20"/>
+
+    <menuitem id="menu_health_pharmacy_settings"
+              name="Pengaturan Farmasi"
+              parent="health_base.menu_health_config"
+              action="action_health_pharmacy_config_settings"
+              sequence="60"/>
+</odoo>

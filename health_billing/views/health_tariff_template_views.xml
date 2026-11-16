@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_health_tariff_template_list" model="ir.ui.view">
+        <field name="name">health.tariff.template.list</field>
+        <field name="model">health.tariff.template</field>
+        <field name="arch" type="xml">
+            <list string="Master Tarif Layanan Medis" sample="1">
+                <field name="code" decoration-bf="1"/>
+                <field name="name"/>
+                <field name="department_id"/>
+                <field name="doctor_fee" sum="Total"/>
+                <field name="nurse_fee" sum="Total" optional="show"/>
+                <field name="facility_fee" sum="Total" optional="show"/>
+                <field name="bhp_amount" sum="Total" optional="show"/>
+                <field name="equipment_fee" sum="Total" optional="hide"/>
+                <field name="total_amount" decoration-bf="1" class="text-primary"/>
+                <field name="active" widget="boolean_toggle"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_health_tariff_template_form" model="ir.ui.view">
+        <field name="name">health.tariff.template.form</field>
+        <field name="model">health.tariff.template</field>
+        <field name="arch" type="xml">
+            <form string="Master Tarif Layanan Medis">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Nama Layanan Medis / Tindakan"/>
+                        <h1>
+                            <field name="name" placeholder="cth. Konsultasi Dokter Spesialis, Jahit Luka..."/>
+                        </h1>
+                        <h3>
+                            <field name="code" placeholder="Kode Tarif (cth. TRF-001)"/>
+                        </h3>
+                    </div>
+                    <group>
+                        <group string="Kategori &amp; Referensi Prosedur">
+                            <field name="department_id"/>
+                            <field name="procedure_id"/>
+                            <field name="active"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Komponen Pembagian Jasa (Tariff Split)">
+                            <field name="doctor_fee"/>
+                            <field name="nurse_fee"/>
+                            <field name="facility_fee"/>
+                            <field name="bhp_amount"/>
+                            <field name="equipment_fee"/>
+                            <field name="total_amount" class="text-primary fw-bold fs-4"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_health_tariff_template" model="ir.actions.act_window">
+        <field name="name">Master Tarif Layanan</field>
+        <field name="res_model">health.tariff.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Buat master tarif tindakan dan pembagian jasa medis dokter, perawat, sarana, dan BHP.
+            </p>
+        </field>
+    </record>
+</odoo>

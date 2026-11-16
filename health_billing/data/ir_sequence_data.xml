@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_health_billing" model="ir.sequence">
+            <field name="name">Hospital Billing Ledger Sequence</field>
+            <field name="code">health.billing</field>
+            <field name="prefix">BILL/%(year)s%(month)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_health_physician_fee" model="ir.sequence">
+            <field name="name">Doctor Remuneration Sequence</field>
+            <field name="code">health.physician.fee</field>
+            <field name="prefix">FEE/%(year)s%(month)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

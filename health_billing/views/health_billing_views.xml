@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Billing List View -->
+    <record id="view_health_billing_list" model="ir.ui.view">
+        <field name="name">health.billing.list</field>
+        <field name="model">health.billing</field>
+        <field name="arch" type="xml">
+            <list string="Buku Kasir &amp; Tagihan Pasien" decoration-info="state == 'draft'" decoration-warning="state == 'validated'" decoration-success="state == 'paid'" decoration-muted="state == 'cancelled'" sample="1">
+                <field name="name" decoration-bf="1"/>
+                <field name="date"/>
+                <field name="patient_id"/>
+                <field name="medical_record_no"/>
+                <field name="appointment_id"/>
+                <field name="patient_type" widget="badge"/>
+                <field name="total_doctor_fee" sum="Total Dokter" optional="show"/>
+                <field name="total_facility_fee" sum="Total Sarana" optional="show"/>
+                <field name="total_pharmacy" sum="Total Farmasi" optional="show"/>
+                <field name="net_amount" sum="Total Bersih" decoration-bf="1" class="text-primary"/>
+                <field name="payment_method"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state == 'validated'" decoration-success="state == 'paid'" decoration-muted="state == 'cancelled'"/>
+                <field name="invoice_id" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Billing Form View -->
+    <record id="view_health_billing_form" model="ir.ui.view">
+        <field name="name">health.billing.form</field>
+        <field name="model">health.billing</field>
+        <field name="arch" type="xml">
+            <form string="Tagihan Pasien &amp; Kasir">
+                <header>
+                    <button name="action_generate_from_encounter" string="Tarik Rincian dari Kunjungan" type="object" class="btn-secondary" invisible="state != 'draft'"/>
+                    <button name="action_validate" string="Validasi Tagihan" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_settle_payment" string="Bayar &amp; Posting Faktur (One-Click Settlement)" type="object" class="btn-success" invisible="state not in ['draft', 'validated']"/>
+                    <button name="action_cancel" string="Batalkan Tagihan" type="object" invisible="state in ['paid', 'cancelled']"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,validated,paid"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Nomor Billing"/>
+                        <h1>
+                            <field name="name" readonly="1" class="text-primary"/>
+                        </h1>
+                        <h3>
+                            <span class="text-muted">Pasien: </span>
+                            <field name="patient_id" readonly="state != 'draft'"/>
+                        </h3>
+                    </div>
+
+                    <group>
+                        <group string="Identitas &amp; Rujukan Kunjungan">
+                            <field name="medical_record_no"/>
+                            <field name="appointment_id" readonly="state != 'draft'"/>
+                            <field name="patient_type" readonly="state != 'draft'"/>
+                            <field name="date" readonly="state != 'draft'"/>
+                        </group>
+                        <group string="Metode Pembayaran &amp; Akuntansi">
+                            <field name="payment_method" readonly="state == 'paid'"/>
+                            <field name="invoice_id" readonly="1" invisible="not invoice_id"/>
+                            <field name="discount_amount" readonly="state == 'paid'"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Rincian Item Tagihan &amp; Pembagian Jasa" name="billing_lines">
+                            <field name="line_ids" readonly="state == 'paid'">
+                                <list editable="bottom">
+                                    <field name="item_type"/>
+                                    <field name="name"/>
+                                    <field name="physician_id"/>
+                                    <field name="quantity"/>
+                                    <field name="unit_price"/>
+                                    <field name="doctor_fee" sum="Jasa Dokter"/>
+                                    <field name="nurse_fee" sum="Jasa Perawat" optional="hide"/>
+                                    <field name="facility_fee" sum="Jasa Sarana" optional="show"/>
+                                    <field name="bhp_fee" sum="BHP" optional="hide"/>
+                                    <field name="subtotal" sum="Subtotal Tagihan" decoration-bf="1"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Ringkasan Pembagian Jasa (Tariff Split)" name="tariff_split_summary">
+                            <group>
+                                <group string="Akumulasi Jasa Medis &amp; Sarana">
+                                    <field name="total_doctor_fee" readonly="1" class="fw-bold"/>
+                                    <field name="total_nurse_fee" readonly="1"/>
+                                    <field name="total_facility_fee" readonly="1" class="fw-bold"/>
+                                </group>
+                                <group string="Akumulasi Bahan &amp; Farmasi">
+                                    <field name="total_bhp" readonly="1"/>
+                                    <field name="total_pharmacy" readonly="1" class="fw-bold"/>
+                                    <field name="total_amount" readonly="1" class="fs-5"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+
+                    <group class="oe_subtotal_footer oe_right">
+                        <field name="total_amount"/>
+                        <field name="discount_amount"/>
+                        <field name="net_amount" class="oe_subtotal_footer_separator text-success fw-bold fs-3"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Billing Search View -->
+    <record id="view_health_billing_search" model="ir.ui.view">
+        <field name="name">health.billing.search</field>
+        <field name="model">health.billing</field>
+        <field name="arch" type="xml">
+            <search string="Cari Tagihan Pasien">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="medical_record_no"/>
+                <field name="appointment_id"/>
+                <separator/>
+                <filter string="Belum Lunas" name="unpaid" domain="[('state', 'in', ['draft', 'validated'])]"/>
+                <filter string="Lunas" name="paid" domain="[('state', '=', 'paid')]"/>
+                <separator/>
+                <filter string="Pasien Umum" name="general" domain="[('patient_type', '=', 'general')]"/>
+                <filter string="Klaim BPJS" name="bpjs" domain="[('patient_type', '=', 'bpjs')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Metode Bayar" name="group_payment" context="{'group_by': 'payment_method'}"/>
+                    <filter string="Jenis Penjamin" name="group_patient_type" context="{'group_by': 'patient_type'}"/>
+                    <filter string="Tanggal" name="group_date" context="{'group_by': 'date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Billing Action -->
+    <record id="action_health_billing" model="ir.actions.act_window">
+        <field name="name">Kasir &amp; Tagihan Pasien</field>
+        <field name="res_model">health.billing</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_unpaid': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Kelola kasir pembayaran pasien rawat jalan, pembagian jasa dokter, dan penerbitan faktur Odoo otomatis.
+            </p>
+        </field>
+    </record>
+</odoo>

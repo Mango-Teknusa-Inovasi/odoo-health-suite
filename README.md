@@ -71,29 +71,24 @@ flowchart LR
 
 ---
 
-### [Phase 2] Outpatient Clinics, Pharmacy & Financial Engine
-- [ ] **`health_appointment`**:
+### [Phase 2] Outpatient Clinics, Pharmacy & Financial Engine ✅
+- [x] **`health_appointment`**:
   - Outpatient front-desk admission workflow for new and returning patients.
   - Daily clinic scheduling per physician with quota limits.
-  - Sequential queue tickets and TV digital queue display engine.
-- [ ] **`health_emr_specialty`**:
-  - Dental Polyclinic: Interactive visual Odontogram matrix.
-  - Maternal & Child Health (MCH/KIA): Antenatal care (ANC) and pediatric immunization schedules.
-- [ ] **`health_pharmacy`**:
-  - Digital e-prescribing with clinical & administrative pharmacist review.
-  - Compounded medicines auto-decomposition into constituent active ingredients.
+  - Sequential dynamic queue tickets (per Poli, Dokter, or Global) and Fullscreen TV digital queue display with Web Audio calling (`/health/queue/display`).
+- [x] **`health_pharmacy`**:
+  - Digital e-prescribing with Permenkes 73/2016 3-layer clinical review & Solo Practice fast-track mode.
+  - Compounded medicines (Puyer / Kapsul / Salep) auto-decomposition into constituent active ingredients + Tuslah & Embalase fees.
   - Integration with Odoo WMS (`stock.picking`, `stock.lot` with FEFO expiration date tracking).
-  - Automated prescription label printing (White for oral internal use, Blue for topical external use).
-- [ ] **`health_billing`**:
+  - Automated dual-color prescription label printing (White for oral internal use, Blue for topical external use).
+- [x] **`health_billing`**:
   - Centralized Patient Billing Ledger aggregating registration, consultations, procedures, and drugs.
   - Multi-tariff split model: Doctor Fee, Nurse Fee, Hospital Overhead, Consumables (BHP), Equipment.
-  - Direct integration with [`odoo-finance`](../odoo-finance):
-    - Instant payment via Dynamic QRIS (`account_qris_qbiz`).
-    - Automated digital signatures & e-Stamp verification (`account_stamp_signature`).
-    - Automated Doctor Fee PPh 21 withholding tax calculation (`l10n_id_coretax_taxation`).
-    - Automatic creation & reconciliation of customer invoices (`account.move`).
-- [ ] **`health_bpjs_pcare`**:
-  - BPJS PCare Web Service integration for primary care participant verification and encounter transmission.
+  - Physician Remuneration Ledger (`health.physician.fee`) with automatic PPh 21 withholding deduction.
+  - One-Click POS-Style settlement generating & reconciling customer invoices (`account.move`) with Dynamic QRIS receipt.
+- [x] **`health_bpjs` (PCare Bridging FKTP)**:
+  - BPJS PCare Web Service integration for primary care participant verification and outpatient encounter transmission.
+  - Dual-mode: Real-time API dispatch with asynchronous outbox fallback (`health.integration.log`) and auto-retry cron.
 
 ---
 

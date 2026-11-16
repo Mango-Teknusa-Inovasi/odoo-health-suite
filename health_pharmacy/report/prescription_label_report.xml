@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Paper Format for Label Printer (70mm x 50mm) -->
+    <record id="paperformat_health_prescription_label" model="report.paperformat">
+        <field name="name">Etiket Obat Farmasi (70x50mm)</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">50</field>
+        <field name="page_width">70</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">2</field>
+        <field name="margin_bottom">2</field>
+        <field name="margin_left">2</field>
+        <field name="margin_right">2</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <!-- Report Action -->
+    <record id="action_report_prescription_label" model="ir.actions.report">
+        <field name="name">Cetak Etiket Obat (Putih / Biru)</field>
+        <field name="model">health.prescription</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">health_pharmacy.report_prescription_label_template</field>
+        <field name="report_file">health_pharmacy.report_prescription_label_template</field>
+        <field name="print_report_name">'Etiket_' + object.name.replace('/', '_')</field>
+        <field name="binding_model_id" ref="model_health_prescription"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_health_prescription_label"/>
+    </record>
+
+    <!-- Report Template -->
+    <template id="report_prescription_label_template">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="doc">
+                <!-- Labels for Standard Medicines -->
+                <t t-foreach="doc.line_ids" t-as="line">
+                    <div class="page" t-attf-style="page-break-after: always; padding: 4px; font-family: sans-serif; font-size: 10px; border: 2px solid #{line.route == 'oral' and '#000000' or '#0284c7'}; background-color: #{line.route == 'oral' and '#ffffff' or '#f0f9ff'};">
+                        <div style="text-align: center; border-bottom: 1px solid #94a3b8; padding-bottom: 2px; margin-bottom: 4px;">
+                            <strong style="font-size: 11px;"><t t-esc="doc.company_id.name"/></strong>
+                            <div style="font-size: 8px; color: #475569;">INSTALASI FARMASI / APOTEK</div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 8px;">
+                            <span>No: <b><t t-esc="doc.name"/></b></span>
+                            <span>Tgl: <t t-esc="doc.date" t-options="{'widget': 'date'}"/></span>
+                        </div>
+                        <div style="font-size: 9px; margin-top: 2px;">
+                            <span>Pasien: <b><t t-esc="doc.patient_id.name"/></b> (<t t-esc="doc.medical_record_no"/>)</span>
+                        </div>
+                        <div style="border-top: 1px dashed #cbd5e1; border-bottom: 1px dashed #cbd5e1; margin: 4px 0; padding: 4px 0; text-align: center;">
+                            <strong style="font-size: 11px;"><t t-esc="line.product_id.name"/></strong>
+                            <div style="font-size: 11px; font-weight: bold; color: #0f172a; margin-top: 2px;">
+                                <t t-esc="line.dosage_instruction"/>
+                            </div>
+                            <t t-if="line.special_notes">
+                                <div style="font-size: 8px; font-style: italic; color: #b91c1c;"><t t-esc="line.special_notes"/></div>
+                            </t>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 8px;">
+                            <span><t t-esc="line.route == 'oral' and 'OBAT DALAM' or 'OBAT LUAR'"/></span>
+                            <span t-if="line.lot_id">Lot: <t t-esc="line.lot_id.name"/></span>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- Labels for Compounded Medicines -->
+                <t t-foreach="doc.compound_ids" t-as="comp">
+                    <div class="page" t-attf-style="page-break-after: always; padding: 4px; font-family: sans-serif; font-size: 10px; border: 2px solid #{comp.route == 'oral' and '#000000' or '#0284c7'}; background-color: #{comp.route == 'oral' and '#ffffff' or '#f0f9ff'};">
+                        <div style="text-align: center; border-bottom: 1px solid #94a3b8; padding-bottom: 2px; margin-bottom: 4px;">
+                            <strong style="font-size: 11px;"><t t-esc="doc.company_id.name"/></strong>
+                            <div style="font-size: 8px; color: #475569;">INSTALASI FARMASI • RACIKAN</div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 8px;">
+                            <span>No: <b><t t-esc="doc.name"/></b></span>
+                            <span>Tgl: <t t-esc="doc.date" t-options="{'widget': 'date'}"/></span>
+                        </div>
+                        <div style="font-size: 9px; margin-top: 2px;">
+                            <span>Pasien: <b><t t-esc="doc.patient_id.name"/></b> (<t t-esc="doc.medical_record_no"/>)</span>
+                        </div>
+                        <div style="border-top: 1px dashed #cbd5e1; border-bottom: 1px dashed #cbd5e1; margin: 4px 0; padding: 4px 0; text-align: center;">
+                            <strong style="font-size: 11px;"><t t-esc="comp.name"/> (<t t-esc="comp.quantity"/>)</strong>
+                            <div style="font-size: 11px; font-weight: bold; color: #0f172a; margin-top: 2px;">
+                                <t t-esc="comp.dosage_instruction"/>
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 8px;">
+                            <span><t t-esc="comp.route == 'oral' and 'OBAT DALAM' or 'OBAT LUAR'"/></span>
+                            <span><t t-esc="dict(comp._fields['compound_type'].selection).get(comp.compound_type)"/></span>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
