@@ -115,14 +115,17 @@ flowchart LR
 
 ---
 
-### [Phase 4] Diagnostic Support, Advanced Bridging & Hospital Analytics
-- [ ] **`health_laboratory`**:
-  - Electronic lab order entry with age- and gender-specific reference ranges.
-  - Laboratory Information System (LIS) bridging connector for hematology and chemistry analyzers.
-  - Critical laboratory value alert notifications.
-- [ ] **`health_radiology`**:
-  - Radiology examination orders (X-Ray, Ultrasound, CT, MRI) and radiologist report builder.
-  - PACS connector with web-based DICOM medical image viewer integration.
+### [Phase 4] Diagnostic Support, Advanced Bridging & Hospital Analytics 🔬
+- [x] **`health_laboratory` (Diagnostic Lab LIS)**:
+  - Electronic lab order entry with age- and gender-specific reference boundaries.
+  - Critical laboratory value (Panic Value) detection, red alert banner, and KARS/STARKES telephone readback logging.
+  - Flexible specimen & phlebotomy tracking (2-step courier barcode vs 1-step direct mode).
+  - Two-layer validation: Laboratory Analyst technical entry -> Clinical Pathologist (Sp.PK) clinical verification & QR code digital signature.
+- [x] **`health_radiology` (Medical Imaging & PACS)**:
+  - Radiology examination catalog across modalities: X-Ray, USG, CT-Scan, MRI, Mammografi, Fluoroskopi.
+  - Hybrid DICOM PACS integration with Study Instance UID, Accession Number, and direct web viewer launch button (OHIF/Orthanc).
+  - Radiographer exposure data (kVp, mAs, projection, contrast) & key image attachment.
+  - Radiologist (Sp.Rad) structured expertise reporting (Findings, Impression, Recommendations) & QR code digital signature.
 - [ ] **`health_bpjs_vclaim`**:
   - Automated SEP (Surat Eligibilitas Peserta) generation for Outpatient and Inpatient via VClaim 2.0.
   - SPRI (Surat Perintah Rawat Inap) and Outpatient Control Letter bridging.

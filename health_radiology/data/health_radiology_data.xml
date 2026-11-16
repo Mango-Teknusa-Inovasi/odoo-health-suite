@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- 1. Foto Thorax PA -->
+        <record id="test_thorax_pa" model="health.radiology.test">
+            <field name="name">Foto Thorax PA (Rontgen Dada Dewasa)</field>
+            <field name="code">THORAX-PA</field>
+            <field name="modality">xray</field>
+            <field name="body_part">chest</field>
+            <field name="tariff">125000.0</field>
+            <field name="radiation_warning">True</field>
+            <field name="preparation_notes">Lepas baju dan perhiasan logam. Gunakan gaun pemeriksaan. Posisi berdiri dada menempel kaset, inspirasi maksimal dan tahan napas.</field>
+            <field name="template_findings">COR: Ukuran dan bentuk dalam batas normal, CTR &lt; 50%.
+PULMO: Corakan bronkovaskular dalam batas normal, tidak tampak infiltrat maupun nodul.
+Sinus kostofrenikus kanan dan kiri tajam.
+Diafragma kanan dan kiri licin dan simetris.
+Skeletal dan soft tissue normal.</field>
+        </record>
+
+        <!-- 2. USG Abdomen Atas & Bawah -->
+        <record id="test_usg_abdomen" model="health.radiology.test">
+            <field name="name">USG Abdomen Komprehensif (Atas &amp; Bawah)</field>
+            <field name="code">USG-ABD</field>
+            <field name="modality">usg</field>
+            <field name="body_part">abdomen</field>
+            <field name="tariff">300000.0</field>
+            <field name="radiation_warning">False</field>
+            <field name="preparation_notes">Puasa makan 6 jam sebelum pemeriksaan (boleh minum air putih). Minum 2-3 gelas air 1 jam sebelum USG dan tahan kencing agar buli-buli terisi penuh.</field>
+            <field name="template_findings">HEPAR: Ukuran normal, ekogenisitas parenkim homogen, tepi tajam, tidak tampak nodul/massa.
+VESIKA FELEA: Dinding licin tidak menebal, lumen anekoik, tidak tampak batu.
+PANKREAS &amp; LIEN: Bentuk dan ukuran dalam batas normal.
+GINJAL KANAN &amp; KIRI: Ukuran normal, diferensiasi kortikomeduler jelas, tidak tampak batu/hidronefrosis.
+VESIKA URINARIA: Dinding licin, tidak tampak batu.
+PROSTAT / UTERUS: Ukuran dalam batas normal.</field>
+        </record>
+
+        <!-- 3. CT Scan Kepala Non-Kontras -->
+        <record id="test_ct_head" model="health.radiology.test">
+            <field name="name">CT-Scan Kepala Non-Kontras (Brain CT)</field>
+            <field name="code">CT-HEAD</field>
+            <field name="modality">ct</field>
+            <field name="body_part">head_neck</field>
+            <field name="tariff">950000.0</field>
+            <field name="radiation_warning">True</field>
+            <field name="preparation_notes">Lepas seluruh aksesoris logam (anting, kacamata, gigi palsu lepas-pasang). Pemeriksaan tanpa kontras tidak memerlukan puasa.</field>
+            <field name="template_findings">Tidak tampak lesi hiperdens (perdarahan) fokal intraparenkim maupun ekstraaksial.
+Tidak tampak lesi hipodens (infark luas/iskemik akut).
+Diferensiasi substansia grisea dan alba baik.
+Sulkus dan girus normal.
+Sistem ventrikel dan sisterna dalam batas normal, simetris.
+Midline struktural di tengah, tidak tampak deviasi (midline shift).
+Tulang-tulang kalvaria utuh, tidak tampak fraktur.</field>
+        </record>
+
+        <!-- 4. MRI Lumbal -->
+        <record id="test_mri_lumbal" model="health.radiology.test">
+            <field name="name">MRI Lumbosakral Non-Kontras (Vertebra Lumbal)</field>
+            <field name="code">MRI-LUMB</field>
+            <field name="modality">mri</field>
+            <field name="body_part">spine</field>
+            <field name="tariff">1800000.0</field>
+            <field name="radiation_warning">False</field>
+            <field name="preparation_notes">Wajib skrining feromagnetik: Pasien tidak boleh memiliki implan logam aktif (pacemaker jantung, klip aneurisma serebral, koklea telinga).</field>
+            <field name="template_findings">Kelurusan vertebra lumbalis normal.
+Ketinggian korpus vertebra dan diskus intervertebralis dalam batas normal.
+Tidak tampak herniasi nukleus pulposus (HNP) yang menekan kanalis spinalis atau foramen neuralis.
+Medula spinalis dan konus medularis berakhir setinggi L1-L2 dengan intensitas sinyal normal.</field>
+        </record>
+    </data>
+</odoo>

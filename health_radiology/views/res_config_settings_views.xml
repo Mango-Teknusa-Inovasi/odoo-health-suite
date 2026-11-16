@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_health_radiology" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.health.radiology</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="78"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Healthcare Radiology" string="Radiologi &amp; PACS" name="health_radiology">
+                    <block title="Konfigurasi Server DICOM PACS &amp; Spesialis" id="health_rad_setting_block">
+                        <setting string="Prefix URL PACS DICOM Viewer" help="Alamat server PACS web viewer (misal Orthanc / OHIF Viewer / Cornerstone Web)">
+                            <field name="health_radiology_pacs_server_url"/>
+                        </setting>
+                        <setting string="Dokter Spesialis Radiologi (Sp.Rad) Utama" help="Dokter spesialis penanggung jawab pembacaan dan ekspertise radiologi">
+                            <field name="health_radiology_default_radiologist_id"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_health_radiology_config_settings" model="ir.actions.act_window">
+        <field name="name">Pengaturan Radiologi</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'health_radiology'}</field>
+    </record>
+</odoo>

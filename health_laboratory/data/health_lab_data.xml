@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Lab Categories -->
+        <record id="lab_cat_hemato" model="health.lab.category">
+            <field name="name">Hematologi</field>
+            <field name="code">HEMATO</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="lab_cat_kimia" model="health.lab.category">
+            <field name="name">Kimia Klinik</field>
+            <field name="code">KIMIA</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="lab_cat_urin" model="health.lab.category">
+            <field name="name">Urinalisis</field>
+            <field name="code">URIN</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <!-- Test 1: Darah Lengkap (CBC) -->
+        <record id="test_cbc" model="health.lab.test">
+            <field name="name">Darah Lengkap / Rutin (CBC)</field>
+            <field name="code">CBC</field>
+            <field name="category_id" ref="lab_cat_hemato"/>
+            <field name="sample_type">edta_blood</field>
+            <field name="specimen_container">lavender_top</field>
+            <field name="tariff">75000.0</field>
+            <field name="estimated_duration_minutes">45</field>
+        </record>
+
+        <!-- Parameters for CBC -->
+        <record id="param_hgb" model="health.lab.parameter">
+            <field name="name">Hemoglobin (Hb)</field>
+            <field name="code">HGB</field>
+            <field name="loinc_code">718-7</field>
+            <field name="test_id" ref="test_cbc"/>
+            <field name="unit">g/dL</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="ref_hgb_male" model="health.lab.reference.range">
+            <field name="parameter_id" ref="param_hgb"/>
+            <field name="gender">male</field>
+            <field name="min_val">13.0</field>
+            <field name="max_val">17.5</field>
+            <field name="critical_low">7.0</field>
+            <field name="critical_high">20.0</field>
+            <field name="age_group_label">Dewasa Pria</field>
+        </record>
+        <record id="ref_hgb_female" model="health.lab.reference.range">
+            <field name="parameter_id" ref="param_hgb"/>
+            <field name="gender">female</field>
+            <field name="min_val">12.0</field>
+            <field name="max_val">16.0</field>
+            <field name="critical_low">7.0</field>
+            <field name="critical_high">20.0</field>
+            <field name="age_group_label">Dewasa Wanita</field>
+        </record>
+
+        <record id="param_wbc" model="health.lab.parameter">
+            <field name="name">Leukosit (WBC)</field>
+            <field name="code">WBC</field>
+            <field name="loinc_code">6690-2</field>
+            <field name="test_id" ref="test_cbc"/>
+            <field name="unit">/uL</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="ref_wbc" model="health.lab.reference.range">
+            <field name="parameter_id" ref="param_wbc"/>
+            <field name="gender">both</field>
+            <field name="min_val">4000.0</field>
+            <field name="max_val">10000.0</field>
+            <field name="critical_low">2000.0</field>
+            <field name="critical_high">30000.0</field>
+            <field name="age_group_label">Semua Usia</field>
+        </record>
+
+        <record id="param_plt" model="health.lab.parameter">
+            <field name="name">Trombosit (PLT)</field>
+            <field name="code">PLT</field>
+            <field name="loinc_code">777-3</field>
+            <field name="test_id" ref="test_cbc"/>
+            <field name="unit">/uL</field>
+            <field name="sequence">30</field>
+        </record>
+        <record id="ref_plt" model="health.lab.reference.range">
+            <field name="parameter_id" ref="param_plt"/>
+            <field name="gender">both</field>
+            <field name="min_val">150000.0</field>
+            <field name="max_val">450000.0</field>
+            <field name="critical_low">50000.0</field>
+            <field name="critical_high">1000000.0</field>
+            <field name="age_group_label">Semua Usia</field>
+        </record>
+
+        <!-- Test 2: Glukosa Darah Sewaktu (GDS) -->
+        <record id="test_gds" model="health.lab.test">
+            <field name="name">Glukosa Darah Sewaktu (GDS)</field>
+            <field name="code">GDS</field>
+            <field name="category_id" ref="lab_cat_kimia"/>
+            <field name="sample_type">clot_blood</field>
+            <field name="specimen_container">yellow_top</field>
+            <field name="tariff">35000.0</field>
+            <field name="estimated_duration_minutes">30</field>
+        </record>
+        <record id="param_gds" model="health.lab.parameter">
+            <field name="name">Glukosa Darah Sewaktu</field>
+            <field name="code">GLU</field>
+            <field name="loinc_code">2339-0</field>
+            <field name="test_id" ref="test_gds"/>
+            <field name="unit">mg/dL</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="ref_gds" model="health.lab.reference.range">
+            <field name="parameter_id" ref="param_gds"/>
+            <field name="gender">both</field>
+            <field name="min_val">70.0</field>
+            <field name="max_val">140.0</field>
+            <field name="critical_low">50.0</field>
+            <field name="critical_high">500.0</field>
+            <field name="age_group_label">Dewasa</field>
+        </record>
+
+        <!-- Test 3: Fungsi Ginjal (Ureum & Kreatinin) -->
+        <record id="test_renal" model="health.lab.test">
+            <field name="name">Fungsi Ginjal (Ureum &amp; Kreatinin)</field>
+            <field name="code">RENAL</field>
+            <field name="category_id" ref="lab_cat_kimia"/>
+            <field name="sample_type">clot_blood</field>
+            <field name="specimen_container">yellow_top</field>
+            <field name="tariff">85000.0</field>
+            <field name="estimated_duration_minutes">45</field>
+        </record>
+        <record id="param_urea" model="health.lab.parameter">
+            <field name="name">Ureum Darah</field>
+            <field name="code">UREA</field>
+            <field name="loinc_code">3094-0</field>
+            <field name="test_id" ref="test_renal"/>
+            <field name="unit">mg/dL</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="ref_urea" model="health.lab.reference.range">
+            <field name="parameter_id" ref="param_urea"/>
+            <field name="gender">both</field>
+            <field name="min_val">15.0</field>
+            <field name="max_val">45.0</field>
+            <field name="age_group_label">Dewasa</field>
+        </record>
+
+        <record id="param_creat" model="health.lab.parameter">
+            <field name="name">Kreatinin Darah</field>
+            <field name="code">CREAT</field>
+            <field name="loinc_code">2160-0</field>
+            <field name="test_id" ref="test_renal"/>
+            <field name="unit">mg/dL</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="ref_creat" model="health.lab.reference.range">
+            <field name="parameter_id" ref="param_creat"/>
+            <field name="gender">both</field>
+            <field name="min_val">0.6</field>
+            <field name="max_val">1.2</field>
+            <field name="critical_high">5.0</field>
+            <field name="age_group_label">Dewasa</field>
+        </record>
+    </data>
+</odoo>

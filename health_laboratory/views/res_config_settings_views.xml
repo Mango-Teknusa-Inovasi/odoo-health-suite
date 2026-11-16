@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_health_laboratory" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.health.laboratory</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="75"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Healthcare Laboratory" string="Laboratorium (LIS)" name="health_laboratory">
+                    <block title="Konfigurasi Alur Laboratorium &amp; Flebotomi" id="health_lab_setting_block">
+                        <setting string="Model Pelacakan Sampel / Spesimen" help="Pilih alur 2-tahap dengan kurir dan barcode untuk rumah sakit, atau 1-tahap praktis untuk klinik mandiri">
+                            <field name="health_lab_tracking_mode"/>
+                        </setting>
+                        <setting string="Dokter Spesialis Patologi Klinik (Sp.PK) Default" help="Dokter spesialis penanggung jawab teknis dan validasi rilis hasil laboratorium">
+                            <field name="health_lab_default_pathologist_id"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_health_lab_config_settings" model="ir.actions.act_window">
+        <field name="name">Pengaturan Laboratorium</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'health_laboratory'}</field>
+    </record>
+</odoo>

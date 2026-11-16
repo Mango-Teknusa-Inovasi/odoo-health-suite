@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Radiology Test List View -->
+    <record id="view_health_radiology_test_list" model="ir.ui.view">
+        <field name="name">health.radiology.test.list</field>
+        <field name="model">health.radiology.test</field>
+        <field name="arch" type="xml">
+            <list string="Daftar Tindakan Radiologi &amp; Imaging" sample="1">
+                <field name="sequence" widget="handle"/>
+                <field name="code" decoration-bf="1"/>
+                <field name="name"/>
+                <field name="modality" widget="badge"
+                       decoration-primary="modality in ('xray', 'fluoro')"
+                       decoration-info="modality == 'usg'"
+                       decoration-warning="modality == 'ct'"
+                       decoration-success="modality == 'mri'"/>
+                <field name="body_part"/>
+                <field name="radiation_warning" widget="boolean_toggle"/>
+                <field name="tariff"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Radiology Test Form View -->
+    <record id="view_health_radiology_test_form" model="ir.ui.view">
+        <field name="name">health.radiology.test.form</field>
+        <field name="model">health.radiology.test</field>
+        <field name="arch" type="xml">
+            <form string="Tindakan Radiologi &amp; Imaging">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Nama Pemeriksaan Radiologi"/>
+                        <h1>
+                            <field name="name" placeholder="cth. Foto Thorax PA / USG Abdomen / CT Kepala"/>
+                        </h1>
+                        <div class="d-flex align-items-center my-2">
+                            <span class="me-2 fw-bold">Kode Tindakan:</span>
+                            <field name="code" class="oe_inline fw-bold text-primary" placeholder="cth. THORAX-PA"/>
+                        </div>
+                    </div>
+                    <group>
+                        <group name="modality_info" string="Modalitas &amp; Anatomi">
+                            <field name="modality"/>
+                            <field name="body_part"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group name="safety_tariff" string="Tarif &amp; Keselamatan Radiasi">
+                            <field name="tariff"/>
+                            <field name="radiation_warning" widget="boolean_toggle"/>
+                            <field name="active" widget="boolean_toggle"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Petunjuk Persiapan Pasien" name="prep">
+                            <field name="preparation_notes" placeholder="Petunjuk puasa, asupan cairan, pelepasan aksesoris logam..."/>
+                        </page>
+                        <page string="Template Hasil Normal Standar" name="template">
+                            <field name="template_findings" placeholder="Teks temuan radiologis normal default untuk mempercepat ekspertise..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Radiology Test Action -->
+    <record id="action_health_radiology_test" model="ir.actions.act_window">
+        <field name="name">Daftar Tindakan Radiologi</field>
+        <field name="res_model">health.radiology.test</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Buat Tindakan Radiologi Baru
+            </p>
+            <p>
+                Kelola modalitas (X-Ray, USG, CT, MRI), tarif tindakan, dan template ekspertise standar.
+            </p>
+        </field>
+    </record>
+</odoo>

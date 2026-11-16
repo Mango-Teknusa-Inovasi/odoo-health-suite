@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Laboratory Menu Root -->
+    <menuitem id="menu_health_lab_root"
+              name="Laboratorium"
+              parent="health_base.menu_health_root"
+              sequence="24"/>
+
+    <menuitem id="menu_health_lab_order"
+              name="Order &amp; Hasil Lab"
+              parent="menu_health_lab_root"
+              action="action_health_lab_order"
+              sequence="10"/>
+
+    <menuitem id="menu_health_lab_test"
+              name="Paket Pemeriksaan"
+              parent="menu_health_lab_root"
+              action="action_health_lab_test"
+              sequence="20"/>
+
+    <menuitem id="menu_health_lab_category"
+              name="Kategori Bidang Lab"
+              parent="menu_health_lab_root"
+              action="action_health_lab_category"
+              sequence="30"/>
+
+    <!-- Settings Submenu -->
+    <menuitem id="menu_health_lab_config"
+              name="Pengaturan Laboratorium"
+              parent="health_base.menu_health_config"
+              action="action_health_lab_config_settings"
+              sequence="24"/>
+</odoo>

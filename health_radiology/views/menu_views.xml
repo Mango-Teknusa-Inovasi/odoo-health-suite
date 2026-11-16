@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Radiology Menu Root -->
+    <menuitem id="menu_health_radiology_root"
+              name="Radiologi"
+              parent="health_base.menu_health_root"
+              sequence="28"/>
+
+    <menuitem id="menu_health_radiology_order"
+              name="Order &amp; Ekspertise"
+              parent="menu_health_radiology_root"
+              action="action_health_radiology_order"
+              sequence="10"/>
+
+    <menuitem id="menu_health_radiology_test"
+              name="Tindakan Radiologi"
+              parent="menu_health_radiology_root"
+              action="action_health_radiology_test"
+              sequence="20"/>
+
+    <!-- Settings Submenu -->
+    <menuitem id="menu_health_radiology_config"
+              name="Pengaturan Radiologi"
+              parent="health_base.menu_health_config"
+              action="action_health_radiology_config_settings"
+              sequence="28"/>
+</odoo>

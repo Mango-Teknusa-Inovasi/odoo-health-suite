@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Lab Test List View -->
+    <record id="view_health_lab_test_list" model="ir.ui.view">
+        <field name="name">health.lab.test.list</field>
+        <field name="model">health.lab.test</field>
+        <field name="arch" type="xml">
+            <list string="Daftar Paket Pemeriksaan Laboratorium" sample="1">
+                <field name="sequence" widget="handle"/>
+                <field name="code" decoration-bf="1"/>
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="sample_type"/>
+                <field name="specimen_container"/>
+                <field name="parameter_count" string="Jumlah Parameter"/>
+                <field name="estimated_duration_minutes" string="Estimasi (Mnt)"/>
+                <field name="tariff"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Lab Test Form View -->
+    <record id="view_health_lab_test_form" model="ir.ui.view">
+        <field name="name">health.lab.test.form</field>
+        <field name="model">health.lab.test</field>
+        <field name="arch" type="xml">
+            <form string="Paket Pemeriksaan Laboratorium">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Nama Pemeriksaan Laboratorium"/>
+                        <h1>
+                            <field name="name" placeholder="cth. Darah Lengkap / Profil Lipid / GDS"/>
+                        </h1>
+                        <div class="d-flex align-items-center my-2">
+                            <span class="me-2 fw-bold">Kode Pemeriksaan:</span>
+                            <field name="code" class="oe_inline fw-bold text-primary" placeholder="cth. CBC"/>
+                        </div>
+                    </div>
+                    <group>
+                        <group name="general_info" string="Klasifikasi &amp; Penanganan Sampel">
+                            <field name="category_id"/>
+                            <field name="sample_type"/>
+                            <field name="specimen_container"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group name="financial_info" string="Tarif &amp; Waktu Layanan">
+                            <field name="tariff"/>
+                            <field name="estimated_duration_minutes"/>
+                            <field name="active" widget="boolean_toggle"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Parameter Uji &amp; Nilai Normal" name="parameters">
+                            <field name="parameter_ids">
+                                <list string="Daftar Parameter">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="loinc_code"/>
+                                    <field name="unit"/>
+                                    <field name="result_type"/>
+                                    <field name="methodology"/>
+                                </list>
+                                <form string="Parameter Laboratorium">
+                                    <group>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="code"/>
+                                            <field name="loinc_code"/>
+                                            <field name="unit"/>
+                                        </group>
+                                        <group>
+                                            <field name="result_type"/>
+                                            <field name="methodology"/>
+                                            <field name="sequence"/>
+                                        </group>
+                                    </group>
+                                    <notebook>
+                                        <page string="Rentang Nilai Normal &amp; Batas Kritis" name="ranges">
+                                            <field name="reference_ids">
+                                                <list string="Nilai Rujukan" editable="bottom">
+                                                    <field name="age_group_label"/>
+                                                    <field name="gender"/>
+                                                    <field name="age_min_years"/>
+                                                    <field name="age_max_years"/>
+                                                    <field name="min_val"/>
+                                                    <field name="max_val"/>
+                                                    <field name="critical_low" decoration-danger="1"/>
+                                                    <field name="critical_high" decoration-danger="1"/>
+                                                    <field name="normal_text"/>
+                                                </list>
+                                            </field>
+                                        </page>
+                                    </notebook>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Lab Test Action -->
+    <record id="action_health_lab_test" model="ir.actions.act_window">
+        <field name="name">Paket Pemeriksaan Lab</field>
+        <field name="res_model">health.lab.test</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Buat Paket Pemeriksaan Laboratorium Baru
+            </p>
+            <p>
+                Kelola parameter analit, nilai normal per usia/gender, dan batasan nilai kritis.
+            </p>
+        </field>
+    </record>
+
+    <!-- Lab Category Action -->
+    <record id="action_health_lab_category" model="ir.actions.act_window">
+        <field name="name">Kategori &amp; Bagian Lab</field>
+        <field name="res_model">health.lab.category</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

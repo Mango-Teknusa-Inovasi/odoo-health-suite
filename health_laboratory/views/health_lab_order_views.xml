@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Lab Order Kanban View -->
+    <record id="view_health_lab_order_kanban" model="ir.ui.view">
+        <field name="name">health.lab.order.kanban</field>
+        <field name="model">health.lab.order</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" sample="1" quick_create="false">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="priority"/>
+                <field name="state"/>
+                <field name="date"/>
+                <field name="has_critical_value"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click p-2">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <strong class="fs-6 text-primary"><field name="name"/></strong>
+                                <field name="priority" widget="badge"
+                                       decoration-danger="priority == 'cito'"
+                                       decoration-info="priority == 'normal'"/>
+                            </div>
+                            <div class="my-1">
+                                <i class="fa fa-user me-1" title="Pasien"/> <strong><field name="patient_id"/></strong>
+                            </div>
+                            <div t-if="record.has_critical_value.raw_value" class="alert alert-danger py-1 px-2 my-1 small fw-bold" role="alert">
+                                <i class="fa fa-exclamation-triangle me-1" title="Nilai Kritis"/> <span>NILAI KRITIS!</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-2 pt-1 border-top">
+                                <span class="text-muted small"><field name="date" widget="date"/></span>
+                                <field name="state" widget="badge"
+                                       decoration-info="state in ('draft', 'ordered')"
+                                       decoration-warning="state in ('sample_collected', 'sample_received')"
+                                       decoration-primary="state == 'analyzed'"
+                                       decoration-success="state == 'verified'"
+                                       decoration-muted="state == 'cancelled'"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Lab Order List View -->
+    <record id="view_health_lab_order_list" model="ir.ui.view">
+        <field name="name">health.lab.order.list</field>
+        <field name="model">health.lab.order</field>
+        <field name="arch" type="xml">
+            <list string="Daftar Permintaan &amp; Hasil Laboratorium" sample="1"
+                  decoration-danger="priority == 'cito' or has_critical_value"
+                  decoration-success="state == 'verified'"
+                  decoration-muted="state == 'cancelled'">
+                <field name="name" decoration-bf="1"/>
+                <field name="date"/>
+                <field name="patient_id"/>
+                <field name="medical_record_no"/>
+                <field name="physician_id"/>
+                <field name="origin_type"/>
+                <field name="priority" widget="badge"
+                       decoration-danger="priority == 'cito'"
+                       decoration-info="priority == 'normal'"/>
+                <field name="has_critical_value" widget="badge" string="Nilai Kritis"
+                       decoration-danger="has_critical_value == True"
+                       decoration-success="has_critical_value == False"/>
+                <field name="total_tariff"/>
+                <field name="state" widget="badge"
+                       decoration-info="state in ('draft', 'ordered')"
+                       decoration-warning="state in ('sample_collected', 'sample_received')"
+                       decoration-primary="state == 'analyzed'"
+                       decoration-success="state == 'verified'"
+                       decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Lab Order Form View -->
+    <record id="view_health_lab_order_form" model="ir.ui.view">
+        <field name="name">health.lab.order.form</field>
+        <field name="model">health.lab.order</field>
+        <field name="arch" type="xml">
+            <form string="Formulir Pemeriksaan Laboratorium">
+                <header>
+                    <button name="action_order" string="Kirim Permintaan (Order)" type="object"
+                            class="oe_highlight btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_sample_collected" string="Sampel Diambil (Flebotomi)" type="object"
+                            class="oe_highlight btn-info" invisible="state != 'ordered'"/>
+                    <button name="action_sample_received" string="Terima Sampel di Lab" type="object"
+                            class="oe_highlight btn-warning" invisible="state not in ('ordered', 'sample_collected')"/>
+                    <button name="action_analyzed" string="Selesai Analisis (Kirim ke Sp.PK)" type="object"
+                            class="oe_highlight btn-primary" invisible="state != 'sample_received'"/>
+                    <button name="action_verify_pathologist" string="Verifikasi &amp; Rilis (Sp.PK)" type="object"
+                            class="oe_highlight btn-success" invisible="state != 'analyzed'"/>
+                    <button name="action_cancel" string="Batalkan Order" type="object"
+                            invisible="state in ('verified', 'cancelled')"
+                            confirm="Batalkan order pemeriksaan laboratorium ini?"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,ordered,sample_received,analyzed,verified"/>
+                </header>
+                <sheet>
+                    <div invisible="not has_critical_value" class="alert alert-danger py-2 mb-3" role="alert">
+                        <i class="fa fa-heartbeat fa-2x align-middle me-2" title="Peringatan Nilai Kritis"/>
+                        <strong class="fs-5">PERINGATAN NILAI KRITIS (PANIC VALUE)!</strong>
+                        <p class="mb-0 small">Terdapat parameter analit yang melampaui batas kritis keselamatan jiwa. Wajib segera lapor telepon ke DPJP/Perawat Ruangan dalam 15 menit!</p>
+                    </div>
+
+                    <div class="oe_title">
+                        <label for="name" string="No. Order Lab"/>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                        <div class="d-flex align-items-center my-2">
+                            <span class="fw-bold me-2">Prioritas:</span>
+                            <field name="priority" widget="badge"
+                                   decoration-danger="priority == 'cito'"
+                                   decoration-info="priority == 'normal'"/>
+                            <span class="fw-bold ms-3 me-2">Barcode Spesimen:</span>
+                            <field name="sample_barcode" class="oe_inline fw-bold text-success" readonly="1"/>
+                        </div>
+                    </div>
+
+                    <group>
+                        <group name="patient_info" string="Identitas Pasien &amp; Asal Permintaan">
+                            <field name="patient_id" readonly="state != 'draft'"/>
+                            <field name="medical_record_no"/>
+                            <field name="patient_age"/>
+                            <field name="gender"/>
+                            <field name="date" readonly="state != 'draft'"/>
+                            <field name="origin_type" readonly="state != 'draft'"/>
+                            <field name="inpatient_stay_id" invisible="origin_type != 'inpatient'"/>
+                            <field name="emergency_triage_id" invisible="origin_type != 'emergency'"/>
+                        </group>
+                        <group name="clinical_team" string="Dokter &amp; Petugas Laboratorium">
+                            <field name="physician_id" readonly="state != 'draft'"/>
+                            <field name="analyst_id" readonly="state == 'verified'"/>
+                            <field name="pathologist_id" readonly="state == 'verified'"/>
+                            <field name="verified_time" readonly="1" invisible="not verified_time"/>
+                            <field name="total_tariff"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+
+                    <group string="Paket Pemeriksaan yang Diminta">
+                        <field name="test_ids" widget="many2many_tags" readonly="state != 'draft'"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Hasil Uji Analit Laboratorium" name="results">
+                            <field name="result_line_ids" readonly="state in ('verified', 'cancelled')">
+                                <list string="Hasil Analit" editable="bottom"
+                                      decoration-danger="flag in ('critical_low', 'critical_high')"
+                                      decoration-warning="flag in ('low', 'high')">
+                                    <field name="test_id" readonly="1"/>
+                                    <field name="parameter_id" readonly="1"/>
+                                    <field name="result_type" column_invisible="True"/>
+                                    <field name="value_numeric" invisible="result_type != 'numeric'"/>
+                                    <field name="value_text" invisible="result_type == 'numeric'"/>
+                                    <field name="unit" readonly="1"/>
+                                    <field name="reference_range_display" readonly="1"/>
+                                    <field name="flag" widget="badge"
+                                           decoration-danger="flag in ('critical_low', 'critical_high')"
+                                           decoration-warning="flag in ('low', 'high')"
+                                           decoration-success="flag == 'normal'"/>
+                                    <field name="notes"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Pelaporan Nilai Kritis (KARS SBAR)" name="critical_report" invisible="not has_critical_value">
+                            <group>
+                                <group string="Laporan Telepon Darurat">
+                                    <field name="critical_reported_to" placeholder="Nama Dokter DPJP / Perawat Penanggung Jawab..."/>
+                                    <field name="critical_reported_time"/>
+                                    <field name="critical_reported_by"/>
+                                    <field name="critical_readback_confirmed" widget="boolean_toggle"/>
+                                </group>
+                                <group string="Catatan Tanggapan Klinis">
+                                    <field name="critical_notes" placeholder="Tanggapan klinis atau instruksi darurat dari DPJP..."/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Logistik Sampel &amp; Flebotomi" name="specimen">
+                            <group>
+                                <group string="Tahap Pengambilan (Flebotomi)">
+                                    <field name="specimen_condition"/>
+                                    <field name="sample_taken_time" readonly="1"/>
+                                    <field name="sample_taken_user_id" readonly="1"/>
+                                </group>
+                                <group string="Tahap Penerimaan Laboratorium">
+                                    <field name="sample_received_time" readonly="1"/>
+                                    <field name="sample_received_user_id" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Verifikasi &amp; Tanda Tangan Sp.PK" name="verification" invisible="state != 'verified'">
+                            <group>
+                                <field name="verification_qr_code" readonly="1"/>
+                                <field name="verified_time" readonly="1"/>
+                                <field name="pathologist_id" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Lab Order Search View -->
+    <record id="view_health_lab_order_search" model="ir.ui.view">
+        <field name="name">health.lab.order.search</field>
+        <field name="model">health.lab.order</field>
+        <field name="arch" type="xml">
+            <search string="Cari Order Lab">
+                <field name="name" string="No. Order"/>
+                <field name="patient_id" string="Pasien" filter_domain="['|', ('patient_id.name', 'ilike', self), ('medical_record_no', 'ilike', self)]"/>
+                <field name="sample_barcode" string="Barcode Sampel"/>
+                <field name="physician_id"/>
+                <separator/>
+                <filter name="cito" string="🚨 Prioritas CITO" domain="[('priority', '=', 'cito')]"/>
+                <filter name="critical" string="⚠️ Nilai Kritis" domain="[('has_critical_value', '=', True)]"/>
+                <separator/>
+                <filter name="waiting_sample" string="Menunggu Sampel" domain="[('state', 'in', ('ordered', 'sample_collected'))]"/>
+                <filter name="in_lab" string="Sedang Diuji di Lab" domain="[('state', '=', 'sample_received')]"/>
+                <filter name="waiting_verify" string="Menunggu Paraf Sp.PK" domain="[('state', '=', 'analyzed')]"/>
+                <filter name="verified" string="Hasil Sudah Rilis" domain="[('state', '=', 'verified')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_state" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Asal Pasien" name="group_origin" domain="[]" context="{'group_by': 'origin_type'}"/>
+                    <filter string="Prioritas" name="group_priority" domain="[]" context="{'group_by': 'priority'}"/>
+                    <filter string="Dokter Pengirim" name="group_physician" domain="[]" context="{'group_by': 'physician_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Lab Order Action -->
+    <record id="action_health_lab_order" model="ir.actions.act_window">
+        <field name="name">Order &amp; Hasil Laboratorium</field>
+        <field name="res_model">health.lab.order</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_cito': 0}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Penerbitan Permintaan Uji Laboratorium Baru
+            </p>
+            <p>
+                Daftarkan permintaan lab dari poliklinik, rawat inap, atau IGD dengan deteksi nilai kritis otomatis.
+            </p>
+        </field>
+    </record>
+</odoo>
