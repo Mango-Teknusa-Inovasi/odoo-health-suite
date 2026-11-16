@@ -1,0 +1,32 @@
+<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="suiteMint" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2DD4BF"/>
+      <stop offset="100%" stop-color="#0D9488"/>
+    </linearGradient>
+    <linearGradient id="suitePlum" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A855F7"/>
+      <stop offset="100%" stop-color="#7E22CE"/>
+    </linearGradient>
+  </defs>
+  <!-- Top Left Facet: Vibrant Odoo Plum / Violet #875A7B / #A855F7 -->
+  <path d="M7 3h20l-9 22H3a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4h4Z" transform="translate(3, 1)" fill="url(#suitePlum)"/>
+  <!-- Top Right Facet: Radiant Sunflower Gold #FBB945 -->
+  <path d="M24 4h20a5 5 0 0 1 5 5v12a5 5 0 0 1-5 5H33l-9-22Z" fill="#FBB945"/>
+  <!-- Center Diagonal Prism: Luminous Emerald Mint Gradient -->
+  <path d="M15 25l10-21 18 21-10 21H15Z" fill="url(#suiteMint)"/>
+  <!-- Center Shading Facet: Deep Petrol Slate #005E7A -->
+  <path d="M25 25l9 21H16l9-21Z" fill="#005E7A"/>
+  <!-- Bottom Right Facet: Royal Azure #088BF5 -->
+  <path d="M34 25h10a5 5 0 0 1 5 5v11a5 5 0 0 1-5 5H25l9-21Z" fill="#088BF5"/>
+  <!-- Bottom Left Facet: Dynamic Coral #F86126 -->
+  <path d="M4 25h12l-9 21H6a5 5 0 0 1-5-5V30a5 5 0 0 1 5-5Z" transform="translate(2, 0)" fill="#F86126"/>
+  <!-- Big Central Medical Cross Emblem (Crisp White + Emerald Core) -->
+  <g transform="translate(0, 0)">
+    <rect x="21" y="14" width="8" height="22" rx="2.5" fill="#FFFFFF"/>
+    <rect x="14" y="21" width="22" height="8" rx="2.5" fill="#FFFFFF"/>
+    <rect x="22.5" y="15.5" width="5" height="19" rx="1.5" fill="#0D9488"/>
+    <rect x="15.5" y="22.5" width="19" height="5" rx="1.5" fill="#0D9488"/>
+    <circle cx="25" cy="25" r="2.5" fill="#FFFFFF"/>
+  </g>
+</svg>

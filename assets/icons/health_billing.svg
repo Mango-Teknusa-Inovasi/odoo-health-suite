@@ -1,0 +1,28 @@
+<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="billPlum" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A855F7"/>
+      <stop offset="100%" stop-color="#6B21A8"/>
+    </linearGradient>
+    <linearGradient id="billGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+  </defs>
+  <!-- Main Invoicing Ledger in Odoo Plum (Full Bleed) -->
+  <rect x="3" y="3" width="44" height="44" rx="8" fill="url(#billPlum)"/>
+  <!-- Diagonal Accounting Split Facet in Royal Azure -->
+  <path d="M3 3h20l24 24v12a8 8 0 0 1-8 8H21L3 21V3Z" fill="#0284C7" fill-opacity="0.45"/>
+  <!-- Inner White Receipt Folio -->
+  <rect x="7" y="10" width="36" height="32" rx="4" fill="#FFFFFF"/>
+  <!-- Dynamic QRIS Scan Target in Vivid Coral #F86126 -->
+  <rect x="11" y="14" width="12" height="12" rx="3" fill="#F86126"/>
+  <rect x="13.5" y="16.5" width="7" height="7" rx="1.5" fill="#FFFFFF"/>
+  <rect x="15" y="18" width="4" height="4" fill="#F86126"/>
+  <!-- Itemized Clinical Tariffs & Doctor Fees in Emerald & Slate -->
+  <line x1="26" y1="16" x2="39" y2="16" stroke="#0D9488" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="26" y1="22" x2="36" y2="22" stroke="#64748B" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Paid Settlement Bar in Golden Amber -->
+  <rect x="11" y="30" width="28" height="7" rx="2.5" fill="url(#billGold)"/>
+  <line x1="15" y1="33.5" x2="35" y2="33.5" stroke="#0F172A" stroke-width="2" stroke-linecap="round"/>
+</svg>

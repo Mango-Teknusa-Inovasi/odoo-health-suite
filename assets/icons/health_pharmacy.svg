@@ -1,0 +1,35 @@
+<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pharmCoral" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FB7185"/>
+      <stop offset="100%" stop-color="#E11D48"/>
+    </linearGradient>
+    <linearGradient id="pharmTeal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2DD4BF"/>
+      <stop offset="100%" stop-color="#0F766E"/>
+    </linearGradient>
+    <linearGradient id="pharmGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCD34D"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+  </defs>
+  <!-- Background Dispensary Canvas in Deep Petrol Slate -->
+  <rect x="3" y="3" width="44" height="44" rx="8" fill="#0F172A"/>
+  <!-- Golden Apothecary Mortar Bowl (Large, Bold & Seamless) -->
+  <path d="M9 24h32c0 10-6 17-16 17S9 34 9 24Z" fill="url(#pharmGold)"/>
+  <!-- Mortar Lip Rim in Pure White -->
+  <rect x="7" y="21.5" width="36" height="5" rx="2.5" fill="#FFFFFF"/>
+  <!-- Plum Pestle Angled Diagonal -->
+  <path d="M29 9l8-5 5 7-8 10-5-12Z" fill="#875A7B"/>
+  <!-- Giant Diagonal Dual-Color Capsule in Coral & Emerald Mint -->
+  <g transform="translate(19, 13) rotate(42)">
+    <!-- Top Half: Vibrant Coral Red -->
+    <rect x="-8" y="-15" width="16" height="15" rx="8" fill="url(#pharmCoral)"/>
+    <!-- Bottom Half: Radiant Emerald Mint -->
+    <rect x="-8" y="0" width="16" height="15" rx="8" fill="url(#pharmTeal)"/>
+    <!-- Center Dividing Band in Pure White -->
+    <line x1="-8" y1="0" x2="8" y2="0" stroke="#FFFFFF" stroke-width="2.5"/>
+    <!-- Capsule Gloss Reflection -->
+    <line x1="-3" y1="-10" x2="-3" y2="-3" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+</svg>

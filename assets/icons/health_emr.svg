@@ -1,0 +1,30 @@
+<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="emrBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#0284C7"/>
+    </linearGradient>
+    <linearGradient id="emrEcg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F43F5E"/>
+      <stop offset="50%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+  </defs>
+  <!-- Clipboard Outer Frame in Vibrant Azure Blue -->
+  <rect x="4" y="4" width="42" height="42" rx="7" fill="url(#emrBlue)"/>
+  <!-- Top Metallic Binder Clip in Amethyst Violet #875A7B -->
+  <rect x="15" y="2" width="20" height="7" rx="3" fill="#875A7B"/>
+  <rect x="19" y="3.5" width="12" height="4" rx="1.5" fill="#F1F5F9"/>
+  <!-- Inner Clean White Clinical Chart -->
+  <rect x="7" y="11" width="36" height="32" rx="4" fill="#FFFFFF"/>
+  <!-- Header Patient Details Bar in Mint & Gold -->
+  <rect x="10" y="14" width="16" height="3" rx="1.5" fill="#0D9488"/>
+  <rect x="28" y="14" width="12" height="3" rx="1.5" fill="#FBB945"/>
+  <!-- Bold Multi-Color ECG Cardiac Waveform (Hero Element) -->
+  <path d="M8 28h8l3-10 5 18 4-11 3 5h9" fill="none" stroke="url(#emrEcg)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- SOAP Clinical Prescription Lines -->
+  <line x1="10" y1="36" x2="26" y2="36" stroke="#0284C7" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="29" y1="36" x2="38" y2="36" stroke="#94A3B8" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Heartbeat Mini Pulse Dot in Ruby Red -->
+  <circle cx="40" cy="28" r="2.5" fill="#F43F5E"/>
+</svg>

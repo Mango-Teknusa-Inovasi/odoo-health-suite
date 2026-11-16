@@ -1,0 +1,27 @@
+<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="apptSky" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#0284C7"/>
+    </linearGradient>
+    <linearGradient id="appGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+  </defs>
+  <!-- Background Clinic Reception Portal (Bold Full-Bleed) -->
+  <rect x="3" y="4" width="44" height="42" rx="8" fill="url(#apptSky)"/>
+  <!-- Diagonal Portal Wing in Emerald Mint -->
+  <path d="M3 4h20l24 24v10a8 8 0 0 1-8 8H19L3 20V4Z" fill="#10B981" fill-opacity="0.35"/>
+  <!-- Large Prominent Queue Ticket in Golden Amber -->
+  <rect x="9" y="12" width="32" height="27" rx="5" fill="url(#appGold)"/>
+  <!-- Ticket Notch Cutouts -->
+  <circle cx="9" cy="25" r="3.5" fill="#0284C7"/>
+  <circle cx="41" cy="25" r="3.5" fill="#0284C7"/>
+  <!-- Bold Queue Ticket ID "A1" in Pure Midnight Navy -->
+  <path d="M16 31l5-12 5 12m-8-4h6" fill="none" stroke="#0F172A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M30 21v10m-3-7l3-3" fill="none" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/>
+  <!-- Live Calling Beacon / TV Indicator in Emerald Green -->
+  <circle cx="25" cy="8" r="3" fill="#34D399"/>
+  <circle cx="25" cy="8" r="1.5" fill="#FFFFFF"/>
+</svg>

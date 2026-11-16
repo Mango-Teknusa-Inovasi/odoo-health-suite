@@ -1,0 +1,22 @@
+<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bpjsBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#0284C7"/>
+    </linearGradient>
+    <linearGradient id="bpjsMint" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2DD4BF"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+  <!-- Bi-Color Health Security Shield (Full Bleed) -->
+  <path d="M25 3l20 7v17c0 13-9 22-20 25C14 49 5 40 5 27V10l20-7Z" fill="url(#bpjsBlue)"/>
+  <!-- Right Wing in Luminous Emerald Mint -->
+  <path d="M25 3l20 7v17c0 13-9 22-20 25V3Z" fill="url(#bpjsMint)"/>
+  <!-- Inner Shield Core in Deep Navy Slate -->
+  <path d="M25 8l15 5.5v13c0 10-6.5 17-15 20-8.5-3-15-10-15-20V13.5L25 8Z" fill="#0F172A"/>
+  <!-- Golden Bridge Gateway Arch #FBB945 -->
+  <path d="M14 36c0-7 5-13 11-13s11 6 11 13" fill="none" stroke="#FBB945" stroke-width="3" stroke-linecap="round"/>
+  <!-- Giant Verification Checkmark in Crisp White -->
+  <path d="M18 24l5 5 11-12" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
