@@ -49,8 +49,9 @@ docker compose up -d
 
 ## 3. Coding & Style Conventions
 
+- **Zero-Conflict Guarantee**: All custom models (`health.*`), inherited fields (`health_*`), XML record IDs, SQL constraints, and CSS/JS assets must be strictly namespaced with the `health_` or `health.` prefix. This ensures 100% collision-free coexistence with other community, enterprise (e.g. Odoo's official `appointment` module), and third-party apps.
 - **Python**: Follow PEP 8 and official [Odoo Coding Guidelines](https://www.odoo.com/documentation/18.0/developer/reference/backend/guidelines.html).
-- **XML / Views**: Consistent 4-space indentation. Maintain semantic tag nesting (`<record>`, `<form>`, `<sheet>`, `<notebook>`, `<page>`).
+- **XML / Views**: Consistent 4-space indentation. Maintain semantic tag nesting (`<record>`, `<form>`, `<sheet>`, `<notebook>`, `<page>`). Never use fragile positional xpaths (`/form/sheet/group[1]`); always use semantic attribute selectors.
 - **Translations**: Always wrap user-facing strings in `_("...")` for internationalization (`i18n`).
 - **Anti-Slop Cleanliness**: Adhere strictly to the guidelines set in `AGENTS.md` (no generic AI filler comments, no phantom imports).
 

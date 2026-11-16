@@ -175,7 +175,71 @@ When generating module icons, SVG assets, and promotional covers:
 
 ---
 
-## 6. Mandatory End-to-End (E2E) Testing Protocol (ZERO COMMIT WITHOUT PASSING E2E)
+## 6. Strict Multi-App Interoperability & Zero-Conflict Protocol (MANDATORY)
+
+> [!IMPORTANT]
+> **COEXISTENCE GUARANTEE:** Mangotek Health Suite is designed to operate in diverse Odoo deployments alongside standard Enterprise/Community apps, localization packages, and third-party marketplace addons (including `odoo-finance`). Agents and developers **MUST** guarantee that no module in this suite causes naming, schema, view, or behavior conflicts with other apps.
+
+### 1. Universal Model Namespacing (`_name`)
+- **MANDATORY:** All custom models declared in this suite **MUST** begin with the `health.` namespace:
+  - ✅ `health.appointment`, `health.prescription`, `health.billing`, `health.patient`, `health.vital.sign`
+  - ❌ **STRICTLY FORBIDDEN:** Bare/generic model names like `appointment`, `billing`, `patient`, `doctor`, `invoice`, `hospital`, `prescription`. (Note: Odoo Enterprise already ships with an official `appointment` module — collision with it breaks Odoo's registry).
+
+### 2. Field Namespacing on Core Model Inheritance (`_inherit`)
+- When extending existing core Odoo models (`res.partner`, `res.company`, `product.product`, `product.template`, `account.move`, `stock.picking`):
+  - Every custom injected field **MUST** be explicitly prefixed with `health_`:
+    - ✅ `health_patient_id`, `health_is_medicine`, `health_billing_id`, `health_physician_id`
+    - ❌ **FORBIDDEN:** Injecting bare names like `is_doctor`, `patient_id`, `doctor_id`, `consultation_fee` directly into `res.partner` or `account.move`.
+
+### 3. XML Record ID & View Namespacing
+- Every XML ID (`ir.ui.view`, `ir.actions.act_window`, `ir.ui.menu`, `ir.sequence`, `ir.rule`) **MUST** incorporate the module or model name:
+  - ✅ `view_health_appointment_form`, `action_health_prescription_window`, `menu_health_billing_root`
+  - ❌ **FORBIDDEN:** Generic IDs like `view_form`, `action_window`, `menu_root`, `appointment_tree`.
+
+### 4. Robust XPath View Inheritance (No Fragile Positional Selectors)
+- When inheriting views from other modules (such as `account.move` or `stock.picking`):
+  - **NEVER** use positional xpath selectors (e.g. `/form/sheet/group[1]/field[2]` or `//page[3]`).
+  - **ALWAYS** anchor on semantic attribute matches:
+    ```xml
+    <!-- Safe XPath Anchor -->
+    <xpath expr="//field[@name='partner_id']" position="after">
+        <field name="health_patient_id" optional="show"/>
+    </xpath>
+    ```
+  - For new notebook tabs, always define a named `<page name="health_billing_tab" string="Healthcare Billing">` so other downstream addons can cleanly extend it.
+
+### 5. Cooperative Method Overriding (Strict `super()` Compliance)
+- When overriding standard ORM methods (`create`, `write`, `action_post`, `button_validate`, `unlink`):
+  - Always call `super()` passing all arguments and keyword arguments.
+  - Never swallow return values or break expected return types (e.g. actions, records, or booleans).
+  - Ensure operations are idempotent to preserve compatibility across the Python Method Resolution Order (MRO).
+
+### 6. PostgreSQL SQL Constraint Namespacing (`_sql_constraints`)
+- PostgreSQL unique and check constraint names share the global schema namespace.
+- All constraint identifiers **MUST** be prefixed with the module/model:
+  - ✅ `_sql_constraints = [('health_patient_nik_unique', 'unique(nik)', 'NIK must be unique!')]`
+  - ❌ **FORBIDDEN:** `_sql_constraints = [('nik_unique', 'unique(nik)', ...)]`
+
+### 7. Soft Dependencies & Graceful Degradation
+- When integrating with optional companion modules (such as `odoo-finance` modules `account_qris_qbiz`, `account_stamp_signature`, or `l10n_id_coretax_taxation`):
+  - The suite **MUST NEVER** crash or throw `KeyError`/`AttributeError` if those modules are absent or uninstalled.
+  - Check module state via ORM or safe attribute inspection before executing companion-specific logic:
+    ```python
+    # Safe Soft-Dependency Check
+    if 'account_qris_qbiz' in self.env['ir.module.module']._installed():
+        # Execute enhanced dynamic QRIS flow
+        pass
+    else:
+        # Fall back gracefully to standard payment slip
+        pass
+    ```
+
+### 8. Web QWeb & Asset Namespacing
+- All CSS class names, QWeb templates, and JS classes must be prefixed with `health_` or `o_health_` (e.g. `.o_health_queue_badge`, `.o_health_triage_card`) to avoid CSS bleed or selector clashes with other theme/backend plugins.
+
+---
+
+## 7. Mandatory End-to-End (E2E) Testing Protocol (ZERO COMMIT WITHOUT PASSING E2E)
 
 > [!CAUTION]
 > **STRICT PRE-COMMIT GATE:** AI agents and developers are **STRICTLY FORBIDDEN** from executing `git commit` on any code changes until the full End-to-End (E2E) test suite passes with zero failures and zero errors. In healthcare ERP systems, broken model relations or invalid state machines directly jeopardize patient care workflows and financial balances.
@@ -218,9 +282,10 @@ If either command reports a failure, the agent must fix the issue immediately be
 
 ---
 
-## 7. Pre-Commit Verification Checklist
+## 8. Pre-Commit Verification Checklist
 
 Before reporting completion or creating any commit, agents must verify:
+- [ ] **Zero-Conflict Audit:** All models begin with `health.`, all inherited fields start with `health_`, XML IDs are module-prefixed, and constraints are namespaced.
 - [ ] **E2E Clinical Tests:** `python tests/run_all_tests.py` passes with zero failures and zero errors.
 - [ ] **Store Compliance:** `python scripts/validate_apps_store.py` passes with 100% compliance.
 - [ ] Code passes Python AST syntax checks without errors.
