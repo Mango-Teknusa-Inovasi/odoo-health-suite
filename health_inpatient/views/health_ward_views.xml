@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Ward List View -->
+    <record id="view_health_ward_list" model="ir.ui.view">
+        <field name="name">health.ward.list</field>
+        <field name="model">health.ward</field>
+        <field name="arch" type="xml">
+            <list string="Daftar Bangsal / Paviliun">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="building"/>
+                <field name="floor"/>
+                <field name="nurse_station"/>
+                <field name="bed_count"/>
+                <field name="occupied_bed_count"/>
+                <field name="available_bed_count"/>
+                <field name="bor_rate" widget="progressbar"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Ward Form View -->
+    <record id="view_health_ward_form" model="ir.ui.view">
+        <field name="name">health.ward.form</field>
+        <field name="model">health.ward</field>
+        <field name="arch" type="xml">
+            <form string="Bangsal / Paviliun Rawat Inap">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="action" name="%(action_health_bed)d"
+                                context="{'search_default_ward_id': id, 'default_ward_id': id}" icon="fa-bed">
+                            <div class="o_stat_info">
+                                <field name="bed_count" class="o_stat_value"/>
+                                <span class="o_stat_text">Total Ranjang</span>
+                            </div>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Nama Bangsal / Paviliun"/>
+                        <h1>
+                            <field name="name" placeholder="misal: Bangsal Melati / Paviliun VIP"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group name="ward_details">
+                            <field name="code"/>
+                            <field name="building"/>
+                            <field name="floor"/>
+                            <field name="nurse_station"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group name="occupancy_metrics">
+                            <field name="occupied_bed_count"/>
+                            <field name="available_bed_count"/>
+                            <field name="bor_rate" widget="progressbar"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Daftar Tempat Tidur" name="beds">
+                            <field name="bed_ids" context="{'default_ward_id': id}">
+                                <list string="Tempat Tidur" editable="bottom">
+                                    <field name="name"/>
+                                    <field name="bed_class"/>
+                                    <field name="daily_rate"/>
+                                    <field name="state" widget="badge"
+                                           decoration-success="state == 'available'"
+                                           decoration-danger="state == 'occupied'"
+                                           decoration-warning="state == 'cleaning'"
+                                           decoration-info="state == 'reserved'"/>
+                                    <field name="current_patient_id"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Ward Search View -->
+    <record id="view_health_ward_search" model="ir.ui.view">
+        <field name="name">health.ward.search</field>
+        <field name="model">health.ward</field>
+        <field name="arch" type="xml">
+            <search string="Cari Bangsal">
+                <field name="name" string="Bangsal" filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"/>
+                <field name="building"/>
+                <field name="floor"/>
+                <separator/>
+                <filter name="archived" string="Diarsipkan" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Gedung" name="group_building" domain="[]" context="{'group_by': 'building'}"/>
+                    <filter string="Lantai" name="group_floor" domain="[]" context="{'group_by': 'floor'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Ward Action -->
+    <record id="action_health_ward" model="ir.actions.act_window">
+        <field name="name">Bangsal &amp; Paviliun</field>
+        <field name="res_model">health.ward</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Buat Master Bangsal / Paviliun Baru
+            </p>
+            <p>
+                Kelola struktur gedung, lantai, dan alokasi tempat tidur di rumah sakit Anda.
+            </p>
+        </field>
+    </record>
+</odoo>

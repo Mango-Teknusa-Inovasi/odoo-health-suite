@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- CPPT List View -->
+    <record id="view_health_inpatient_cppt_list" model="ir.ui.view">
+        <field name="name">health.inpatient.cppt.list</field>
+        <field name="model">health.inpatient.cppt</field>
+        <field name="arch" type="xml">
+            <list string="Catatan Perkembangan Pasien Terintegrasi (CPPT)"
+                  decoration-danger="is_overdue_verification"
+                  decoration-warning="not dpjp_verified and profession != 'dpjp'">
+                <field name="date"/>
+                <field name="stay_id"/>
+                <field name="patient_id"/>
+                <field name="profession" widget="badge"/>
+                <field name="user_id"/>
+                <field name="subjective"/>
+                <field name="objective"/>
+                <field name="assessment"/>
+                <field name="plan"/>
+                <field name="dpjp_verified" widget="boolean_toggle"/>
+                <field name="dpjp_id"/>
+                <field name="is_overdue_verification" invisible="1"/>
+                <button name="action_verify_dpjp" type="object" string="Paraf DPJP"
+                        class="btn-sm btn-outline-primary" invisible="dpjp_verified"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- CPPT Form View -->
+    <record id="view_health_inpatient_cppt_form" model="ir.ui.view">
+        <field name="name">health.inpatient.cppt.form</field>
+        <field name="model">health.inpatient.cppt</field>
+        <field name="arch" type="xml">
+            <form string="Catatan Asuhan Terintegrasi (CPPT)">
+                <header>
+                    <button name="action_verify_dpjp" string="Paraf / Verifikasi DPJP" type="object"
+                            class="oe_highlight btn-success" invisible="dpjp_verified"/>
+                    <field name="dpjp_verified" widget="boolean_toggle" readonly="1"/>
+                </header>
+                <sheet>
+                    <div invisible="not is_overdue_verification" class="alert alert-danger mb-2 py-2" role="alert">
+                        <i class="fa fa-clock-o me-2" title="Peringatan"/>
+                        <span>Peringatan Akreditasi KARS: Catatan ini belum diparaf oleh DPJP lebih dari 24 jam!</span>
+                    </div>
+                    <group>
+                        <group name="header_info">
+                            <field name="stay_id"/>
+                            <field name="patient_id"/>
+                            <field name="date"/>
+                        </group>
+                        <group name="author_info">
+                            <field name="profession"/>
+                            <field name="user_id"/>
+                            <field name="dpjp_id" readonly="1" invisible="not dpjp_verified"/>
+                            <field name="dpjp_verified_time" readonly="1" invisible="not dpjp_verified"/>
+                            <field name="is_overdue_verification" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Format Asuhan SOAP / SBAR">
+                        <field name="subjective" placeholder="S - Keluhan subjektif pasien / keluarga..."/>
+                        <field name="objective" placeholder="O - Tanda vital, hasil lab, temuan fisik..."/>
+                        <field name="assessment" placeholder="A - Analisis klinis, diagnosa kerja / keperawatan..."/>
+                        <field name="plan" placeholder="P - Instruksi tindakan medik, kolaborasi, terapi, obat, diet..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- CPPT Search View -->
+    <record id="view_health_inpatient_cppt_search" model="ir.ui.view">
+        <field name="name">health.inpatient.cppt.search</field>
+        <field name="model">health.inpatient.cppt</field>
+        <field name="arch" type="xml">
+            <search string="Cari CPPT">
+                <field name="patient_id"/>
+                <field name="stay_id"/>
+                <field name="user_id"/>
+                <separator/>
+                <filter name="unverified" string="Belum Diparaf DPJP" domain="[('dpjp_verified', '=', False), ('profession', '!=', 'dpjp')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Pasien Rawat Inap" name="group_stay" domain="[]" context="{'group_by': 'stay_id'}"/>
+                    <filter string="Profesi PPA" name="group_profession" domain="[]" context="{'group_by': 'profession'}"/>
+                    <filter string="Petugas" name="group_user" domain="[]" context="{'group_by': 'user_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- CPPT Action -->
+    <record id="action_health_inpatient_cppt" model="ir.actions.act_window">
+        <field name="name">Catatan CPPT Terintegrasi</field>
+        <field name="res_model">health.inpatient.cppt</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_unverified': 1}</field>
+    </record>
+</odoo>

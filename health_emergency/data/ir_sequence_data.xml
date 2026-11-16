@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_health_emergency_triage" model="ir.sequence">
+            <field name="name">Emergency Room Triage Reference</field>
+            <field name="code">health.emergency.triage</field>
+            <field name="prefix">IGD/%(range_year)s%(range_month)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="use_date_range">True</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_health_emergency_mrx" model="ir.sequence">
+            <field name="name">Emergency Anonymous Mr. X Reference</field>
+            <field name="code">health.emergency.mrx</field>
+            <field name="prefix"/>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

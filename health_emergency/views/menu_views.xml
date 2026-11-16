@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Emergency Menu Root -->
+    <menuitem id="menu_health_emergency_root"
+              name="IGD &amp; Triase"
+              parent="health_base.menu_health_root"
+              sequence="18"/>
+
+    <menuitem id="menu_health_emergency_triage"
+              name="Triase Gawat Darurat"
+              parent="menu_health_emergency_root"
+              action="action_health_emergency_triage"
+              sequence="10"/>
+</odoo>

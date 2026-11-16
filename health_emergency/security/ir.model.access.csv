@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_health_emergency_triage_user,health.emergency.triage.user,model_health_emergency_triage,health_base.group_health_user,1,1,1,0
+access_health_emergency_triage_nurse,health.emergency.triage.nurse,model_health_emergency_triage,health_base.group_health_nurse,1,1,1,0
+access_health_emergency_triage_physician,health.emergency.triage.physician,model_health_emergency_triage,health_base.group_health_physician,1,1,1,0
+access_health_emergency_triage_manager,health.emergency.triage.manager,model_health_emergency_triage,health_base.group_health_manager,1,1,1,1

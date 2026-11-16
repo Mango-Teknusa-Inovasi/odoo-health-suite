@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Rawat Inap Root Menu -->
+    <menuitem id="menu_health_inpatient_root"
+              name="Rawat Inap"
+              parent="health_base.menu_health_root"
+              sequence="22"/>
+
+    <menuitem id="menu_health_bed_matrix"
+              name="Bed Matrix"
+              parent="menu_health_inpatient_root"
+              action="action_health_bed_matrix"
+              sequence="10"/>
+
+    <menuitem id="menu_health_inpatient_stay"
+              name="Pasien Rawat Inap"
+              parent="menu_health_inpatient_root"
+              action="action_health_inpatient_stay"
+              sequence="20"/>
+
+    <menuitem id="menu_health_inpatient_cppt"
+              name="Catatan CPPT"
+              parent="menu_health_inpatient_root"
+              action="action_health_inpatient_cppt"
+              sequence="30"/>
+
+    <menuitem id="menu_health_ward"
+              name="Master Bangsal"
+              parent="menu_health_inpatient_root"
+              action="action_health_ward"
+              sequence="40"/>
+
+    <menuitem id="menu_health_bed"
+              name="Master Ranjang"
+              parent="menu_health_inpatient_root"
+              action="action_health_bed"
+              sequence="50"/>
+
+    <!-- Settings Submenu -->
+    <menuitem id="menu_health_inpatient_config"
+              name="Pengaturan Rawat Inap"
+              parent="health_base.menu_health_config"
+              action="action_health_inpatient_config_settings"
+              sequence="22"/>
+</odoo>

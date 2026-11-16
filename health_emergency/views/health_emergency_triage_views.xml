@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Triage Kanban View -->
+    <record id="view_health_emergency_triage_kanban" model="ir.ui.view">
+        <field name="name">health.emergency.triage.kanban</field>
+        <field name="model">health.emergency.triage</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="triage_category" sample="1" quick_create="false">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="triage_category"/>
+                <field name="arrival_mode"/>
+                <field name="disability_gcs"/>
+                <field name="state"/>
+                <field name="date"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click p-2">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <strong class="fs-6 text-primary"><field name="name"/></strong>
+                                <field name="state" widget="badge"
+                                       decoration-danger="state == 'resuscitation'"
+                                       decoration-warning="state == 'observation'"
+                                       decoration-primary="state == 'triage'"
+                                       decoration-success="state == 'transferred_inpatient'"/>
+                            </div>
+                            <div class="my-1">
+                                <i class="fa fa-user me-1" title="Pasien"/> <strong><field name="patient_id"/></strong>
+                            </div>
+                            <div class="text-muted small">
+                                <i class="fa fa-ambulance me-1" title="Kedatangan"/> <field name="arrival_mode"/>
+                                <span class="ms-2">GCS: <strong><field name="disability_gcs"/></strong></span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-2 pt-1 border-top">
+                                <span class="text-muted small"><field name="date" widget="date"/></span>
+                                <field name="triage_category" widget="badge"
+                                       decoration-danger="triage_category == 'red'"
+                                       decoration-warning="triage_category == 'yellow'"
+                                       decoration-success="triage_category == 'green'"
+                                       decoration-muted="triage_category == 'black'"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Triage List View -->
+    <record id="view_health_emergency_triage_list" model="ir.ui.view">
+        <field name="name">health.emergency.triage.list</field>
+        <field name="model">health.emergency.triage</field>
+        <field name="arch" type="xml">
+            <list string="Daftar Triase Pasien IGD" sample="1"
+                  decoration-danger="triage_category == 'red'"
+                  decoration-warning="triage_category == 'yellow'"
+                  decoration-success="triage_category == 'green'"
+                  decoration-muted="triage_category == 'black'">
+                <field name="name" decoration-bf="1"/>
+                <field name="date"/>
+                <field name="patient_id"/>
+                <field name="medical_record_no"/>
+                <field name="triage_category" widget="badge"
+                       decoration-danger="triage_category == 'red'"
+                       decoration-warning="triage_category == 'yellow'"
+                       decoration-success="triage_category == 'green'"
+                       decoration-muted="triage_category == 'black'"/>
+                <field name="arrival_mode"/>
+                <field name="disability_gcs"/>
+                <field name="systolic"/>
+                <field name="diastolic"/>
+                <field name="heart_rate"/>
+                <field name="spo2"/>
+                <field name="physician_id"/>
+                <field name="state" widget="badge"
+                       decoration-danger="state == 'resuscitation'"
+                       decoration-warning="state == 'observation'"
+                       decoration-primary="state == 'triage'"
+                       decoration-success="state == 'transferred_inpatient'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Triage Form View -->
+    <record id="view_health_emergency_triage_form" model="ir.ui.view">
+        <field name="name">health.emergency.triage.form</field>
+        <field name="model">health.emergency.triage</field>
+        <field name="arch" type="xml">
+            <form string="Formulir Triase &amp; Gawat Darurat (IGD)">
+                <header>
+                    <button name="action_generate_mr_x" string="Generate Mr. X (Pasien Trauma Anonim)" type="object"
+                            class="oe_highlight btn-danger" invisible="patient_id"/>
+                    <button name="action_resuscitation" string="Mulai Resusitasi" type="object"
+                            class="oe_highlight btn-danger" invisible="state not in ('triage', 'observation')"/>
+                    <button name="action_observation" string="Observasi IGD" type="object"
+                            class="oe_highlight btn-warning" invisible="state not in ('triage', 'resuscitation')"/>
+                    <button name="action_transfer_to_inpatient" string="Fast-Track Rawat Inap" type="object"
+                            class="oe_highlight btn-primary" invisible="state in ('transferred_inpatient', 'transferred_or', 'discharged', 'deceased')"/>
+                    <button name="action_transfer_or" string="Transfer Kamar Operasi (OK)" type="object"
+                            class="btn-secondary" invisible="state in ('transferred_inpatient', 'transferred_or', 'discharged', 'deceased')"/>
+                    <button name="action_discharge" string="Pulang / KRS Rawat Jalan" type="object"
+                            class="btn-success" invisible="state in ('transferred_inpatient', 'transferred_or', 'discharged', 'deceased')"/>
+                    <button name="action_referred" string="Rujuk RS Lain" type="object"
+                            invisible="state in ('transferred_inpatient', 'transferred_or', 'discharged', 'deceased')"/>
+                    <button name="action_deceased" string="Meninggal Dunia" type="object"
+                            invisible="state in ('discharged', 'deceased')"
+                            confirm="Konfirmasi status pasien meninggal dunia?"/>
+                    <field name="state" widget="statusbar" statusbar_visible="triage,resuscitation,observation,transferred_inpatient,discharged"/>
+                </header>
+                <sheet>
+                    <div invisible="triage_category != 'red'" class="alert alert-danger py-2 mb-3" role="alert">
+                        <i class="fa fa-heartbeat fa-2x align-middle me-2" title="Gawat Darurat"/>
+                        <strong class="fs-5">KATEGORI MERAH - RESUSITASI SEGERA (&lt; 0 MENIT)!</strong>
+                        <p class="mb-0 small">Kondisi mengancam jiwa atau jalan napas. Segera bawa ke Ruang Resusitasi IGD.</p>
+                    </div>
+
+                    <div class="oe_title">
+                        <label for="name" string="No. Triase IGD"/>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                        <div class="my-2">
+                            <label for="triage_category" string="Kategori ATS / Triase" class="fw-bold fs-5 me-2"/>
+                            <field name="triage_category" widget="badge"
+                                   decoration-danger="triage_category == 'red'"
+                                   decoration-warning="triage_category == 'yellow'"
+                                   decoration-success="triage_category == 'green'"
+                                   decoration-muted="triage_category == 'black'"/>
+                        </div>
+                    </div>
+
+                    <group>
+                        <group name="patient_arrival" string="Identitas Pasien &amp; Kedatangan">
+                            <field name="patient_id" placeholder="Pilih Pasien (atau klik tombol Mr. X)"/>
+                            <field name="medical_record_no"/>
+                            <field name="nik"/>
+                            <field name="date"/>
+                            <field name="arrival_mode"/>
+                            <field name="arrival_reason"/>
+                        </group>
+                        <group name="team_companion" string="Pengantar &amp; Tenaga Medis IGD">
+                            <field name="companion_name"/>
+                            <field name="companion_phone"/>
+                            <field name="physician_id"/>
+                            <field name="nurse_id"/>
+                            <field name="inpatient_stay_id" invisible="not inpatient_stay_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+
+                    <group string="Alasan Masuk &amp; Keluhan Utama">
+                        <field name="chief_complaint" placeholder="Keluhan utama saat tiba di IGD (misal: Nyeri dada kiri menjalar, penurunan kesadaran, sesak napas berat)..."/>
+                    </group>
+
+                    <notebook>
+                        <page string="Penilaian Triase ABCD" name="abcd">
+                            <group>
+                                <group string="A - Airway &amp; B - Breathing">
+                                    <field name="airway"/>
+                                    <field name="breathing"/>
+                                </group>
+                                <group string="C - Circulation &amp; D - Disability (GCS)">
+                                    <field name="circulation"/>
+                                    <label for="gcs_eye" string="Glasgow Coma Scale (E-V-M)"/>
+                                    <div class="d-flex align-items-center">
+                                        <span class="me-1">E:</span><field name="gcs_eye" class="oe_inline me-2"/>
+                                        <span class="me-1">V:</span><field name="gcs_verbal" class="oe_inline me-2"/>
+                                        <span class="me-1">M:</span><field name="gcs_motor" class="oe_inline me-3"/>
+                                        <span class="fw-bold">Total: </span><field name="disability_gcs" class="fw-bold fs-5 text-danger ms-1"/>
+                                    </div>
+                                </group>
+                            </group>
+                            <group string="E - Exposure (Pemeriksaan Fisik Trauma)">
+                                <field name="exposure_notes" placeholder="Catat lokasi trauma, deformitas, perdarahan terbuka, jejas jejas kecelakaan..."/>
+                            </group>
+                        </page>
+
+                        <page string="Tanda-Tanda Vital (TTV)" name="vitals">
+                            <group>
+                                <group string="Tekanan Darah &amp; Nadi">
+                                    <label for="systolic" string="Tekanan Darah (S/D)"/>
+                                    <div class="d-flex align-items-center">
+                                        <field name="systolic" class="oe_inline"/>
+                                        <span class="mx-1">/</span>
+                                        <field name="diastolic" class="oe_inline me-2"/>
+                                        <span>mmHg</span>
+                                    </div>
+                                    <field name="heart_rate"/>
+                                </group>
+                                <group string="Respirasi &amp; Suhu Tubuh">
+                                    <field name="respiratory_rate"/>
+                                    <field name="temperature"/>
+                                    <field name="spo2"/>
+                                    <field name="pain_scale"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Evaluasi &amp; Tindakan Awal" name="triage_notes">
+                            <group>
+                                <field name="triage_notes" placeholder="Tindakan resusitasi yang telah diberikan di IGD (infus, oksigen, EKG, kateter, intubasi)..."/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Triage Search View -->
+    <record id="view_health_emergency_triage_search" model="ir.ui.view">
+        <field name="name">health.emergency.triage.search</field>
+        <field name="model">health.emergency.triage</field>
+        <field name="arch" type="xml">
+            <search string="Cari Triase IGD">
+                <field name="name" string="No. Triase"/>
+                <field name="patient_id" string="Pasien" filter_domain="['|', ('patient_id.name', 'ilike', self), ('medical_record_no', 'ilike', self)]"/>
+                <field name="physician_id"/>
+                <field name="chief_complaint"/>
+                <separator/>
+                <filter name="red" string="🔴 Merah (Resusitasi)" domain="[('triage_category', '=', 'red')]"/>
+                <filter name="yellow" string="🟡 Kuning (Urgent)" domain="[('triage_category', '=', 'yellow')]"/>
+                <filter name="green" string="🟢 Hijau (Non-Urgent)" domain="[('triage_category', '=', 'green')]"/>
+                <filter name="black" string="⚫ Hitam (DOA)" domain="[('triage_category', '=', 'black')]"/>
+                <separator/>
+                <filter name="active_igd" string="Sedang di IGD (Aktif)" domain="[('state', 'in', ('triage', 'resuscitation', 'observation'))]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Kategori Triase" name="group_category" domain="[]" context="{'group_by': 'triage_category'}"/>
+                    <filter string="Status IGD" name="group_state" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Dokter Jaga" name="group_physician" domain="[]" context="{'group_by': 'physician_id'}"/>
+                    <filter string="Cara Kedatangan" name="group_arrival_mode" domain="[]" context="{'group_by': 'arrival_mode'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Emergency Triage Action -->
+    <record id="action_health_emergency_triage" model="ir.actions.act_window">
+        <field name="name">Triase Gawat Darurat (IGD)</field>
+        <field name="res_model">health.emergency.triage</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_active_igd': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Registrasi Triase Pasien Gawat Darurat Baru
+            </p>
+            <p>
+                Klasifikasikan tingkat kegawatan (Merah/Kuning/Hijau/Hitam) dengan protokol ABCD dan vital signs cepat.
+            </p>
+        </field>
+    </record>
+</odoo>

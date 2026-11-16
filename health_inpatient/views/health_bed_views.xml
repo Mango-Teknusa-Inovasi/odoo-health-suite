@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Bed Kanban Matrix View -->
+    <record id="view_health_bed_kanban" model="ir.ui.view">
+        <field name="name">health.bed.kanban</field>
+        <field name="model">health.bed</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="ward_id" sample="1" quick_create="false">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="ward_id"/>
+                <field name="bed_class"/>
+                <field name="state"/>
+                <field name="daily_rate"/>
+                <field name="current_patient_id"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click p-2">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <strong class="fs-5 text-primary"><field name="name"/></strong>
+                                <field name="state" widget="badge"
+                                       decoration-success="state == 'available'"
+                                       decoration-danger="state == 'occupied'"
+                                       decoration-warning="state == 'cleaning'"
+                                       decoration-info="state == 'reserved'"
+                                       decoration-muted="state == 'maintenance'"/>
+                            </div>
+                            <div class="text-muted small mb-1">
+                                <span>Kelas: </span><field name="bed_class"/>
+                            </div>
+                            <div t-if="record.current_patient_id.value" class="alert alert-danger py-1 px-2 my-1 small" role="alert">
+                                <i class="fa fa-user me-1" title="Pasien"/> <strong><field name="current_patient_id"/></strong>
+                            </div>
+                            <div t-else="" class="text-success small my-1">
+                                <i class="fa fa-check-circle me-1" title="Tersedia"/> <span>Siap digunakan</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-2 pt-1 border-top">
+                                <span class="fw-bold small text-muted">
+                                    Rp <field name="daily_rate"/> / hari
+                                </span>
+                                <button t-if="record.state.raw_value == 'cleaning'"
+                                        name="action_mark_available"
+                                        type="object"
+                                        class="btn btn-sm btn-outline-success">
+                                    Selesai Bersih
+                                </button>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Bed List View -->
+    <record id="view_health_bed_list" model="ir.ui.view">
+        <field name="name">health.bed.list</field>
+        <field name="model">health.bed</field>
+        <field name="arch" type="xml">
+            <list string="Daftar Tempat Tidur" sample="1">
+                <field name="name" decoration-bf="1"/>
+                <field name="ward_id"/>
+                <field name="building"/>
+                <field name="floor"/>
+                <field name="bed_class"/>
+                <field name="daily_rate"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'available'"
+                       decoration-danger="state == 'occupied'"
+                       decoration-warning="state == 'cleaning'"
+                       decoration-info="state == 'reserved'"
+                       decoration-muted="state == 'maintenance'"/>
+                <field name="current_patient_id"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Bed Form View -->
+    <record id="view_health_bed_form" model="ir.ui.view">
+        <field name="name">health.bed.form</field>
+        <field name="model">health.bed</field>
+        <field name="arch" type="xml">
+            <form string="Tempat Tidur Pasien">
+                <header>
+                    <button name="action_mark_available" string="Selesai Sterilisasi &amp; Siap Pakai" type="object"
+                            class="oe_highlight btn-success" invisible="state != 'cleaning'"/>
+                    <button name="action_mark_cleaning" string="Tandai Pembersihan" type="object"
+                            invisible="state not in ('available', 'maintenance')"/>
+                    <button name="action_mark_maintenance" string="Set Perbaikan / Maintenance" type="object"
+                            invisible="state == 'occupied'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="available,occupied,cleaning"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Nomor Ranjang / Bed"/>
+                        <h1>
+                            <field name="name" placeholder="cth. MELATI-101-A / VIP-01"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group name="location">
+                            <field name="ward_id"/>
+                            <field name="building"/>
+                            <field name="floor"/>
+                        </group>
+                        <group name="classification">
+                            <field name="bed_class"/>
+                            <field name="daily_rate"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group string="Status Pasien Terisi Saat Ini" invisible="not current_stay_id">
+                        <group>
+                            <field name="current_stay_id"/>
+                            <field name="current_patient_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Bed Search View -->
+    <record id="view_health_bed_search" model="ir.ui.view">
+        <field name="name">health.bed.search</field>
+        <field name="model">health.bed</field>
+        <field name="arch" type="xml">
+            <search string="Cari Ranjang">
+                <field name="name" string="Nomor Ranjang"/>
+                <field name="ward_id"/>
+                <field name="current_patient_id"/>
+                <separator/>
+                <filter name="available" string="Tersedia (Kosong)" domain="[('state', '=', 'available')]"/>
+                <filter name="occupied" string="Terisi Pasien" domain="[('state', '=', 'occupied')]"/>
+                <filter name="cleaning" string="Pembersihan / Sterilisasi" domain="[('state', '=', 'cleaning')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Bangsal" name="group_ward" domain="[]" context="{'group_by': 'ward_id'}"/>
+                    <filter string="Kelas Perawatan" name="group_class" domain="[]" context="{'group_by': 'bed_class'}"/>
+                    <filter string="Status" name="group_state" domain="[]" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Bed Action -->
+    <record id="action_health_bed" model="ir.actions.act_window">
+        <field name="name">Tempat Tidur (Beds)</field>
+        <field name="res_model">health.bed</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_group_ward': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Daftarkan Tempat Tidur Pasien
+            </p>
+            <p>
+                Kelola inventaris ranjang, kelas perawatan, dan tarif sewa harian.
+            </p>
+        </field>
+    </record>
+
+    <!-- Bed Matrix Action (Default Kanban) -->
+    <record id="action_health_bed_matrix" model="ir.actions.act_window">
+        <field name="name">Bed Matrix (Ketersediaan Kamar)</field>
+        <field name="res_model">health.bed</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_group_ward': 1}</field>
+    </record>
+</odoo>

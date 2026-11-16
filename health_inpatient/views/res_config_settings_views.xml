@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_health_inpatient" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.health.inpatient</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="72"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Healthcare Inpatient" string="Rawat Inap" name="health_inpatient">
+                    <block title="Kebijakan Hari Rawat &amp; Tarif Kamar" id="health_inpatient_setting_block">
+                        <setting string="Metode Perhitungan Hari Rawat" help="Pilih cut-off pergantian hari rawat (standar jam 12:00 siang atau rolling 24 jam)">
+                            <field name="health_inpatient_calculation_mode"/>
+                            <div class="mt-2" invisible="health_inpatient_calculation_mode != 'cutoff_noon'">
+                                <label for="health_inpatient_cutoff_hour" string="Jam Cut-Off (Format 24 Jam)"/>
+                                <field name="health_inpatient_cutoff_hour"/>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_health_inpatient_config_settings" model="ir.actions.act_window">
+        <field name="name">Pengaturan Rawat Inap</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'health_inpatient'}</field>
+    </record>
+</odoo>

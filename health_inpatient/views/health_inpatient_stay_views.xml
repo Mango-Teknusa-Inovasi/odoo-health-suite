@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Stay List View -->
+    <record id="view_health_inpatient_stay_list" model="ir.ui.view">
+        <field name="name">health.inpatient.stay.list</field>
+        <field name="model">health.inpatient.stay</field>
+        <field name="arch" type="xml">
+            <list string="Daftar Pasien Rawat Inap" sample="1">
+                <field name="name" decoration-bf="1"/>
+                <field name="medical_record_no"/>
+                <field name="patient_id"/>
+                <field name="physician_id"/>
+                <field name="ward_id"/>
+                <field name="current_bed_id"/>
+                <field name="bed_class"/>
+                <field name="admission_date"/>
+                <field name="discharge_date"/>
+                <field name="length_of_stay"/>
+                <field name="unverified_cppt_count" string="CPPT Belum Paraf"
+                       widget="badge"
+                       decoration-danger="unverified_cppt_count &gt; 0"
+                       decoration-success="unverified_cppt_count == 0"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-primary="state == 'admitted'"
+                       decoration-success="state == 'discharged'"
+                       decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Stay Form View -->
+    <record id="view_health_inpatient_stay_form" model="ir.ui.view">
+        <field name="name">health.inpatient.stay.form</field>
+        <field name="model">health.inpatient.stay</field>
+        <field name="arch" type="xml">
+            <form string="Episode Rawat Inap">
+                <header>
+                    <button name="action_admit" string="Masuk Rawat (Admit)" type="object"
+                            class="oe_highlight btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_bulk_verify_cppt" string="Verifikasi Semua CPPT (DPJP)" type="object"
+                            class="oe_highlight btn-info" invisible="state != 'admitted' or unverified_cppt_count == 0"/>
+                    <button name="action_discharge" string="Selesai Pulang (KRS)" type="object"
+                            class="oe_highlight btn-success" invisible="state != 'admitted'"/>
+                    <button name="action_cancel" string="Batalkan" type="object"
+                            invisible="state in ('discharged', 'cancelled')"
+                            confirm="Apakah Anda yakin ingin membatalkan episode rawat inap ini?"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,admitted,discharged"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_bulk_verify_cppt" icon="fa-stethoscope"
+                                invisible="cppt_count == 0">
+                            <div class="o_stat_info">
+                                <field name="cppt_count" class="o_stat_value"/>
+                                <span class="o_stat_text">Catatan CPPT</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <div invisible="unverified_cppt_count == 0" class="alert alert-warning mb-2 py-2" role="alert">
+                        <i class="fa fa-exclamation-triangle me-2" title="Peringatan"/>
+                        <span>Terdapat <strong><field name="unverified_cppt_count" readonly="1"/></strong> catatan asuhan CPPT yang belum diverifikasi / diparaf oleh Dokter DPJP.</span>
+                    </div>
+
+                    <div class="oe_title">
+                        <label for="name" string="No. Rawat Inap"/>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                        <h3>
+                            <field name="patient_id" placeholder="Pilih Pasien..." readonly="state != 'draft'"/>
+                        </h3>
+                    </div>
+
+                    <group>
+                        <group name="patient_info" string="Data Pasien &amp; Dokter DPJP">
+                            <field name="medical_record_no"/>
+                            <field name="nik"/>
+                            <field name="physician_id" readonly="state == 'discharged'"/>
+                            <field name="secondary_physician_ids" widget="many2many_tags" readonly="state == 'discharged'"/>
+                        </group>
+                        <group name="bed_allocation" string="Alokasi Bangsal &amp; Tempat Tidur">
+                            <field name="current_bed_id" readonly="state == 'discharged'" domain="[('state', 'in', ('available', 'reserved'))] if state == 'draft' else []"/>
+                            <field name="ward_id"/>
+                            <field name="bed_class"/>
+                            <field name="daily_rate"/>
+                            <field name="admission_date" readonly="state == 'discharged'"/>
+                            <field name="discharge_date" readonly="state == 'discharged'" invisible="state != 'discharged'"/>
+                            <field name="length_of_stay"/>
+                        </group>
+                    </group>
+
+                    <group string="Status Kepulangan" invisible="state != 'discharged'">
+                        <group>
+                            <field name="discharge_status"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Diagnosa Medis" name="diagnoses">
+                            <group>
+                                <field name="initial_diagnosis"/>
+                                <field name="discharge_diagnosis_id"/>
+                                <field name="secondary_diagnosis_ids" widget="many2many_tags"/>
+                                <field name="procedure_ids" widget="many2many_tags"/>
+                            </group>
+                        </page>
+
+                        <page string="Catatan CPPT Terintegrasi" name="cppt">
+                            <field name="cppt_ids" context="{'default_stay_id': id}">
+                                <list string="CPPT" decoration-warning="not dpjp_verified and profession != 'dpjp'">
+                                    <field name="date"/>
+                                    <field name="profession" widget="badge"/>
+                                    <field name="user_id"/>
+                                    <field name="subjective"/>
+                                    <field name="objective"/>
+                                    <field name="assessment"/>
+                                    <field name="plan"/>
+                                    <field name="dpjp_verified" widget="boolean_toggle"/>
+                                    <field name="dpjp_id"/>
+                                    <button name="action_verify_dpjp" type="object" string="Paraf"
+                                            class="btn-sm btn-outline-primary" invisible="dpjp_verified"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Mutasi Tempat Tidur" name="transfers">
+                            <field name="bed_transfer_ids" readonly="1">
+                                <list string="Riwayat Mutasi Kamar">
+                                    <field name="transfer_date"/>
+                                    <field name="from_ward_id"/>
+                                    <field name="from_bed_id"/>
+                                    <field name="from_bed_rate"/>
+                                    <field name="to_ward_id"/>
+                                    <field name="to_bed_id"/>
+                                    <field name="to_bed_rate"/>
+                                    <field name="reason"/>
+                                    <field name="user_id"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Resume Medis Pulang (KRS)" name="discharge_summary" invisible="state != 'discharged'">
+                            <field name="discharge_summary_ids">
+                                <form string="Resume Medis KRS">
+                                    <group>
+                                        <group>
+                                            <field name="primary_diagnosis_id"/>
+                                            <field name="discharge_condition"/>
+                                        </group>
+                                        <group>
+                                            <field name="secondary_diagnosis_ids" widget="many2many_tags"/>
+                                            <field name="procedure_ids" widget="many2many_tags"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <field name="clinical_summary"/>
+                                        <field name="physical_findings"/>
+                                        <field name="lab_summary"/>
+                                        <field name="home_medication"/>
+                                        <field name="follow_up_instructions"/>
+                                    </group>
+                                </form>
+                                <list string="Resume Medis">
+                                    <field name="discharge_date"/>
+                                    <field name="primary_diagnosis_id"/>
+                                    <field name="discharge_condition"/>
+                                    <field name="home_medication"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Stay Search View -->
+    <record id="view_health_inpatient_stay_search" model="ir.ui.view">
+        <field name="name">health.inpatient.stay.search</field>
+        <field name="model">health.inpatient.stay</field>
+        <field name="arch" type="xml">
+            <search string="Cari Rawat Inap">
+                <field name="name" string="No. Rawat Inap"/>
+                <field name="patient_id" string="Pasien" filter_domain="['|', ('patient_id.name', 'ilike', self), ('medical_record_no', 'ilike', self)]"/>
+                <field name="physician_id"/>
+                <field name="ward_id"/>
+                <field name="current_bed_id"/>
+                <separator/>
+                <filter name="admitted" string="Sedang Dirawat (Aktif)" domain="[('state', '=', 'admitted')]"/>
+                <filter name="draft" string="Booking / Rencana" domain="[('state', '=', 'draft')]"/>
+                <filter name="discharged" string="Sudah Pulang (KRS)" domain="[('state', '=', 'discharged')]"/>
+                <separator/>
+                <filter name="unverified_cppt" string="Ada CPPT Belum Paraf" domain="[('cppt_ids.dpjp_verified', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Bangsal" name="group_ward" domain="[]" context="{'group_by': 'ward_id'}"/>
+                    <filter string="Dokter DPJP" name="group_physician" domain="[]" context="{'group_by': 'physician_id'}"/>
+                    <filter string="Status Rawat" name="group_state" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Kelas Perawatan" name="group_class" domain="[]" context="{'group_by': 'bed_class'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Stay Action -->
+    <record id="action_health_inpatient_stay" model="ir.actions.act_window">
+        <field name="name">Pasien Rawat Inap</field>
+        <field name="res_model">health.inpatient.stay</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_admitted': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Pendaftaran Pasien Rawat Inap Baru
+            </p>
+            <p>
+                Alokasikan tempat tidur, tetapkan Dokter DPJP Utama, dan catat perjalanan klinis pasien.
+            </p>
+        </field>
+    </record>
+</odoo>

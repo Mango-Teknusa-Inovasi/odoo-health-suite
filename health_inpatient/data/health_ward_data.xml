@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Wards / Pavilions -->
+        <record id="ward_melati" model="health.ward">
+            <field name="name">Bangsal Melati (Perawatan Umum)</field>
+            <field name="code">MELATI</field>
+            <field name="building">Gedung Rawat Inap Barat</field>
+            <field name="floor">Lantai 1</field>
+            <field name="nurse_station">Nurse Station Melati</field>
+        </record>
+
+        <record id="ward_mawar" model="health.ward">
+            <field name="name">Bangsal Mawar (Kelas 1 &amp; 2)</field>
+            <field name="code">MAWAR</field>
+            <field name="building">Gedung Rawat Inap Barat</field>
+            <field name="floor">Lantai 2</field>
+            <field name="nurse_station">Nurse Station Mawar</field>
+        </record>
+
+        <record id="ward_anggrek_vip" model="health.ward">
+            <field name="name">Paviliun Anggrek (VIP &amp; VVIP)</field>
+            <field name="code">ANGGREK</field>
+            <field name="building">Gedung Graha Medika</field>
+            <field name="floor">Lantai 3</field>
+            <field name="nurse_station">Nurse Station VIP Anggrek</field>
+        </record>
+
+        <record id="ward_icu" model="health.ward">
+            <field name="name">Unit Perawatan Intensif (ICU)</field>
+            <field name="code">ICU</field>
+            <field name="building">Gedung Sentral Medis</field>
+            <field name="floor">Lantai 2</field>
+            <field name="nurse_station">Nurse Station ICU</field>
+        </record>
+
+        <!-- Initial Beds -->
+        <record id="bed_melati_101" model="health.bed">
+            <field name="name">MELATI-101</field>
+            <field name="ward_id" ref="ward_melati"/>
+            <field name="bed_class">class_3</field>
+            <field name="state">available</field>
+            <field name="daily_rate">150000.0</field>
+        </record>
+        <record id="bed_melati_102" model="health.bed">
+            <field name="name">MELATI-102</field>
+            <field name="ward_id" ref="ward_melati"/>
+            <field name="bed_class">class_3</field>
+            <field name="state">available</field>
+            <field name="daily_rate">150000.0</field>
+        </record>
+        <record id="bed_melati_103" model="health.bed">
+            <field name="name">MELATI-103</field>
+            <field name="ward_id" ref="ward_melati"/>
+            <field name="bed_class">class_3</field>
+            <field name="state">available</field>
+            <field name="daily_rate">150000.0</field>
+        </record>
+
+        <record id="bed_mawar_201" model="health.bed">
+            <field name="name">MAWAR-201</field>
+            <field name="ward_id" ref="ward_mawar"/>
+            <field name="bed_class">class_2</field>
+            <field name="state">available</field>
+            <field name="daily_rate">300000.0</field>
+        </record>
+        <record id="bed_mawar_202" model="health.bed">
+            <field name="name">MAWAR-202</field>
+            <field name="ward_id" ref="ward_mawar"/>
+            <field name="bed_class">class_1</field>
+            <field name="state">available</field>
+            <field name="daily_rate">500000.0</field>
+        </record>
+
+        <record id="bed_anggrek_301" model="health.bed">
+            <field name="name">VIP-ANGGREK-01</field>
+            <field name="ward_id" ref="ward_anggrek_vip"/>
+            <field name="bed_class">vip</field>
+            <field name="state">available</field>
+            <field name="daily_rate">950000.0</field>
+        </record>
+        <record id="bed_anggrek_302" model="health.bed">
+            <field name="name">VVIP-ANGGREK-02</field>
+            <field name="ward_id" ref="ward_anggrek_vip"/>
+            <field name="bed_class">vvip</field>
+            <field name="state">available</field>
+            <field name="daily_rate">1600000.0</field>
+        </record>
+
+        <record id="bed_icu_01" model="health.bed">
+            <field name="name">ICU-BED-01</field>
+            <field name="ward_id" ref="ward_icu"/>
+            <field name="bed_class">icu</field>
+            <field name="state">available</field>
+            <field name="daily_rate">2200000.0</field>
+        </record>
+    </data>
+</odoo>

@@ -92,17 +92,19 @@ flowchart LR
 
 ---
 
-### [Phase 3] Full-Scale Hospital Operations (Inpatient, Bed & ER)
-- [ ] **`health_inpatient`**:
-  - Facility hierarchy: Buildings -> Wards / Pavilions -> Rooms -> Beds.
+### [Phase 3] Full-Scale Hospital Operations (Inpatient, Bed & ER) ⚡
+- [x] **`health_inpatient`**:
+  - Facility hierarchy: Buildings -> Wards / Pavilions (`health.ward`) -> Rooms & Beds (`health.bed`).
   - Room classifications (VVIP, VIP, Class 1, 2, 3, Isolation, ICU/ICCU/NICU).
   - Inpatient Stay Lifecycle (`health.inpatient.stay`): Bed reservation, admission, bed transfers, and pro-rated billing.
   - Real-time visual Bed Matrix dashboard with Bed Occupancy Rate (BOR) analytics.
-  - Collaborative CPPT (Integrated Patient Progress Notes) for Doctors, Nurses, and Pharmacists.
-  - Daily nursing fluid balance monitoring and electronic discharge summaries.
-- [ ] **`health_emergency` (24/7 ER / IGD)**:
-  - Emergency Triage classification (Red, Yellow, Green, Black) based on ATS / ESI criteria.
-  - Fast-track emergency admission bypassing upfront administrative bottlenecks.
+  - Collaborative CPPT (Integrated Patient Progress Notes) for DPJP Doctors, Nurses, Pharmacists, and Dietitians with 24h verification SLA.
+  - Electronic discharge summaries (Resume Medis KRS) with ICD-10 & ICD-9 CM coding.
+- [x] **`health_emergency` (24/7 ER / IGD)**:
+  - Emergency Triage classification (Red, Yellow, Green, Black) based on Australasian Triage Scale (ATS) / ESI criteria.
+  - ABCD protocol clinical evaluation (Airway, Breathing, Circulation, Disability GCS, Exposure).
+  - Fast-track anonymous 'Mr./Mrs. X' generator for trauma/comatose patients.
+  - One-click seamless handover from ER stabilization directly into inpatient bed allocation.
 - [ ] **`health_surgery` (Operating Room / OK & Delivery Room / VK)**:
   - Surgical booking schedule and theater calendar.
   - WHO Surgical Safety Checklist (Sign In, Time Out, Sign Out).
