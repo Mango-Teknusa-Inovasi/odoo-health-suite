@@ -1,0 +1,109 @@
+<svg width="1280" height="640" viewBox="0 0 1280 640" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090D16"/>
+      <stop offset="50%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#0B1120"/>
+    </linearGradient>
+    <radialGradient id="glowCenter" cx="50%" cy="30%" r="50%">
+      <stop offset="0%" stop-color="#1AD3BB" stop-opacity="0.22"/>
+      <stop offset="50%" stop-color="#088BF5" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.0"/>
+    </radialGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#0F172A" stop-opacity="0.95"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 1. Background Canvas -->
+  <rect width="1280" height="640" fill="url(#bgGrad)"/>
+  <rect width="1280" height="640" fill="url(#glowCenter)"/>
+
+  <!-- 2. Technical Coordinate Grid -->
+  <g stroke="#334155" stroke-width="1" stroke-opacity="0.14">
+    <line x1="160" y1="0" x2="160" y2="640"/>
+    <line x1="320" y1="0" x2="320" y2="640"/>
+    <line x1="480" y1="0" x2="480" y2="640"/>
+    <line x1="640" y1="0" x2="640" y2="640"/>
+    <line x1="800" y1="0" x2="800" y2="640"/>
+    <line x1="960" y1="0" x2="960" y2="640"/>
+    <line x1="1120" y1="0" x2="1120" y2="640"/>
+    <line x1="0" y1="100" x2="1280" y2="100"/>
+    <line x1="0" y1="250" x2="1280" y2="250"/>
+    <line x1="0" y1="420" x2="1280" y2="420"/>
+  </g>
+
+  <!-- 3. TOP PILL: 100% Free & Open Source -->
+  <g transform="translate(640, 52)">
+    <rect x="-150" y="-15" width="300" height="30" rx="15" fill="#064E3B" fill-opacity="0.85" stroke="#10B981" stroke-width="1"/>
+    <circle cx="-120" cy="0" r="4.5" fill="#34D399"/>
+    <text x="-105" y="4.5" font-size="11.5" font-weight="700" fill="#A7F3D0" letter-spacing="0.5">100% FREE &amp; OPEN SOURCE · LGPL-3</text>
+  </g>
+
+  <!-- 4. HERO BRANDING: Logo & Typography -->
+  <g transform="translate(640, 155)">
+    <!-- Healthcare Geometric Prism Logo (84x84) -->
+    <g transform="translate(-42, -70)">
+      <svg width="84" height="84" viewBox="0 0 50 50">
+        <path d="M9 7h16l-8 18H5a4 4 0 0 1-4-4V11a4 4 0 0 1 4-4h4Z" fill="#985184"/>
+        <path d="M25 7h20a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H33l-8-18Z" fill="#FBB945"/>
+        <path d="M17 25l8-18 16 18-8 18H17Z" fill="#1AD3BB"/>
+        <path d="M25 25l8 18H17l8-18Z" fill="#005E7A"/>
+        <path d="M33 25h12a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H25l8-18Z" fill="#088BF5"/>
+        <path d="M5 25h12l-8 18H5a4 4 0 0 1-4-4V29a4 4 0 0 1 4-4Z" fill="#F86126"/>
+        <rect x="22" y="17" width="6" height="16" rx="1.5" fill="#FFFFFF"/>
+        <rect x="17" y="22" width="16" height="6" rx="1.5" fill="#FFFFFF"/>
+        <rect x="23" y="18" width="4" height="14" rx="1" fill="#1AD3BB"/>
+        <rect x="18" y="23" width="14" height="4" rx="1" fill="#1AD3BB"/>
+      </svg>
+    </g>
+
+    <!-- Main Title -->
+    <text x="0" y="58" font-size="46" font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="-0.5">MangoTek Health Suite</text>
+    <!-- Subtitle -->
+    <text x="0" y="92" font-size="16.5" font-weight="500" fill="#94A3B8" text-anchor="middle">
+      Enterprise Hospital Information System (SIMRS), EMR, SatuSehat FHIR &amp; BPJS Bridge
+    </text>
+  </g>
+
+  <!-- 5. THREE FEATURE PILLARS -->
+  <g transform="translate(640, 320)">
+    <!-- Pillar 1: Clinical EMR & Wards -->
+    <g transform="translate(-380, 0)">
+      <rect x="-170" y="-48" width="340" height="96" rx="14" fill="url(#cardGrad)" stroke="#334155" stroke-width="1"/>
+      <text x="-145" y="-16" font-size="16.5" font-weight="700" fill="#FFFFFF">🩺 Clinical EMR &amp; Wards</text>
+      <text x="-145" y="12" font-size="12" fill="#94A3B8">Universal SOAP · Vital Signs · Bed BOR</text>
+      <text x="-145" y="29" font-size="11" font-weight="600" fill="#1AD3BB">Multi-Tier: Solo · Clinic · General Hospital</text>
+    </g>
+
+    <!-- Pillar 2: Diagnostics LIS & PACS -->
+    <g transform="translate(0, 0)">
+      <rect x="-170" y="-48" width="340" height="96" rx="14" fill="url(#cardGrad)" stroke="#334155" stroke-width="1"/>
+      <text x="-145" y="-16" font-size="16.5" font-weight="700" fill="#FFFFFF">🔬 Diagnostic LIS &amp; PACS</text>
+      <text x="-145" y="12" font-size="12" fill="#94A3B8">Panic Values · DICOM Bridge · Sp.PK/Rad</text>
+      <text x="-145" y="29" font-size="11" font-weight="600" fill="#FBB945">Permenkes 24/2022 &amp; LOINC Standards</text>
+    </g>
+
+    <!-- Pillar 3: SatuSehat & BPJS -->
+    <g transform="translate(380, 0)">
+      <rect x="-170" y="-48" width="340" height="96" rx="14" fill="url(#cardGrad)" stroke="#334155" stroke-width="1"/>
+      <text x="-145" y="-16" font-size="16.5" font-weight="700" fill="#FFFFFF">🛡️ SatuSehat &amp; BPJS Bridge</text>
+      <text x="-145" y="12" font-size="12" fill="#94A3B8">Kemenkes FHIR REST · PCare · VClaim 2.0</text>
+      <text x="-145" y="29" font-size="11" font-weight="600" fill="#088BF5">Async Outbox Queue (Zero Freeze)</text>
+    </g>
+  </g>
+
+  <!-- 6. FOOTER DIVIDER & TAGS -->
+  <line x1="90" y1="545" x2="1190" y2="545" stroke="#334155" stroke-opacity="0.6"/>
+
+  <g transform="translate(640, 585)">
+    <text x="-540" y="6" font-size="13.5" font-weight="600" fill="#94A3B8">Mango Teknusa Inovasi · ardianryan · billing@ppti.me</text>
+    
+    <!-- Version Pill -->
+    <g transform="translate(430, 0)">
+      <rect x="-115" y="-16" width="230" height="32" rx="16" fill="#714B67" stroke="#A06E91" stroke-width="1"/>
+      <text x="0" y="5" font-size="12.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Odoo 18.0 · 19.0 · 20.0</text>
+    </g>
+  </g>
+</svg>

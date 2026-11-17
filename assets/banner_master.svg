@@ -63,7 +63,7 @@
     <text x="0" y="55" font-size="44" font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="-0.5">Mangotek Health Suite</text>
     <!-- Subtitle -->
     <text x="0" y="88" font-size="16" font-weight="500" fill="#94A3B8" text-anchor="middle">
-      Enterprise Hospital Information System (HIS) &amp; Electronic Medical Records (EMR) for Odoo 18
+      Enterprise Hospital Information System (SIMRS), EMR, SatuSehat FHIR &amp; BPJS for Odoo 18.0, 19.0 &amp; 20.0
     </text>
   </g>
 
