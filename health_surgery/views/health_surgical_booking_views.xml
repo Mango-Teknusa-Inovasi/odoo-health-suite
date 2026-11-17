@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Booking List View -->
+    <record id="view_health_surgical_booking_tree" model="ir.ui.view">
+        <field name="name">health.surgical.booking.list</field>
+        <field name="model">health.surgical.booking</field>
+        <field name="arch" type="xml">
+            <list string="Jadwal Operasi &amp; VK" decoration-danger="urgency == 'cito'" decoration-warning="state == 'in_progress'" decoration-info="state == 'recovery'" decoration-success="state == 'done'">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="patient_mrn"/>
+                <field name="procedure_id"/>
+                <field name="room_id"/>
+                <field name="lead_surgeon_id"/>
+                <field name="anesthesiologist_id"/>
+                <field name="schedule_start"/>
+                <field name="urgency" widget="badge" decoration-danger="urgency == 'cito'" decoration-muted="urgency == 'elective'"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Booking Calendar View -->
+    <record id="view_health_surgical_booking_calendar" model="ir.ui.view">
+        <field name="name">health.surgical.booking.calendar</field>
+        <field name="model">health.surgical.booking</field>
+        <field name="arch" type="xml">
+            <calendar string="Kalender Kamar Operasi" date_start="schedule_start" date_stop="schedule_end" color="room_id" mode="week" quick_create="0">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="procedure_id"/>
+                <field name="room_id"/>
+                <field name="lead_surgeon_id"/>
+                <field name="urgency"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Booking Form View -->
+    <record id="view_health_surgical_booking_form" model="ir.ui.view">
+        <field name="name">health.surgical.booking.form</field>
+        <field name="model">health.surgical.booking</field>
+        <field name="arch" type="xml">
+            <form string="Registrasi &amp; Laporan Pembedahan">
+                <header>
+                    <button name="action_confirm_schedule" string="Konfirmasi Jadwal" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_start_surgery" string="Mulai Tindakan (Insisi)" type="object" class="btn-warning" invisible="state != 'scheduled'"/>
+                    <button name="action_transfer_to_pacu" string="Transfer ke Ruang PACU" type="object" class="btn-info" invisible="state != 'in_progress'"/>
+                    <button name="action_complete_surgery" string="Selesai &amp; Keluar OK" type="object" class="btn-success" invisible="state != 'recovery'"/>
+                    <button name="action_cancel" string="Batalkan Operasi" type="object" invisible="state in ('done', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,scheduled,in_progress,recovery,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <span class="o_form_label" string="No. Registrasi Operasi"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Data Pasien &amp; Lokasi">
+                            <field name="patient_id"/>
+                            <field name="patient_mrn"/>
+                            <field name="patient_nik"/>
+                            <field name="patient_gender"/>
+                            <field name="patient_age"/>
+                            <field name="inpatient_stay_id"/>
+                            <field name="room_id"/>
+                            <field name="room_type" invisible="1"/>
+                        </group>
+                        <group string="Rencana Prosedur &amp; Waktu">
+                            <field name="procedure_id"/>
+                            <field name="icd9_id"/>
+                            <field name="urgency" widget="radio"/>
+                            <field name="schedule_start"/>
+                            <field name="schedule_end"/>
+                            <field name="actual_start" invisible="not actual_start"/>
+                            <field name="actual_end" invisible="not actual_end"/>
+                            <field name="billing_id" invisible="not billing_id"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Tim Operasi &amp; DPJP" name="team">
+                            <group>
+                                <group string="Tim Dokter Spesialis">
+                                    <field name="lead_surgeon_id"/>
+                                    <field name="assistant_surgeon_id"/>
+                                    <field name="anesthesiologist_id"/>
+                                    <field name="pediatrician_id"/>
+                                </group>
+                                <group string="Tim Keperawatan Bedah">
+                                    <field name="scrub_nurse_id"/>
+                                    <field name="circulating_nurse_id"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Laporan Operasi &amp; Patologi" name="report">
+                            <group>
+                                <group string="Diagnosa">
+                                    <field name="preop_diagnosis_id"/>
+                                    <field name="postop_diagnosis_id"/>
+                                    <field name="blood_loss_ml"/>
+                                </group>
+                                <group string="Spesimen &amp; Implan">
+                                    <field name="tissue_excised"/>
+                                    <field name="send_to_pa"/>
+                                    <field name="implant_serial"/>
+                                </group>
+                            </group>
+                            <separator string="Uraian Narasi Prosedur Pembedahan"/>
+                            <field name="surgical_technique" placeholder="Deskripsi kronologis posisi pasien, disinfeksi, insisi, eksplorasi temuan klinis, hemostasis, dan penutupan luka..."/>
+                        </page>
+
+                        <page string="Checklist Keselamatan WHO" name="checklist">
+                            <field name="checklist_ids">
+                                <list string="Checklist WHO" editable="bottom">
+                                    <field name="signin_completed_at"/>
+                                    <field name="signin_verified_by"/>
+                                    <field name="timeout_completed_at"/>
+                                    <field name="timeout_verified_by"/>
+                                    <field name="signout_completed_at"/>
+                                    <field name="signout_verified_by"/>
+                                    <field name="overall_status" widget="badge" decoration-success="overall_status == 'completed'" decoration-warning="overall_status == 'partial'"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Catatan Anestesi" name="anesthesia">
+                            <field name="anesthesia_record_ids">
+                                <list string="Anestesi">
+                                    <field name="anesthesiologist_id"/>
+                                    <field name="anesthesia_technique"/>
+                                    <field name="asa_score"/>
+                                    <field name="airway_type"/>
+                                    <field name="crystalloid_ml"/>
+                                    <field name="urine_output_ml"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Skor Pemulihan PACU" name="recovery">
+                            <field name="recovery_score_ids">
+                                <list string="Pemulihan PACU">
+                                    <field name="evaluation_time"/>
+                                    <field name="evaluator_id"/>
+                                    <field name="scoring_type"/>
+                                    <field name="aldrete_total" invisible="scoring_type != 'aldrete'"/>
+                                    <field name="bromage_grade" invisible="scoring_type != 'bromage'"/>
+                                    <field name="steward_total" invisible="scoring_type != 'steward'"/>
+                                    <field name="is_cleared_for_ward" widget="badge" decoration-success="is_cleared_for_ward" decoration-danger="not is_cleared_for_ward"/>
+                                    <field name="discharge_disposition"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Catatan Persalinan VK" name="partus" invisible="room_type != 'vk_delivery' and not partus_record_ids">
+                            <field name="partus_record_ids">
+                                <list string="Partus VK">
+                                    <field name="delivery_time"/>
+                                    <field name="lead_practitioner_id"/>
+                                    <field name="delivery_type"/>
+                                    <field name="baby_gender"/>
+                                    <field name="baby_weight_grams"/>
+                                    <field name="apgar_minute_1"/>
+                                    <field name="apgar_minute_5"/>
+                                    <field name="baby_condition"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_health_surgical_booking_search" model="ir.ui.view">
+        <field name="name">health.surgical.booking.search</field>
+        <field name="model">health.surgical.booking</field>
+        <field name="arch" type="xml">
+            <search string="Cari Jadwal Operasi">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="patient_mrn"/>
+                <field name="room_id"/>
+                <field name="lead_surgeon_id"/>
+                <filter string="Operasi Emergency (Cito)" name="cito" domain="[('urgency', '=', 'cito')]"/>
+                <filter string="Operasi Elektif" name="elective" domain="[('urgency', '=', 'elective')]"/>
+                <separator/>
+                <filter string="Sedang Berlangsung" name="in_progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter string="Pemulihan PACU" name="recovery" domain="[('state', '=', 'recovery')]"/>
+                <filter string="Selesai" name="done" domain="[('state', '=', 'done')]"/>
+                <group expand="0" string="Kelompokkan Berdasarkan">
+                    <filter string="Kamar Operasi" name="group_room" context="{'group_by': 'room_id'}"/>
+                    <filter string="Dokter Operator" name="group_surgeon" context="{'group_by': 'lead_surgeon_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_health_surgical_booking" model="ir.actions.act_window">
+        <field name="name">Jadwal Operasi &amp; VK</field>
+        <field name="res_model">health.surgical.booking</field>
+        <field name="view_mode">calendar,list,form</field>
+        <field name="context">{'search_default_in_progress': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Buat registrasi jadwal pembedahan (IBS) atau persalinan kebidanan (VK).
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Paperformat for SEP Continuous/A5 Landscape -->
+    <record id="paperformat_sep" model="report.paperformat">
+        <field name="name">Format Kertas Cetak SEP BPJS</field>
+        <field name="default" eval="False"/>
+        <field name="format">A5</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">8</field>
+        <field name="margin_bottom">8</field>
+        <field name="margin_left">10</field>
+        <field name="margin_right">10</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">5</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <!-- Report Action -->
+    <record id="action_report_health_sep" model="ir.actions.report">
+        <field name="name">Cetak Lembar SEP BPJS</field>
+        <field name="model">health.bpjs.sep</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">health_bpjs_vclaim.report_health_sep_document</field>
+        <field name="report_file">health_bpjs_vclaim.report_health_sep_document</field>
+        <field name="print_report_name">'SEP_' + object.name</field>
+        <field name="binding_model_id" ref="model_health_bpjs_sep"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_sep"/>
+    </record>
+
+    <!-- QWeb Template -->
+    <template id="report_health_sep_document">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page" style="font-family: Arial, sans-serif; font-size: 11px; line-height: 1.3;">
+                    <!-- Header -->
+                    <table style="width: 100%; border-bottom: 2px solid #000; padding-bottom: 4px; margin-bottom: 8px;">
+                        <tr>
+                            <td style="width: 20%; vertical-align: middle;">
+                                <strong style="font-size: 16px; color: #0284C7;">BPJS Kesehatan</strong>
+                            </td>
+                            <td style="width: 60%; text-align: center; vertical-align: middle;">
+                                <strong style="font-size: 14px; text-transform: uppercase;">SURAT ELIGIBILITAS PESERTA</strong><br/>
+                                <span style="font-size: 12px; font-weight: bold;" t-esc="doc.company_id.name"/>
+                            </td>
+                            <td style="width: 20%; text-align: right; vertical-align: middle;">
+                                <span style="font-size: 10px; color: #555;">VClaim 2.0 Web Service</span>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Details Body -->
+                    <table style="width: 100%; margin-bottom: 12px;">
+                        <tr>
+                            <td style="width: 18%; font-weight: bold;">No. SEP</td>
+                            <td style="width: 32%;">: <span style="font-size: 12px; font-weight: bold;" t-esc="doc.name"/></td>
+                            <td style="width: 18%; font-weight: bold;">Peserta</td>
+                            <td style="width: 32%;">: <span t-esc="doc.peserta_jenis"/></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">Tgl. SEP</td>
+                            <td>: <span t-esc="doc.tgl_sep"/></td>
+                            <td style="font-weight: bold;">Jns. Rawat</td>
+                            <td>: <span t-esc="doc.jenis_pelayanan == '1' and 'Rawat Inap' or 'Rawat Jalan'"/></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">No. Kartu</td>
+                            <td>: <span t-esc="doc.no_kartu"/> (MRN: <span t-esc="doc.patient_mrn"/>)</td>
+                            <td style="font-weight: bold;">Hak Kelas</td>
+                            <td>: Kelas <span t-esc="doc.kelas_rawat"/></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">Nama Peserta</td>
+                            <td>: <span style="font-weight: bold;" t-esc="doc.peserta_nama"/> (<span t-esc="doc.patient_gender == 'male' and 'L' or 'P'"/>)</td>
+                            <td style="font-weight: bold;">Poli Tujuan</td>
+                            <td>: <span t-esc="doc.poli_tujuan_id.name or '-'"/></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">Tgl. Lahir / Usia</td>
+                            <td>: <span t-esc="doc.patient_age"/> Tahun</td>
+                            <td style="font-weight: bold;">Dokter DPJP</td>
+                            <td>: <span t-esc="doc.dpjp_id.name"/></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">Faskes Perujuk</td>
+                            <td>: <span t-esc="doc.ppk_rujukan"/></td>
+                            <td style="font-weight: bold;">No. Rujukan</td>
+                            <td>: <span t-esc="doc.no_rujukan or '-'"/></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">Diagnosa Awal</td>
+                            <td colspan="3">: <span t-esc="doc.diagnosa_awal_id.code"/> - <span t-esc="doc.diagnosa_awal_id.name"/></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">Catatan</td>
+                            <td colspan="3">: <span t-esc="doc.catatan or '-'"/></td>
+                        </tr>
+                    </table>
+
+                    <!-- Clause & Signatures -->
+                    <table style="width: 100%; border-top: 1px dashed #666; padding-top: 6px; font-size: 10px;">
+                        <tr>
+                            <td style="width: 65%; vertical-align: top; color: #444;">
+                                <em>* Saya menyetujui BPJS Kesehatan menggunakan data riwayat medis saya untuk keperluan klaim jaminan pelayanan kesehatan.<br/>
+                                * Pasien/Keluarga Pasien telah memahami hak dan kewajiban pelayanan jaminan kesehatan nasional (JKN).</em>
+                            </td>
+                            <td style="width: 35%; text-align: center; vertical-align: top;">
+                                <span>Pasien / Keluarga Pasien</span>
+                                <div style="height: 40px;"/>
+                                <span>( _________________________ )</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

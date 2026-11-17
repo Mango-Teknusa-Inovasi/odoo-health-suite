@@ -47,6 +47,9 @@ Operating a modern medical facility—from solo medical practices (TPMD) and pri
 | <img src="assets/icons/health_radiology_100.png" width="48" height="48" alt="Radiology Icon"/> | [`health_radiology`](health_radiology) | **Medical Imaging PACS** | • Radiology catalog across modalities: X-Ray (CR/DR), USG, CT-Scan, MRI, Mammografi, Fluoroskopi<br>• Hybrid DICOM PACS bridge: Study Instance UID, Accession Number, and direct web viewer launch button<br>• Radiographer technical data (kVp, mAs, projection, contrast) & key image findings attachment<br>• Radiologist (Sp.Rad) structured expertise reporting (Findings, Impression, Suggestions) with QR signature |
 | <img src="assets/icons/health_satusehat_100.png" width="48" height="48" alt="SatuSehat Icon"/> | [`health_satusehat`](health_satusehat) | **Kemenkes SatuSehat FHIR** | • OAuth2 Client connector for official Kemenkes SatuSehat Gateway (Sandbox & Production)<br>• Automated patient NIK & doctor STR resolution to SatuSehat IHS Numbers<br>• Asynchronous Outbox queue for HL7 FHIR `Encounter` and `Condition` resources with auto-retry cron |
 | <img src="assets/icons/health_bpjs_100.png" width="48" height="48" alt="BPJS Icon"/> | [`health_bpjs`](health_bpjs) | **BPJS Healthcare Bridge** | • BPJS PCare FKTP Web Service connector for participant verification and diagnosis transmission<br>• Secure HMAC-SHA256 timestamped authentication header engine<br>• Outpatient encounter bridging with dual-mode real-time dispatch and outbox fallback queue |
+| <img src="assets/icons/health_surgery_100.png" width="48" height="48" alt="Surgery Icon"/> | [`health_surgery`](health_surgery) | **Operating Room & VK** | • Multidisciplinary surgical theater scheduling (Elective vs Cito) & room status matrix<br>• WHO Surgical Safety Checklist (Sign In, Time Out, Sign Out) with DPJP digital verification<br>• Post-Anesthesia Recovery Scoring (Aldrete >= 8, Bromage <= 1, Steward >= 5) for safe PACU discharge<br>• Delivery Suite (VK) partograph tracking (Kala I-IV), neonate APGAR scoring, and IMD |
+| <img src="assets/icons/health_bpjs_vclaim_100.png" width="48" height="48" alt="VClaim Icon"/> | [`health_bpjs_vclaim`](health_bpjs_vclaim) | **BPJS Hospital VClaim** | • Automated Inpatient & Outpatient SEP (Surat Eligibilitas Peserta) generation via VClaim 2.0<br>• Electronic SPRI (Surat Perintah Rawat Inap) and outpatient control letter bridging<br>• Official continuous landscape Cetak Lembar SEP PDF report with barcodes & consent clause |
+| <img src="assets/icons/health_inacbg_100.png" width="48" height="48" alt="INACBG Icon"/> | [`health_inacbg`](health_inacbg) | **INA-CBG E-Klaim Grouper** | • Kemenkes Case-Mix grouper for diagnostic ICD-10 & surgical ICD-9 CM procedures<br>• Special CMG add-on top-up tariff calculation (implants, stents, chemotherapy)<br>• Automated Cost Disparity Audit comparing Hospital Real Bill vs INA-CBG Tariff (Surplus vs Deficit) |
 
 ---
 
@@ -96,7 +99,7 @@ flowchart LR
     P1["Phase 1: Foundation ✅<br/>(Base, EMR, SatuSehat)"] --> P2["Phase 2: Outpatient ✅<br/>(Queue, Pharmacy, Billing, PCare)"]
     P2 --> P3["Phase 3: Hospital Ops ✅<br/>(Inpatient, Bed Matrix, ER Triage)"]
     P3 --> P4["Phase 4: Diagnostics ✅<br/>(Lab LIS, Radiology PACS)"]
-    P4 --> P5["Phase 5: Advanced Hospital<br/>(Surgery OK/VK, VClaim, INA-CBG)"]
+    P4 --> P5["Phase 5: Advanced Hospital ✅<br/>(Surgery OK/VK, VClaim, INA-CBG)"]
 ```
 
 ### [Phase 1] Core Foundation, Solo Practice (TPMD) & Regulatory Baseline ✅
@@ -118,10 +121,10 @@ flowchart LR
 - [x] **`health_laboratory`**: Test panels (CBC, Glucose, Renal, Lipid) with LOINC mapping, age/gender stratified reference ranges, automated Panic Value detection with emergency red alert banner, KARS telephone readback log, and Sp.PK specialist verification.
 - [x] **`health_radiology`**: Modality catalog (X-Ray, USG, CT, MRI, Mammografi), hybrid DICOM PACS bridge with Study UID / Accession Number, direct PACS web viewer launcher button, radiographer exposure metrics, and Sp.Rad structured expertise reporting.
 
-### [Phase 5] Advanced Hospital Operations & National Insurance Claims (Roadmap)
-- [ ] **`health_surgery`**: Surgical theater booking schedule, WHO Surgical Safety Checklist (Sign In, Time Out, Sign Out), and recovery scoring (Aldrete / Bromage).
-- [ ] **`health_bpjs_vclaim`**: Automated SEP (Surat Eligibilitas Peserta) generation for Outpatient/Inpatient via VClaim 2.0, SPRI bridging, and Mobile JKN synchronization.
-- [ ] **`health_inacbg`**: Tariff grouping data mapping (ICD-10 + ICD-9 CM) and official national E-Klaim / INA-CBG grouper application bridge.
+### [Phase 5] Advanced Hospital Operations & National Insurance Claims ✅
+- [x] **`health_surgery`**: Multidisciplinary surgical theater scheduling, WHO Surgical Safety Checklist (Sign In, Time Out, Sign Out), post-anesthesia recovery scoring (Aldrete, Bromage, Steward), and delivery suite (VK) partograph tracking.
+- [x] **`health_bpjs_vclaim`**: Automated Inpatient & Outpatient SEP (Surat Eligibilitas Peserta) generation via VClaim 2.0, SPRI bridging, Surat Kontrol Poliklinik, and official Cetak SEP PDF report.
+- [x] **`health_inacbg`**: Ministry of Health (Kemenkes) INA-CBG Case-Mix Grouper bridging, ICD-10 & ICD-9 CM diagnostic grouping, Special CMG add-ons, and automated Hospital Real Cost Disparity Audit.
 
 ---
 
@@ -132,6 +135,7 @@ odoo-health-suite/
 ├── assets/
 │   ├── banner_master.png            # High-resolution 1200x630 repo hero banner
 │   ├── banner_master.svg            # Vector source banner
+│   ├── social_preview.png           # 1280x640 OpenGraph social preview card
 │   └── icons/                       # SVG and PNG renders (50px, 100px, 512px, 1024px)
 ├── health_base/                     # Master patient registry, medical staff & catalogs
 ├── health_emr/                      # Universal clinical SOAP notes & vital signs
@@ -144,8 +148,11 @@ odoo-health-suite/
 ├── health_radiology/                # Medical imaging, hybrid DICOM PACS bridge & Sp.Rad expertise
 ├── health_satusehat/                # Kemenkes SatuSehat HL7 FHIR gateway connector
 ├── health_bpjs/                     # BPJS PCare FKTP web service bridge
-├── tests/                           # Master automated unit & E2E clinical test suites
-├── scripts/                         # Apps Store compliance validator (88/88 checks)
+├── health_surgery/                  # Operating theater (IBS), WHO checklist, PACU & VK delivery
+├── health_bpjs_vclaim/              # BPJS Hospital VClaim 2.0 SEP generator & SPRI
+├── health_inacbg/                   # Kemenkes INA-CBG E-Klaim grouper & disparity audit
+├── tests/                           # Master automated unit & E2E clinical test suites (37 tests)
+├── scripts/                         # Apps Store compliance validator (112/112 checks)
 ├── AGENTS.md                        # Multi-version branching & zero-conflict protocol
 ├── CONTRIBUTING.md                   # Development standards & guidelines
 └── README.md                        # Master documentation

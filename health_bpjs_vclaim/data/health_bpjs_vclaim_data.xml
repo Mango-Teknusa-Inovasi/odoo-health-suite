@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Sequence for SEP code counter -->
+    <record id="seq_health_bpjs_sep_code" model="ir.sequence">
+        <field name="name">BPJS SEP Code Sequence</field>
+        <field name="code">health.bpjs.sep.code</field>
+        <field name="prefix"></field>
+        <field name="padding">6</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- Sequence for SPRI -->
+    <record id="seq_health_bpjs_spri" model="ir.sequence">
+        <field name="name">BPJS SPRI Sequence</field>
+        <field name="code">health.bpjs.spri</field>
+        <field name="prefix">SPRI/%(year)s/%(month)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- Sequence for Surat Kontrol -->
+    <record id="seq_health_bpjs_surat_kontrol" model="ir.sequence">
+        <field name="name">BPJS Surat Kontrol Sequence</field>
+        <field name="code">health.bpjs.surat.kontrol</field>
+        <field name="prefix">SK/%(year)s/%(month)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- Default VClaim Config -->
+    <record id="config_vclaim_default" model="health.bpjs.vclaim.config">
+        <field name="name">BPJS VClaim 2.0 Gateway (RS)</field>
+        <field name="environment">sandbox</field>
+        <field name="mode">mock</field>
+        <field name="cons_id">12345</field>
+        <field name="secret_key">secret123</field>
+        <field name="user_key">userkey_vclaim_999</field>
+        <field name="ppk_code">0195R014</field>
+    </record>
+</odoo>

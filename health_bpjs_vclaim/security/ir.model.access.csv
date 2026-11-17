@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_health_bpjs_vclaim_config_user,health.bpjs.vclaim.config.user,model_health_bpjs_vclaim_config,base.group_user,1,1,1,1
+access_health_bpjs_sep_user,health.bpjs.sep.user,model_health_bpjs_sep,base.group_user,1,1,1,1
+access_health_bpjs_spri_user,health.bpjs.spri.user,model_health_bpjs_spri,base.group_user,1,1,1,1
+access_health_bpjs_surat_kontrol_user,health.bpjs.surat.kontrol.user,model_health_bpjs_surat_kontrol,base.group_user,1,1,1,1

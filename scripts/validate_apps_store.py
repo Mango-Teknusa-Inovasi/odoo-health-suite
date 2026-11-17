@@ -23,6 +23,9 @@ MODULES = [
     "health_radiology",
     "health_satusehat",
     "health_bpjs",
+    "health_surgery",
+    "health_bpjs_vclaim",
+    "health_inacbg",
 ]
 
 def validate_suite():

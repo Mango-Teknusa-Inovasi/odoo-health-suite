@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_health_inacbg_config_form" model="ir.ui.view">
+        <field name="name">health.inacbg.config.form</field>
+        <field name="model">health.inacbg.config</field>
+        <field name="arch" type="xml">
+            <form string="Konfigurasi Server E-Klaim INA-CBG">
+                <header>
+                    <button name="action_test_connection" string="Uji Koneksi Server E-Klaim" type="object" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Nama Konfigurasi"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Kredensial Server Intranet Kemenkes">
+                            <field name="server_url"/>
+                            <field name="hospital_code"/>
+                            <field name="coder_nik"/>
+                            <field name="encryption_key" password="True"/>
+                        </group>
+                        <group string="Parameter Grouping &amp; Simulasi">
+                            <field name="tariff_class"/>
+                            <field name="mode"/>
+                            <field name="active"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_health_inacbg_config" model="ir.actions.act_window">
+        <field name="name">Konfigurasi E-Klaim INA-CBG</field>
+        <field name="res_model">health.inacbg.config</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

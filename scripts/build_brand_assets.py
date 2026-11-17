@@ -359,6 +359,88 @@ SVG_DEFINITIONS = {
   <!-- Giant Verification Checkmark in Crisp White -->
   <path d="M18 24l5 5 11-12" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>""",
+
+    "health_surgery": """<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="surgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284C7"/>
+      <stop offset="100%" stop-color="#0F766E"/>
+    </linearGradient>
+    <linearGradient id="coralAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F87171"/>
+      <stop offset="100%" stop-color="#DC2626"/>
+    </linearGradient>
+  </defs>
+  <!-- Main Surgical Theater Folio -->
+  <rect x="3" y="3" width="44" height="44" rx="8" fill="url(#surgGrad)"/>
+  <!-- Top Right Geometric Facet in Coral -->
+  <path d="M21 3h18a8 8 0 0 1 8 8v18l-26-26Z" fill="url(#coralAccent)"/>
+  <!-- Operating Light Beam Dome -->
+  <ellipse cx="25" cy="14" rx="14" ry="4" fill="#FFFFFF" fill-opacity="0.9"/>
+  <polygon points="11,14 4,42 46,42 39,14" fill="#FFFFFF" fill-opacity="0.12"/>
+  <!-- Scalpel Blade & Forceps Cross -->
+  <g transform="translate(25, 27)">
+    <line x1="-12" y1="12" x2="12" y2="-12" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+    <polygon points="9,-9 14,-14 12,-7" fill="#FFFFFF"/>
+    <line x1="-12" y1="-12" x2="12" y2="12" stroke="#FBB945" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="0" cy="0" r="3.5" fill="#0F172A"/>
+    <circle cx="0" cy="0" r="1.5" fill="#38BDF8"/>
+  </g>
+</svg>""",
+
+    "health_bpjs_vclaim": """<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="vclaimNavy" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E3A8A"/>
+      <stop offset="100%" stop-color="#0369A1"/>
+    </linearGradient>
+    <linearGradient id="vclaimGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <!-- Base Shield Canvas -->
+  <path d="M25 3l20 7v17c0 13-9 22-20 25C14 49 5 40 5 27V10l20-7Z" fill="url(#vclaimNavy)"/>
+  <!-- Right Wing Emerald -->
+  <path d="M25 3l20 7v17c0 13-9 22-20 25V3Z" fill="url(#vclaimGreen)"/>
+  <!-- White Inset SEP Document -->
+  <rect x="14" y="14" width="22" height="26" rx="3" fill="#FFFFFF"/>
+  <rect x="18" y="18" width="14" height="2.5" rx="1" fill="#0284C7"/>
+  <rect x="18" y="23" width="10" height="2" rx="1" fill="#64748B"/>
+  <rect x="18" y="27" width="14" height="2" rx="1" fill="#64748B"/>
+  <!-- Golden VClaim Stamp / Seal -->
+  <circle cx="28" cy="33" r="5" fill="#FBB945"/>
+  <polyline points="26,33 27.5,34.5 30,31.5" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>""",
+
+    "health_inacbg": """<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="inacbgBase" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#4338CA"/>
+    </linearGradient>
+    <linearGradient id="goldCoins" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+  </defs>
+  <!-- Main Base Folio -->
+  <rect x="3" y="3" width="44" height="44" rx="8" fill="url(#inacbgBase)"/>
+  <!-- Case-Mix 3-Tier Grouping Blocks -->
+  <!-- Level 1 (Light) -->
+  <rect x="9" y="30" width="8" height="12" rx="2" fill="#2DD4BF"/>
+  <!-- Level 2 (Medium) -->
+  <rect x="19" y="22" width="8" height="20" rx="2" fill="#38BDF8"/>
+  <!-- Level 3 (Severe) -->
+  <rect x="29" y="14" width="8" height="28" rx="2" fill="#F87171"/>
+  <!-- Golden E-Klaim Grouper Emblem Overlay -->
+  <circle cx="36" cy="14" r="8" fill="url(#goldCoins)"/>
+  <text x="36" y="18" font-size="10" font-weight="900" fill="#78350F" text-anchor="middle">₹</text>
+  <!-- Analytic Connecting Trendline -->
+  <polyline points="13,28 23,20 33,12" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="13" cy="28" r="2" fill="#FFFFFF"/>
+  <circle cx="23" cy="20" r="2" fill="#FFFFFF"/>
+</svg>""",
 }
 
 def render_svg_to_png(svg_str, width, height):

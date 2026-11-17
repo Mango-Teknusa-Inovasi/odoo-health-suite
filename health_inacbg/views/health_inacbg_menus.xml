@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Top-Level App Menu for E-Klaim INA-CBG -->
+    <menuitem id="menu_health_inacbg_root"
+              name="INA-CBG E-Klaim"
+              web_icon="health_inacbg,static/description/icon.png"
+              sequence="58"/>
+
+    <menuitem id="menu_health_inacbg_claim_action"
+              name="Berkas Klaim &amp; Grouping"
+              parent="menu_health_inacbg_root"
+              action="action_health_inacbg_claim"
+              sequence="10"/>
+
+    <menuitem id="menu_health_inacbg_config_action"
+              name="Konfigurasi Server E-Klaim"
+              parent="menu_health_inacbg_root"
+              action="action_health_inacbg_config"
+              sequence="90"/>
+
+    <!-- Also link under BPJS Bridging in health_base -->
+    <menuitem id="menu_health_inacbg_claim_sub"
+              name="Klaim INA-CBG (E-Klaim)"
+              parent="health_bpjs.menu_health_bpjs_root"
+              action="action_health_inacbg_claim"
+              sequence="30"/>
+</odoo>

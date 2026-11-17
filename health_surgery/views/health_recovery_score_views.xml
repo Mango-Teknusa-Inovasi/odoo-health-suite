@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_health_recovery_score_form" model="ir.ui.view">
+        <field name="name">health.recovery.score.form</field>
+        <field name="model">health.recovery.score</field>
+        <field name="arch" type="xml">
+            <form string="Penilaian Skor Pemulihan PACU">
+                <sheet>
+                    <div class="oe_title">
+                        <h2>Skor Pemulihan Pasca Anestesi (PACU)</h2>
+                        <field name="booking_id" readonly="1"/>
+                    </div>
+                    <group>
+                        <group string="Metode &amp; Evaluator">
+                            <field name="scoring_type" widget="radio"/>
+                            <field name="evaluation_time"/>
+                            <field name="evaluator_id"/>
+                        </group>
+                        <group string="Status Kelayakan Pindah Bangsal">
+                            <field name="is_cleared_for_ward" widget="badge" decoration-success="is_cleared_for_ward" decoration-danger="not is_cleared_for_ward"/>
+                            <field name="discharge_disposition"/>
+                        </group>
+                    </group>
+
+                    <!-- ALDRETE SCORE -->
+                    <group string="Parameter Aldrete Score (Ambang Aman >= 8)" invisible="scoring_type != 'aldrete'">
+                        <field name="aldrete_activity"/>
+                        <field name="aldrete_respiration"/>
+                        <field name="aldrete_circulation"/>
+                        <field name="aldrete_consciousness"/>
+                        <field name="aldrete_color"/>
+                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                            <label for="aldrete_total"/>
+                        </div>
+                        <field name="aldrete_total" nolabel="1" class="oe_subtotal_footer_separator"/>
+                    </group>
+
+                    <!-- BROMAGE SCORE -->
+                    <group string="Parameter Bromage Score Spinal (Ambang Aman Skala 0 / 1)" invisible="scoring_type != 'bromage'">
+                        <field name="bromage_grade"/>
+                    </group>
+
+                    <!-- STEWARD SCORE -->
+                    <group string="Parameter Steward Score Anak (Ambang Aman >= 5)" invisible="scoring_type != 'steward'">
+                        <field name="steward_consciousness"/>
+                        <field name="steward_airway"/>
+                        <field name="steward_motor"/>
+                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                            <label for="steward_total"/>
+                        </div>
+                        <field name="steward_total" nolabel="1" class="oe_subtotal_footer_separator"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_health_recovery_score" model="ir.actions.act_window">
+        <field name="name">Skor Pemulihan PACU</field>
+        <field name="res_model">health.recovery.score</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

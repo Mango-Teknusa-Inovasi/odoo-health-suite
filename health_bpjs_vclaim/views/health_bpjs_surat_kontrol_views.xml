@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_health_bpjs_surat_kontrol_tree" model="ir.ui.view">
+        <field name="name">health.bpjs.surat.kontrol.list</field>
+        <field name="model">health.bpjs.surat.kontrol</field>
+        <field name="arch" type="xml">
+            <list string="Daftar Surat Kontrol Poliklinik">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="no_sep_asal"/>
+                <field name="tgl_rencana_kontrol"/>
+                <field name="dpjp_id"/>
+                <field name="poli_tujuan_id"/>
+                <field name="alasan_kontrol"/>
+                <field name="state" widget="badge" decoration-success="state == 'approved'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_health_bpjs_surat_kontrol_form" model="ir.ui.view">
+        <field name="name">health.bpjs.surat.kontrol.form</field>
+        <field name="model">health.bpjs.surat.kontrol</field>
+        <field name="arch" type="xml">
+            <form string="Surat Rencana Kontrol Poliklinik">
+                <header>
+                    <button name="action_approve" string="Setujui &amp; Terbitkan Surat Kontrol" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_cancel" string="Batalkan Surat Kontrol" type="object" invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h2>Surat Rencana Kontrol Poliklinik</h2>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Pasien &amp; SEP Asal">
+                            <field name="patient_id"/>
+                            <field name="patient_mrn"/>
+                            <field name="no_kartu"/>
+                            <field name="no_sep_asal"/>
+                        </group>
+                        <group string="Rencana Jadwal Kontrol">
+                            <field name="tgl_rencana_kontrol"/>
+                            <field name="dpjp_id"/>
+                            <field name="poli_tujuan_id"/>
+                            <field name="alasan_kontrol"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_health_bpjs_surat_kontrol" model="ir.actions.act_window">
+        <field name="name">Surat Kontrol Poliklinik</field>
+        <field name="res_model">health.bpjs.surat.kontrol</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

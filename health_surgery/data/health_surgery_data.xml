@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Sequence for Surgical Booking -->
+    <record id="seq_health_surgical_booking" model="ir.sequence">
+        <field name="name">Surgical Booking Sequence</field>
+        <field name="code">health.surgical.booking</field>
+        <field name="prefix">SURG/%(year)s/%(month)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- Seed Operating & Delivery Rooms -->
+    <record id="room_ok_major_1" model="health.operating.room">
+        <field name="name">Kamar Operasi 1 (Bedah Mayor)</field>
+        <field name="code">OK-01</field>
+        <field name="room_type">major_or</field>
+        <field name="building">Gedung Bedah Sentral (IBS)</field>
+        <field name="floor">2</field>
+        <field name="state">available</field>
+    </record>
+
+    <record id="room_ok_minor_1" model="health.operating.room">
+        <field name="name">Kamar Operasi 2 (Bedah Minor / ODS)</field>
+        <field name="code">OK-02</field>
+        <field name="room_type">minor_or</field>
+        <field name="building">Gedung Bedah Sentral (IBS)</field>
+        <field name="floor">2</field>
+        <field name="state">available</field>
+    </record>
+
+    <record id="room_vk_delivery_1" model="health.operating.room">
+        <field name="name">Kamar Bersalin 1 (VK / PONEK)</field>
+        <field name="code">VK-01</field>
+        <field name="room_type">vk_delivery</field>
+        <field name="building">Gedung Kebidanan &amp; Anak</field>
+        <field name="floor">1</field>
+        <field name="state">available</field>
+    </record>
+
+    <record id="room_pacu_1" model="health.operating.room">
+        <field name="name">Ruang Pemulihan (PACU / RR)</field>
+        <field name="code">PACU-01</field>
+        <field name="room_type">pacu</field>
+        <field name="building">Gedung Bedah Sentral (IBS)</field>
+        <field name="floor">2</field>
+        <field name="state">available</field>
+    </record>
+
+    <!-- Seed Surgical Procedures -->
+    <record id="proc_sectio_caesarea" model="health.surgical.procedure">
+        <field name="name">Sectio Caesarea (SC) Transperitoneal Profunda</field>
+        <field name="code">SC-01</field>
+        <field name="category">besar</field>
+        <field name="estimated_duration_minutes">75</field>
+        <field name="requires_anesthesia">True</field>
+        <field name="requires_pediatrician">True</field>
+        <field name="operator_fee">3500000.0</field>
+        <field name="anesthesia_fee">1500000.0</field>
+        <field name="room_rent_fee">1200000.0</field>
+        <field name="consumables_fee">800000.0</field>
+    </record>
+
+    <record id="proc_appendectomy" model="health.surgical.procedure">
+        <field name="name">Apendektomi Terbuka / Laparoskopi</field>
+        <field name="code">APP-01</field>
+        <field name="category">sedang</field>
+        <field name="estimated_duration_minutes">60</field>
+        <field name="requires_anesthesia">True</field>
+        <field name="requires_pediatrician">False</field>
+        <field name="operator_fee">2200000.0</field>
+        <field name="anesthesia_fee">1000000.0</field>
+        <field name="room_rent_fee">900000.0</field>
+        <field name="consumables_fee">600000.0</field>
+    </record>
+
+    <record id="proc_spontaneous_delivery" model="health.surgical.procedure">
+        <field name="name">Persalinan Spontan Normal (Partus Normal)</field>
+        <field name="code">VK-NORM</field>
+        <field name="category">partus</field>
+        <field name="estimated_duration_minutes">120</field>
+        <field name="requires_anesthesia">False</field>
+        <field name="requires_pediatrician">False</field>
+        <field name="operator_fee">1200000.0</field>
+        <field name="anesthesia_fee">0.0</field>
+        <field name="room_rent_fee">600000.0</field>
+        <field name="consumables_fee">400000.0</field>
+    </record>
+</odoo>

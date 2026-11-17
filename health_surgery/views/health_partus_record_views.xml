@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_health_partus_record_form" model="ir.ui.view">
+        <field name="name">health.partus.record.form</field>
+        <field name="model">health.partus.record</field>
+        <field name="arch" type="xml">
+            <form string="Catatan Persalinan VK &amp; Partograf">
+                <sheet>
+                    <div class="oe_title">
+                        <h2>Catatan Kelahiran &amp; Partograf Kamar Bersalin (VK)</h2>
+                    </div>
+                    <group>
+                        <group string="Identitas Pasien &amp; Penolong">
+                            <field name="patient_id"/>
+                            <field name="patient_mrn"/>
+                            <field name="lead_practitioner_id"/>
+                            <field name="assistant_practitioner_id"/>
+                            <field name="delivery_time"/>
+                            <field name="delivery_type"/>
+                        </group>
+                        <group string="Kondisi Bayi Baru Lahir">
+                            <field name="baby_gender"/>
+                            <field name="baby_weight_grams"/>
+                            <field name="baby_length_cm"/>
+                            <field name="head_circumference_cm"/>
+                            <field name="apgar_minute_1"/>
+                            <field name="apgar_minute_5"/>
+                            <field name="baby_condition" widget="badge"/>
+                            <field name="imd_performed"/>
+                        </group>
+                    </group>
+                    <group string="Evaluasi Kala Persalinan">
+                        <group>
+                            <field name="kala1_duration_hours"/>
+                            <field name="kala2_duration_minutes"/>
+                            <field name="kala3_duration_minutes"/>
+                        </group>
+                        <group>
+                            <field name="placenta_delivery"/>
+                            <field name="perineal_tear"/>
+                            <field name="episiotomy"/>
+                        </group>
+                    </group>
+                    <group string="Catatan Observasi Kala IV">
+                        <field name="notes" placeholder="Kontraksi uterus, TTV ibu, perkiraan jumlah darah kala IV..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_health_partus_record" model="ir.actions.act_window">
+        <field name="name">Catatan Persalinan VK</field>
+        <field name="res_model">health.partus.record</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Operating Room Tree View -->
+    <record id="view_health_operating_room_tree" model="ir.ui.view">
+        <field name="name">health.operating.room.list</field>
+        <field name="model">health.operating.room</field>
+        <field name="arch" type="xml">
+            <list string="Daftar Kamar Operasi &amp; VK" decoration-success="state == 'available'" decoration-danger="state == 'in_use'" decoration-warning="state == 'cleaning'">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="room_type"/>
+                <field name="building"/>
+                <field name="floor"/>
+                <field name="state" widget="badge"/>
+                <field name="current_booking_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Operating Room Form View -->
+    <record id="view_health_operating_room_form" model="ir.ui.view">
+        <field name="name">health.operating.room.form</field>
+        <field name="model">health.operating.room</field>
+        <field name="arch" type="xml">
+            <form string="Kamar Operasi / VK">
+                <header>
+                    <button name="action_set_available" string="Set Tersedia / Siap" type="object" class="btn-success" invisible="state == 'available'"/>
+                    <button name="action_set_cleaning" string="Mulai Dekontaminasi / Sterilisasi" type="object" class="btn-warning" invisible="state == 'cleaning'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="available,in_use,cleaning,maintenance"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Nama Ruangan"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Kamar Operasi 1 (Mayor)"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Identitas &amp; Jenis Ruang">
+                            <field name="code"/>
+                            <field name="room_type"/>
+                            <field name="building"/>
+                            <field name="floor"/>
+                        </group>
+                        <group string="Status Operasional Saat Ini">
+                            <field name="current_booking_id"/>
+                            <field name="active"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Spesifikasi &amp; Sterilisasi Udara" name="notes">
+                            <field name="notes" placeholder="Catatan HEPA filter, tekanan positif, jadwal fumigasi..."/>
+                        </page>
+                        <page string="Riwayat Jadwal Operasi" name="bookings">
+                            <field name="booking_ids" readonly="1">
+                                <list string="Daftar Operasi">
+                                    <field name="name"/>
+                                    <field name="patient_id"/>
+                                    <field name="procedure_id"/>
+                                    <field name="lead_surgeon_id"/>
+                                    <field name="schedule_start"/>
+                                    <field name="schedule_end"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Operating Room Kanban View -->
+    <record id="view_health_operating_room_kanban" model="ir.ui.view">
+        <field name="name">health.operating.room.kanban</field>
+        <field name="model">health.operating.room</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_dashboard">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="room_type"/>
+                <field name="state"/>
+                <field name="current_booking_id"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <strong class="fs-5 text-primary"><field name="code"/></strong>
+                            <field name="state" widget="badge" decoration-success="record.state.raw_value == 'available'" decoration-danger="record.state.raw_value == 'in_use'" decoration-warning="record.state.raw_value == 'cleaning'"/>
+                        </div>
+                        <div class="fw-bold mb-1"><field name="name"/></div>
+                        <div class="text-muted small mb-2"><field name="room_type"/></div>
+                        <div class="border-top pt-2 mt-2" invisible="not current_booking_id">
+                            <small class="text-danger fw-bold"><i class="fa fa-procedures me-1" title="Bed Icon"/> Sedang Berlangsung:</small>
+                            <div class="small text-truncate"><field name="current_booking_id"/></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_health_operating_room" model="ir.actions.act_window">
+        <field name="name">Kamar Operasi &amp; VK</field>
+        <field name="res_model">health.operating.room</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Tambahkan Kamar Operasi (IBS) atau Kamar Bersalin (VK / PONEK) baru.
+            </p>
+        </field>
+    </record>
+</odoo>

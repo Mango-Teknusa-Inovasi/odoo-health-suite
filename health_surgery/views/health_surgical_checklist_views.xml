@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_health_surgical_checklist_form" model="ir.ui.view">
+        <field name="name">health.surgical.checklist.form</field>
+        <field name="model">health.surgical.checklist</field>
+        <field name="arch" type="xml">
+            <form string="WHO Surgical Safety Checklist">
+                <header>
+                    <field name="overall_status" widget="statusbar" statusbar_visible="pending,partial,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h2>Checklist Keselamatan Pasien Operasi (Standar WHO / KARS)</h2>
+                        <field name="booking_id" readonly="1"/>
+                    </div>
+                    <notebook>
+                        <page string="1. SIGN IN (Sebelum Induksi)" name="signin">
+                            <div class="alert alert-info" role="alert">
+                                <strong>Dilakukan sebelum induksi anestesi</strong> dengan kehadiran minimal perawat dan dokter anestesi.
+                            </div>
+                            <group>
+                                <field name="signin_patient_confirmed"/>
+                                <field name="signin_site_marked"/>
+                                <field name="signin_anesthesia_check"/>
+                                <field name="signin_pulse_oximeter"/>
+                                <field name="signin_known_allergy"/>
+                                <field name="signin_airway_risk"/>
+                                <field name="signin_blood_loss_risk"/>
+                                <field name="signin_completed_at"/>
+                                <field name="signin_verified_by"/>
+                            </group>
+                            <button name="action_complete_signin" string="Tandatangani &amp; Selesaikan Sign In" type="object" class="btn-primary mt-2" invisible="signin_completed_at"/>
+                        </page>
+
+                        <page string="2. TIME OUT (Sebelum Insisi)" name="timeout">
+                            <div class="alert alert-warning" role="alert">
+                                <strong>Dilakukan sesaat sebelum insisi bedah</strong> dihadiri oleh seluruh tim bedah secara lengkap.
+                            </div>
+                            <group>
+                                <field name="timeout_team_introduced"/>
+                                <field name="timeout_patient_procedure_confirmed"/>
+                                <field name="timeout_antibiotic_prophylaxis"/>
+                                <field name="timeout_surgeon_review"/>
+                                <field name="timeout_anesthesia_review"/>
+                                <field name="timeout_sterility_confirmed"/>
+                                <field name="timeout_imaging_displayed"/>
+                                <field name="timeout_completed_at"/>
+                                <field name="timeout_verified_by"/>
+                            </group>
+                            <button name="action_complete_timeout" string="Tandatangani &amp; Selesaikan Time Out" type="object" class="btn-warning mt-2" invisible="timeout_completed_at"/>
+                        </page>
+
+                        <page string="3. SIGN OUT (Sebelum Menutup Luka)" name="signout">
+                            <div class="alert alert-success" role="alert">
+                                <strong>Dilakukan sebelum penutupan luka operasi</strong> sebelum pasien dipindahkan dari meja operasi.
+                            </div>
+                            <group>
+                                <field name="signout_procedure_recorded"/>
+                                <field name="signout_instrument_count_correct"/>
+                                <field name="signout_specimen_labeled"/>
+                                <field name="signout_equipment_issues"/>
+                                <field name="signout_recovery_plan"/>
+                                <field name="signout_completed_at"/>
+                                <field name="signout_verified_by"/>
+                            </group>
+                            <button name="action_complete_signout" string="Tandatangani &amp; Selesaikan Sign Out" type="object" class="btn-success mt-2" invisible="signout_completed_at"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_health_surgical_checklist" model="ir.actions.act_window">
+        <field name="name">Checklist Keselamatan WHO</field>
+        <field name="res_model">health.surgical.checklist</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

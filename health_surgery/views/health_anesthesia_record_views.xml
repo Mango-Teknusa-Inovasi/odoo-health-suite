@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_health_anesthesia_record_form" model="ir.ui.view">
+        <field name="name">health.anesthesia.record.form</field>
+        <field name="model">health.anesthesia.record</field>
+        <field name="arch" type="xml">
+            <form string="Catatan Anestesi &amp; Sedasi">
+                <sheet>
+                    <div class="oe_title">
+                        <h2>Catatan Anestesi Pembedahan</h2>
+                        <field name="booking_id" readonly="1"/>
+                    </div>
+                    <group>
+                        <group string="Teknik &amp; Status Fisik">
+                            <field name="anesthesiologist_id"/>
+                            <field name="anesthesia_technique"/>
+                            <field name="asa_score"/>
+                            <field name="airway_type"/>
+                            <field name="ett_size" invisible="airway_type not in ('ett', 'lma')"/>
+                        </group>
+                        <group string="Keseimbangan Cairan &amp; Urin">
+                            <field name="crystalloid_ml"/>
+                            <field name="colloid_ml"/>
+                            <field name="blood_transfusion_ml"/>
+                            <field name="urine_output_ml"/>
+                        </group>
+                    </group>
+                    <group string="Medikasi &amp; Agen Farmakologi">
+                        <field name="premedication"/>
+                        <field name="induction_agents"/>
+                        <field name="maintenance_agents"/>
+                        <field name="muscle_relaxant"/>
+                        <field name="reversal_agents"/>
+                    </group>
+                    <group string="Catatan Pemantauan Klinis">
+                        <field name="anesthesia_notes" placeholder="Catatan fluktuasi hemodinamik, penggunaan vasopresor, intubasi sulit..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_health_anesthesia_record" model="ir.actions.act_window">
+        <field name="name">Catatan Anestesi</field>
+        <field name="res_model">health.anesthesia.record</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

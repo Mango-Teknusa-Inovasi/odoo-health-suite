@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Claim List View -->
+    <record id="view_health_inacbg_claim_tree" model="ir.ui.view">
+        <field name="name">health.inacbg.claim.list</field>
+        <field name="model">health.inacbg.claim</field>
+        <field name="arch" type="xml">
+            <list string="Berkas Klaim INA-CBG" decoration-success="margin_status == 'surplus'" decoration-danger="margin_status == 'deficit'" decoration-muted="state == 'draft'">
+                <field name="name"/>
+                <field name="nomor_sep"/>
+                <field name="patient_id"/>
+                <field name="jenis_pelayanan" widget="badge"/>
+                <field name="cbg_code"/>
+                <field name="cbg_description"/>
+                <field name="total_inacbg_tariff" widget="monetary"/>
+                <field name="hospital_real_bill" widget="monetary"/>
+                <field name="tariff_disparity" widget="monetary"/>
+                <field name="margin_status" widget="badge" decoration-success="margin_status == 'surplus'" decoration-danger="margin_status == 'deficit'"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Claim Form View -->
+    <record id="view_health_inacbg_claim_form" model="ir.ui.view">
+        <field name="name">health.inacbg.claim.form</field>
+        <field name="model">health.inacbg.claim</field>
+        <field name="arch" type="xml">
+            <form string="Berkas Klaim INA-CBG">
+                <header>
+                    <button name="action_run_grouping" string="Jalankan Grouping INA-CBG" type="object" class="btn-primary" invisible="state in ('finalized', 'sent_dc')"/>
+                    <button name="action_finalize_claim" string="Kunci &amp; Finalisasi Klaim" type="object" class="btn-success" invisible="state != 'grouped'"/>
+                    <button name="action_send_to_dc" string="Kirim Online ke DC Kemenkes" type="object" class="btn-info" invisible="state != 'finalized'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,grouped,finalized,sent_dc"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <span class="o_form_label" string="Nomor Berkas Klaim"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Identitas SEP &amp; Pasien">
+                            <field name="sep_id"/>
+                            <field name="nomor_sep"/>
+                            <field name="patient_id"/>
+                            <field name="patient_mrn"/>
+                            <field name="jenis_pelayanan"/>
+                            <field name="patient_gender"/>
+                            <field name="patient_age"/>
+                        </group>
+                        <group string="Asal Rawat &amp; Lama Hari (LOS)">
+                            <field name="inpatient_stay_id"/>
+                            <field name="surgery_booking_id"/>
+                            <field name="billing_id"/>
+                            <field name="los_days"/>
+                            <field name="discharge_status"/>
+                            <field name="severity_level"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Koding Medis (ICD-10 &amp; ICD-9 CM)" name="coding">
+                            <group>
+                                <field name="primary_diagnosis_id"/>
+                                <field name="secondary_diagnosis_ids" widget="many2many_tags"/>
+                                <field name="procedure_ids" widget="many2many_tags"/>
+                            </group>
+                        </page>
+
+                        <page string="Hasil Grouping &amp; Plafon Tarif" name="grouping">
+                            <group>
+                                <group string="Case-Based Groups (CBG)">
+                                    <field name="cbg_code"/>
+                                    <field name="cbg_description"/>
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="base_tariff" widget="monetary"/>
+                                </group>
+                                <group string="Top-Up Special CMG">
+                                    <field name="special_cmg_code"/>
+                                    <field name="special_cmg_tariff" widget="monetary"/>
+                                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                        <label for="total_inacbg_tariff"/>
+                                    </div>
+                                    <field name="total_inacbg_tariff" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Analisis Disparitas Tarif (Audit Kendali Biaya)" name="disparity">
+                            <div class="alert alert-info" role="alert" invisible="margin_status != 'surplus'">
+                                <strong>🟢 Status Margin SURPLUS:</strong> Plafon klaim INA-CBG lebih tinggi daripada biaya riil rumah sakit. Rumah sakit memperoleh margin efisiensi klinis.
+                            </div>
+                            <div class="alert alert-danger" role="alert" invisible="margin_status != 'deficit'">
+                                <strong>🔴 Status Margin DEFISIT:</strong> Biaya riil perawatan rumah sakit melebihi plafon penggantian klaim INA-CBG. Diperlukan audit klinis oleh Tim Kendali Mutu &amp; Biaya (TKMKB).
+                            </div>
+                            <group>
+                                <group string="Perbandingan Finansial">
+                                    <field name="total_inacbg_tariff" widget="monetary" string="Plafon Penggantian INA-CBG"/>
+                                    <field name="hospital_real_bill" widget="monetary" string="Tagihan Riil Perawatan RS"/>
+                                </group>
+                                <group string="Margin &amp; Efisiensi">
+                                    <field name="tariff_disparity" widget="monetary" string="Disparitas Biaya (Selisih Margin)"/>
+                                    <field name="margin_status" widget="badge"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_health_inacbg_claim_search" model="ir.ui.view">
+        <field name="name">health.inacbg.claim.search</field>
+        <field name="model">health.inacbg.claim</field>
+        <field name="arch" type="xml">
+            <search string="Cari Berkas Klaim">
+                <field name="name"/>
+                <field name="nomor_sep"/>
+                <field name="patient_id"/>
+                <field name="cbg_code"/>
+                <filter string="Klaim Surplus" name="surplus" domain="[('margin_status', '=', 'surplus')]"/>
+                <filter string="Klaim Defisit (Overbudget)" name="deficit" domain="[('margin_status', '=', 'deficit')]"/>
+                <separator/>
+                <filter string="Rawat Inap" name="inpatient" domain="[('jenis_pelayanan', '=', '1')]"/>
+                <filter string="Rawat Jalan" name="outpatient" domain="[('jenis_pelayanan', '=', '2')]"/>
+                <separator/>
+                <filter string="Siap Kirim DC" name="ready_dc" domain="[('state', '=', 'finalized')]"/>
+                <group expand="0" string="Kelompokkan Berdasarkan">
+                    <filter string="Status Margin" name="group_margin" context="{'group_by': 'margin_status'}"/>
+                    <filter string="Status Alur" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Jenis Pelayanan" name="group_service" context="{'group_by': 'jenis_pelayanan'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_health_inacbg_claim" model="ir.actions.act_window">
+        <field name="name">Berkas Klaim INA-CBG</field>
+        <field name="res_model">health.inacbg.claim</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Buat berkas koding klaim INA-CBG dan lakukan grouping tarif E-Klaim Kemenkes.
+            </p>
+        </field>
+    </record>
+</odoo>

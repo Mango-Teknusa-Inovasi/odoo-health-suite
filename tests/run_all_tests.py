@@ -30,6 +30,7 @@ MODULE_TEST_PATHS = [
     "tests.test_phase2_models",
     "tests.test_phase3_models",
     "tests.test_phase4_models",
+    "tests.test_phase5_models",
 ]
 
 def run_suite():

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Top-Level App Menu for Hospitals using VClaim -->
+    <menuitem id="menu_health_vclaim_root"
+              name="BPJS VClaim 2.0"
+              web_icon="health_bpjs_vclaim,static/description/icon.png"
+              sequence="55"/>
+
+    <menuitem id="menu_health_bpjs_sep_action"
+              name="Surat Eligibilitas Peserta (SEP)"
+              parent="menu_health_vclaim_root"
+              action="action_health_bpjs_sep"
+              sequence="10"/>
+
+    <menuitem id="menu_health_bpjs_spri_action"
+              name="SPRI Rawat Inap"
+              parent="menu_health_vclaim_root"
+              action="action_health_bpjs_spri"
+              sequence="20"/>
+
+    <menuitem id="menu_health_bpjs_surat_kontrol_action"
+              name="Surat Kontrol Poliklinik"
+              parent="menu_health_vclaim_root"
+              action="action_health_bpjs_surat_kontrol"
+              sequence="30"/>
+
+    <menuitem id="menu_health_bpjs_vclaim_config_action"
+              name="Konfigurasi VClaim 2.0"
+              parent="menu_health_vclaim_root"
+              action="action_health_bpjs_vclaim_config"
+              sequence="90"/>
+
+    <!-- Also link under BPJS Bridging in health_base -->
+    <menuitem id="menu_health_bpjs_sep_sub"
+              name="SEP VClaim 2.0 (RS)"
+              parent="health_bpjs.menu_health_bpjs_root"
+              action="action_health_bpjs_sep"
+              sequence="20"/>
+</odoo>

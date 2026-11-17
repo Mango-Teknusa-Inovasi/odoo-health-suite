@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Top-Level App Menu -->
+    <menuitem id="menu_health_surgery_root"
+              name="Kamar Operasi &amp; VK"
+              web_icon="health_surgery,static/description/icon.png"
+              sequence="35"/>
+
+    <!-- Operational Submenus -->
+    <menuitem id="menu_health_surgery_operations"
+              name="Pelayanan Bedah &amp; VK"
+              parent="menu_health_surgery_root"
+              sequence="10"/>
+
+    <menuitem id="menu_health_surgical_booking_action"
+              name="Jadwal &amp; Kalender Operasi"
+              parent="menu_health_surgery_operations"
+              action="action_health_surgical_booking"
+              sequence="10"/>
+
+    <menuitem id="menu_health_operating_room_kanban_action"
+              name="Status Kesiapan Ruangan"
+              parent="menu_health_surgery_operations"
+              action="action_health_operating_room"
+              sequence="20"/>
+
+    <menuitem id="menu_health_surgical_checklist_action"
+              name="Checklist Keselamatan WHO"
+              parent="menu_health_surgery_operations"
+              action="action_health_surgical_checklist"
+              sequence="30"/>
+
+    <menuitem id="menu_health_anesthesia_record_action"
+              name="Catatan Anestesi"
+              parent="menu_health_surgery_operations"
+              action="action_health_anesthesia_record"
+              sequence="40"/>
+
+    <menuitem id="menu_health_recovery_score_action"
+              name="Skor Pemulihan PACU"
+              parent="menu_health_surgery_operations"
+              action="action_health_recovery_score"
+              sequence="50"/>
+
+    <menuitem id="menu_health_partus_record_action"
+              name="Catatan Persalinan VK"
+              parent="menu_health_surgery_operations"
+              action="action_health_partus_record"
+              sequence="60"/>
+
+    <!-- Master Data Submenus -->
+    <menuitem id="menu_health_surgery_configuration"
+              name="Konfigurasi"
+              parent="menu_health_surgery_root"
+              sequence="90"/>
+
+    <menuitem id="menu_health_surgical_procedure_action"
+              name="Katalog Tindakan Bedah &amp; VK"
+              parent="menu_health_surgery_configuration"
+              action="action_health_surgical_procedure"
+              sequence="10"/>
+
+    <menuitem id="menu_health_operating_room_config_action"
+              name="Master Kamar Operasi &amp; VK"
+              parent="menu_health_surgery_configuration"
+              action="action_health_operating_room"
+              sequence="20"/>
+</odoo>

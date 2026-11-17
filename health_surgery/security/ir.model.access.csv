@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_health_operating_room_user,health.operating.room.user,model_health_operating_room,base.group_user,1,1,1,1
+access_health_surgical_procedure_user,health.surgical.procedure.user,model_health_surgical_procedure,base.group_user,1,1,1,1
+access_health_surgical_booking_user,health.surgical.booking.user,model_health_surgical_booking,base.group_user,1,1,1,1
+access_health_surgical_checklist_user,health.surgical.checklist.user,model_health_surgical_checklist,base.group_user,1,1,1,1
+access_health_anesthesia_record_user,health.anesthesia.record.user,model_health_anesthesia_record,base.group_user,1,1,1,1
+access_health_recovery_score_user,health.recovery.score.user,model_health_recovery_score,base.group_user,1,1,1,1
+access_health_partus_record_user,health.partus.record.user,model_health_partus_record,base.group_user,1,1,1,1
